@@ -41,7 +41,7 @@
 \DeclareMathOperator{\arcsinh}{arcsinh}
 
 \newcommand{\includesketch}[2][1=]{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{1pt}\fbox{\includegraphics[#1]{#2}}}
-\newcommand{\Int}[2]{\bigint \hspace{-4px} #1 \mathrm{d}#2}
+\newcommand{\Int}[2]{\bigint \hspace{-6px} #1 \mathrm{d}#2}
 
 \makeatletter
 \newcommand{\reallybig}{\bBigg@{4}}
@@ -163,22 +163,21 @@
 				&\diff{V_{B}(t)}{t}\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}+1\right) =\\&= \frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\\
 				&\diff{V_{B}(t)}{t}\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\right) =\\&= \frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\\
 				&\diff{V_{B}(t)}{t} = \frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\\&\cdot\frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\\
-				&\diff{V_{B}(t)}{t} = \frac{\alpha_{A}\beta_{A}}{C}\Int{\frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)}{t}\\
+				&V_{B}(t) = \frac{\alpha_{A}\beta_{A}}{C}\Int{\frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)}{t}\\
 			\end{split}
 		\end{equation}
 		
+		% Risolvo la differenziale
 		Discretizzo la (\ref{eq:sostituzione})\\
 		Metodo di Eulero all'indietro: $\diff{y}{x} \sim \frac{y_{n}-y_{n-1}}{h}$ quindi $\frac{y_{n}-y_{n-1}}{h} = f(x_{n},y_{n})$ e si ottiene $y_{n} = y_{n-1}+hf(x_{n},y_{n})$. Sia $T = h$ allora
 		\begin{equation}
 			\label{eq:discretizzazione}
 			\begin{split}
-				&\widehat V_{B}[n] = \frac{\alpha_{A}\beta_{A}T}{C}\reallybig(\frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}[n])\right)-V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}[n])\right)\hspace{-7px}\reallybig)+\\&+\widehat V_{B}[n-1]\\
+				&\widehat V_{B}[n] = \frac{\alpha_{A}\beta_{A}T}{C}\reallybig(\frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)\hspace{-7px}\reallybig)+\\&+\widehat V_{B}[n-1]\\
 			\end{split}
 		\end{equation}
 		
-		
-		
-		
+		% Risolvo la funzione ottenuta dalla risoluzione della differenziale
 		Algoritmo di punto fisso
 		\begin{equation}
 			\label{eq:punto_fisso1}
