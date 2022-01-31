@@ -1,36 +1,44 @@
-diodeA.alpha = (2*23*10^(-3));    %23mV
-diodeA.beta = 2.52*10^(-9);         %2.52nA
-diodeB.alpha = (2*23*10^(-3));    %23mV
-diodeB.beta = 2.52*10^(-9);         %2.52nA
+diodeA.alpha = 1/(2*23e-3);         %23mV
+diodeA.beta = 2.52e-9;              %2.52nA
+diodeB.alpha = 1/(2*23e-3);         %23mV
+diodeB.beta = 2.52e-9;              %2.52nA
 
-Rin = 1*10^3;                       %1kOhm
-C = 100*10^(-9);                    %100nF
+Rin = 1e3;                          %1kOhm
+C = 100e-9;                         %100nF
 
-freq = 1/100;
-time = 5;
-amplitude = 0.9;
+freq = 2;                          %Onde al secondo
+time = 2;
+amplitude = 1;
 phase = 0;
 
-samples = time/freq;
+sampleRate=50;                      %almeno freq*2 (Shannon)
+
+samples = time*sampleRate;
 
 input = zeros(1, samples);
 output = zeros(1, samples);
 
-for t = 1:samples
-    input(t) = amplitude*sin(2*pi*freq*(t-1)+phase);
+for t = 0:samples
+    input(t+1) = amplitude*sin(2*pi/samples*freq*t+phase);
     
-    if input(t) < 0
-        input(t) = -amplitude;
+%    if input(t+1) < 0
+%        input(t+1) = -amplitude;
+%    else
+%        input(t+1) = amplitude;
+%    end
+    
+    if t <= 1
+        vb = 0;
     else
-        input(t) = amplitude;
+        vb = output(t-1);
     end
 
-    output(t) = fixed_point(input(t), Rin, C, diodeA, diodeB);
+    output(t+1) = fixed_point(vb, input(t+1), Rin, C, diodeA, diodeB);
 end
 
-plot(1:samples, input);
+plot(0:samples, input);
 hold on
-plot(1:samples, output, "--");
+plot(0:samples, output, "--");
 hold off
 
 legend("input", "output")

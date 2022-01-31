@@ -96,9 +96,11 @@
 				;
 		\end{circuitikz}\\
 		
-		$i_{D} = \beta_{A}\left(e^{\alpha_{A}V_{A}(t)}-1\right)$
+		$i_{D_{A}} = \beta_{A}\left(e^{\alpha_{A}V_{A}(t)}-1\right)$
 		
-		$i_{D} = \beta_{B}\left(e^{\alpha_{B}V_{B}(t)}-1\right)$
+		$i_{D_{B}} = \beta_{B}\left(e^{\alpha_{B}V_{B}(t)}-1\right)$
+		
+		$i_{D} = \beta_{A}\left(e^{\alpha_{A}V_{A}(t)}-1\right)-\beta_{A}\left(e^{-\alpha_{A}V_{A}(t)}-1\right) = \beta_{B}\left(e^{\alpha_{B}V_{B}(t)}-1\right)-\beta_{B}\left(e^{-\alpha_{B}V_{B}(t)}-1\right)$
 		\pagebreak
 		
 		Tensione $V_{A}$
@@ -173,7 +175,7 @@
 		\begin{equation}
 			\label{eq:discretizzazione}
 			\begin{split}
-				&\widehat V_{B}[n] = \frac{\alpha_{A}\beta_{A}T}{C}\reallybig(\frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)\hspace{-7px}\reallybig)+\\&+\widehat V_{B}[n-1]\\
+				&\widehat V_{B}[n] = \frac{T}{C}\cdot\frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)+\\&+\widehat V_{B}[n-1]\\
 			\end{split}
 		\end{equation}
 		
