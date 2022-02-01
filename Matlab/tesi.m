@@ -8,7 +8,7 @@ C = 100e-9;                         %100nF
 
 freq = 1;                           %Onde al secondo
 time = 1;
-amplitude = 2;
+amplitude = 1.89;
 phase = 0;
 
 sampleRate = 44100;

@@ -23,17 +23,18 @@ function vb = discretized(vb, oldVb, vin, Rin, C, diodeA, diodeB, T)
     %part2
     voltagesPart = (vin-asinh(diodeB.beta/diodeA.beta*sinh(diodeB.alpha*vb))/diodeA.alpha-vb)/Rin;
     diodePart = 2*diodeB.beta*sinh(diodeB.alpha*vb);
-    part2 = voltagesPart-diodePart;
+    part2 = voltagesPart/C-diodePart/C;
     
     %result
-    vb = T/C * part1 * part2 + oldVb;
+    vb = T * part1 * part2 + oldVb;
 end
 
 function s = summation(vb, vin, Rin, C, diodeA, diodeB)
-    L = 1;
+    L = 0;
     
-    s = 0;
-    for l = 0:L
+    %se l = 0 allora s = 1
+    s = 1;
+    for l = 1:L
         s = s+jacobian(vb, vin, Rin, C, diodeA, diodeB)^l;
     end
 end
