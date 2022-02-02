@@ -8,7 +8,7 @@ C = 100e-9;                         %100nF
 
 freq = 1;                           %Onde al secondo
 time = 1;
-amplitude = 1.89;
+amplitude = 1.9;
 phase = 0;
 
 sampleRate = 44100;
@@ -34,6 +34,9 @@ for t = 0:samples
     end
 
     output(t+1) = fixed_point(vb, input(t+1), Rin, C, diodeA, diodeB, T);
+    
+    va = T*asinh(diodeB.beta/diodeA.beta*sinh(diodeB.alpha*output(t+1)))/diodeA.alpha;
+    output(t+1) = va+output(t+1);
 end
 
 plot(0:T:time, input);

@@ -42,6 +42,8 @@ void Clipper::process(float *buffer, size_t size)
 			vb = buffer[sample-1];
 		
 		buffer[sample] = fixed_point(vb, buffer[sample]);
+		
+		buffer[sample] = T*asinh(diodeB.beta/diodeA.beta*sinh(diodeB.alpha*buffer[sample]))/diodeA.alpha+buffer[sample];
 	}
 }
 
