@@ -3,9 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>BuildLocationStyle</key>
-	<string>UseTargetSettings</string>
+	<string>CustomLocation</string>
+	<key>BuildSystemType</key>
+	<string>Latest</string>
+	<key>CustomBuildIntermediatesPath</key>
+	<string>/Users/francesco/Desktop/Build/Intermediates.noindex</string>
 	<key>CustomBuildLocationType</key>
-	<string>RelativeToDerivedData</string>
+	<string>Absolute</string>
+	<key>CustomBuildProductsPath</key>
+	<string>/Users/francesco/Desktop/Build/Products</string>
 	<key>DerivedDataCustomLocation</key>
 	<string>/Users/francesco/Desktop/build</string>
 	<key>DerivedDataLocationStyle</key>
