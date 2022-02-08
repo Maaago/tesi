@@ -104,9 +104,19 @@ float Clipper::discretized(float vb, float oldVb, float vin)
 
 float Clipper::summation(float vb, float vin)
 {
+	//Invece che calcolare la potenza ad ogni iterazione del ciclo viene moltiplicato il valore dell'iterazione precedente per j
+	
 	float s = 1;
+	float p = 1;
+	float j = jacobian(vb, vin);
+
 	for(int l=1;l<L;l++)
-		s = s+std::pow(jacobian(vb, vin), l);
+	{
+		p *= j;
+		
+		s = s+p;
+	}
+	
 	return s;
 }
 

@@ -41,7 +41,7 @@ ClipperAudioProcessorEditor::ClipperAudioProcessorEditor(ClipperAudioProcessor& 
 	
 	//L parameter slider
 	lSlider.setSliderStyle(juce::Slider::LinearHorizontal);
-	lSlider.setRange(0.0, 100.0, 1.0);
+	lSlider.setRange(0.0, 500.0, 1.0);
 	lSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 90, 0);
 	lSlider.setTitle("L");
 	lSlider.setPopupDisplayEnabled(true, false, this);
