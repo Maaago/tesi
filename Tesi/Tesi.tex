@@ -1,11 +1,19 @@
-\documentclass[12pt]{article}
+\documentclass[12pt,a4paper,twoside,english,italian]{book}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Header %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
 
-%\usepackage{indentfirst}		%per indentare anche il primo paragrafo
+
+\usepackage{uniudtesi}
+\usepackage{siunitx}
+
+\usepackage[nottoc]{tocbibind}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{emptypage}
 
 \usepackage{amsmath}
 \usepackage{esdiff}
@@ -23,10 +31,16 @@
 \usepackage{float}
 \usepackage{titlesec}
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Configs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Tesi}
-\author{Francesco Magoga}
-\date{\today}
+%\title{Tesi}
+%\author{Francesco Magoga}
+%\date{\today}
+
+\titolo{Clipper audio digitale}
+\laureando{Magoga Francesco}
+\annoaccademico{2020-2021}
 
 \setcounter{secnumdepth}{4}
 
@@ -47,21 +61,58 @@
 \newcommand{\reallybig}{\bBigg@{4}}
 \newcommand{\ReallyBig}{\bBigg@{5}}
 \makeatother
+
+\graphicspath{{./imgs/}}
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{}
+\fancyhead[LE,RO]{\bfseries\thepage}
+\fancyhead[LO]{\bfseries\rightmark}
+\fancyhead[RE]{\bfseries\leftmark}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{14.5pt}
+
+%\facolta{Scienze Matematiche, Fisiche e Naturali} % (default)
+\corsodilaureamagistralein{Informatica}
+\relatore[Prof.]{Federico Fontana}
+%\relatoreDue[Prof.]{Secondo relatore}
+%\correlatore{Talaltro dei Tali}
+%\correlatoreDue{Secondo Correlatore}
+%\dedica{Ai miei genitori\\
+%    per non avermi tagliato i viveri} % (facoltativo)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Header %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-	\maketitle
-	\pagebreak
-	
+	\pagestyle{fancy} 
+	\frontmatter
+	\maketitle	
+
+	\enlargethispage{-1.5\baselineskip}
 	\tableofcontents
-	\pagebreak
+	%\listoffigures
+%	\begingroup
+%		\let\clearpage\relax
+%		\listoffigures
+%		\begingroup
+%			\let\clearpage\relax
+%			\let\cleardoublepage\relax
+%			\par\vspace{2\baselineskip}
+			%\lstlistoflistings
+%		\endgroup
+%		\thispagestyle{empty}
+%	\endgroup
+
+	\mainmatter
 
 	%\section{Introduzione}
 		%Si spiega il problema da affrontare
 	
-	\section{}
+	\chapter{asdf}
 		Circuito\\
 		\begin{circuitikz}[american voltages]%[scale = 'some_scale_factor', transform shape]
 			\draw
@@ -216,4 +267,6 @@
 			\end{split}
 		\end{equation}
 	\pagebreak
+	
+	\backmatter
 \end{document}
