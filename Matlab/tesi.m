@@ -6,9 +6,9 @@ diodeB.beta = 2.52e-9;              %2.52nA
 Rin = 1e3;                          %1kOhm
 C = 100e-9;                         %100nF
 
-freq = 1;                           %Onde al secondo
-time = 1;
-amplitude = 1.9;
+freq = 100;                           %Onde al secondo
+time = 0.02;
+amplitude = 1.45;
 phase = 0;
 
 sampleRate = 44100;
@@ -37,6 +37,8 @@ for t = 0:samples
     
     va = T*asinh(diodeB.beta/diodeA.beta*sinh(diodeB.alpha*output(t+1)))/diodeA.alpha;
     output(t+1) = va+output(t+1);
+    
+    disp(t/samples*100+"%");
 end
 
 plot(0:T:time, input);
