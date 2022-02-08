@@ -74,7 +74,8 @@ float Clipper::fixed_point(float lastIterationOutput, float vin)
 	{
 		oldVb = vb;
 		
-		vb = vb-summation(vb, vin)*(vb-discretized(vb, lastIterationOutput, vin));
+		float c = common(vb, vin);
+		vb = vb-summation(c)*(vb-discretized(lastIterationOutput, c));
 		
 		iteration++;
 	}
@@ -84,7 +85,12 @@ float Clipper::fixed_point(float lastIterationOutput, float vin)
 	return vb;
 }
 
-float Clipper::discretized(float vb, float oldVb, float vin)
+float Clipper::discretized(float oldVb, float c)
+{
+	return T/C * c + oldVb;
+}
+
+float Clipper::common(float vb, float vin)
 {
 	//part1
 	float squareRoot = diodeA.alpha*diodeA.beta*std::sqrt(1+std::pow(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb), 2));
@@ -96,19 +102,16 @@ float Clipper::discretized(float vb, float oldVb, float vin)
 	float diodePart = 2*diodeB.beta*juce_math::sinh(diodeB.alpha*vb);
 	float part2 = voltagesPart-diodePart;
 
-	//result
-	vb = T/C * part1 * part2 + oldVb;
-	
-	return vb;
+	return part1 * part2;
 }
 
-float Clipper::summation(float vb, float vin)
+float Clipper::summation(float c)
 {
 	//Invece che calcolare la potenza ad ogni iterazione del ciclo viene moltiplicato il valore dell'iterazione precedente per j
 	
 	float s = 1;
 	float p = 1;
-	float j = jacobian(vb, vin);
+	float j = jacobian(c);
 
 	for(int l=1;l<L;l++)
 	{
@@ -120,20 +123,7 @@ float Clipper::summation(float vb, float vin)
 	return s;
 }
 
-float Clipper::jacobian(float vb, float vin)
+float Clipper::jacobian(float c)
 {
-	//part1
-	float squareRoot = diodeA.alpha*diodeA.beta*std::sqrt(1+std::pow(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb), 2));
-	float denominator = diodeB.alpha*diodeB.beta*juce_math::cosh(diodeB.alpha*vb)+squareRoot;
-	float part1 = squareRoot/denominator;
-	
-	//part2
-	float voltagesPart = (vin-std::asinh(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb))/diodeA.alpha-vb)/Rin;
-	float diodePart = 2*diodeB.beta*juce_math::sinh(diodeB.alpha*vb);
-	float part2 = voltagesPart-diodePart;
-	
-	//result
-	float j = C * part1 * part2;
-	
-	return j;
+	return C * c;
 }

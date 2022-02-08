@@ -35,9 +35,10 @@ class Clipper
 		float Rin, C, T;
 	
 		float fixed_point(float lastIterationOutput, float vin);
-		float discretized(float vb, float oldVb, float vin);
-		float summation(float vb, float vin);
-		float jacobian(float vb, float vin);
+		float common(float vb, float vin);
+		float discretized(float oldVb, float c);
+		float summation(float c);
+		float jacobian(float c);
 	
 		std::ofstream log;
 	
