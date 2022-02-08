@@ -55,15 +55,17 @@ public:
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
-	float gain;
-	
-	void enable();
-	void disable();
+	void setBypass(bool bypass);
+	void setL(unsigned int L);
 
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ClipperAudioProcessor)
 	
 	Clipper clipper;
-	bool enabled;
+	bool bypass;
+	
+	std::ofstream log;
+	
+	std::vector<float> lastSamples;
 };

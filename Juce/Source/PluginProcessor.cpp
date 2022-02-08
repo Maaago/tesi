@@ -9,6 +9,8 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#include <unistd.h>
+
 //==============================================================================
 ClipperAudioProcessor::ClipperAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -22,6 +24,9 @@ ClipperAudioProcessor::ClipperAudioProcessor()
                        ), clipper(44100)
 #endif
 {
+	//unlink("/Users/francesco/Desktop/log.txt");
+	
+	//log = std::ofstream("/Users/francesco/Desktop/log.txt", std::ios::app);
 }
 
 ClipperAudioProcessor::~ClipperAudioProcessor()
@@ -150,29 +155,46 @@ void ClipperAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-	
-	if(enabled)
+		
+	//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+	if(!bypass)
+	{
+		if(lastSamples.size() < totalNumInputChannels)
+			lastSamples.resize(totalNumInputChannels, 0);
+			
 		for(int channel=0;channel<totalNumInputChannels;channel++)
 		{
-			auto *channelData = buffer.getWritePointer (channel);
+			auto *channelData = buffer.getWritePointer(channel);
 			
-			clipper.process(channelData, buffer.getNumSamples());
+			//auto *channelData = buffer.getWritePointer(0);
+			clipper.process(channelData, buffer.getNumSamples(), lastSamples[channel]);
 			
+			lastSamples[channel] = channelData[buffer.getNumSamples()-1];
+			/*
+			auto *channelData2 = buffer.getWritePointer(1);
+			memcpy(channelData2, channelData, sizeof(float)*buffer.getNumSamples());
+			*/
 			/*
 			for(int sample=0;sample<buffer.getNumSamples();sample++)
 				channelData[sample] = channelData[sample]*gain*20;
 			*/
 		}
+	}
+	else
+		lastSamples.clear();
+	
+	//std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+	//log << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << std::endl;
 }
 
-void ClipperAudioProcessor::enable()
+void ClipperAudioProcessor::setBypass(bool bypass)
 {
-	enabled = true;
+	this->bypass = bypass;
 }
 
-void ClipperAudioProcessor::disable()
+void ClipperAudioProcessor::setL(unsigned int L)
 {
-	enabled = false;
+	clipper.setL(L);
 }
 
 //==============================================================================
