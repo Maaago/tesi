@@ -6,7 +6,7 @@ diodeB.beta = 2.52e-9;              %2.52nA
 Rin = 1e3;                          %1kOhm
 C = 100e-9;                         %100nF
 
-freq = 100;                           %Onde al secondo
+freq = 100;                         %in Hz
 time = 0.02;
 amplitude = 1.45;
 phase = 0;
@@ -20,13 +20,7 @@ output = zeros(1, samples);
 
 for t = 0:samples
     input(t+1) = amplitude*sin(2*pi/sampleRate*freq*t+phase);
-    
-%    if input(t+1) < 0
-%        input(t+1) = -amplitude;
-%    else
-%        input(t+1) = amplitude;
-%    end
-    
+        
     if t <= 1
         vb = 0;
     else
@@ -49,16 +43,3 @@ hold off
 legend("input", "output")
 xlabel("tempo [s]", "FontSize", 14);
 ylabel("ampiezza [V]", "FontSize", 14);
-
-%recObj = audiorecorder;
-%info = audiodevinfo;
-
-%disp('Start speaking.')
-%recordblocking(recObj, 5);
-%disp('End of Recording.');
-
-%play(recObj);
-%disp('End play.');
-
-%y = getaudiodata(recObj);
-%plot(y)
