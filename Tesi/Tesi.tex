@@ -30,7 +30,9 @@
 \usepackage{rotating}
 \usepackage{float}
 \usepackage{titlesec}
+\usepackage{setspace}
 
+\usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Configs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,7 +44,7 @@
 \laureando{Magoga Francesco}
 \annoaccademico{2020-2021}
 
-\setcounter{secnumdepth}{4}
+%\setcounter{secnumdepth}{4}
 
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
@@ -50,6 +52,10 @@
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \def\arraystretch{1.5}
+
+\addbibresource{bibliography.bib}
+
+\setstretch{1.2}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Custom commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareMathOperator{\arcsinh}{arcsinh}
@@ -109,10 +115,16 @@
 
 	\mainmatter
 
-	%\section{Introduzione}
-		%Si spiega il problema da affrontare
+	\chapter*{Introduzione}
+		Il seguente documento tratta dell'implementazione e dell'efficienza di un metodo numerico a punto fisso per calcolare la soluzione di circuiti non lineari di filtri digitali.
+		
+		Il metodo numerico utilizzato è quello proposto in \cite{bib:fixed-point}. Questo permette di passare da un risolutore a punto fisso ad un risolutore Newton-Raphson variando un parametro \texttt{L}.
+		
+		Per testare questo metodo numerico si è deciso di digitalizzare un circuito clipper analogico formato da 4 diodi.
+		
+		\input{01_punto_fisso}
 	
-	\chapter{asdf}
+	\chapter{Formule}
 		Circuito\\
 		\begin{circuitikz}[american voltages]%[scale = 'some_scale_factor', transform shape]
 			\draw
@@ -269,4 +281,6 @@
 	\pagebreak
 	
 	\backmatter
+	
+	\printbibliography
 \end{document}
