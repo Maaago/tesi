@@ -2,7 +2,7 @@
 //  Clipper.cpp
 //  clipper - VST3
 //
-//  Created by Francesco Magoga on 01/02/2022.
+//  Created by Francesco Magoga
 //
 
 #include "Clipper.hpp"
