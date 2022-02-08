@@ -33,6 +33,8 @@
 \usepackage{titlesec}
 \usepackage{setspace}
 
+\usepackage{listings}
+
 \usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
 
 
@@ -57,6 +59,49 @@
 \addbibresource{bibliography.bib}
 
 \setstretch{1.2}
+
+\definecolor{codebg}{gray}{0.95}
+\colorlet{darkred}{red!90!black}
+
+\lstdefinestyle{code}
+{
+	%basicstyle=\ttfamily,
+	basicstyle=\normalsize,
+	backgroundcolor=\color{codebg},
+	sensitive=false,
+	alsoletter={.},
+	xleftmargin=0.5cm,
+	belowskip=2px,
+	frame=tlbr,
+	framesep=4pt,
+	framerule=0pt,
+	gobble=5,
+	tabsize=1,
+	columns=fullflexible,
+	showstringspaces=false,
+	numbers=left,
+	stepnumber=1,
+	numbersep=10pt,
+	tabsize=4,
+}
+
+%\lstnewenvironment{bash}[1][]
+%{\lstset{language=bash,style=code,#1}}
+%{}
+
+\newcommand{\sourcecode}[4]{
+	%\label{list:#3}
+	\lstset{caption={#4},label=list:#3,style=code}
+	\lstinputlisting[language=#1]{#2}
+}
+
+\newcommand{\matlabcode}[3]{
+	\sourcecode{Matlab}{../Matlab/#1}{#1}{#1}
+}
+
+\newcommand{\cppcode}[4]{
+	\sourcecode{C++}{../Juce/Source/#1}{#1}{#1}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Custom commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareMathOperator{\arcsinh}{arcsinh}
@@ -243,6 +288,12 @@
 			\end{split}
 		\end{equation}
 	\pagebreak
+	
+	\appendix
+	
+	\input{06_matlab}
+	
+	\input{07_cpp}
 	
 	\backmatter
 	
