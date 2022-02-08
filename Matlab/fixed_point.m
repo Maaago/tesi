@@ -30,12 +30,17 @@ function vb = discretized(vb, oldVb, vin, Rin, C, diodeA, diodeB, T)
 end
 
 function s = summation(vb, vin, Rin, C, diodeA, diodeB)
-    L = 0;
+    L = 10000;
     
     %se l = 0 allora s = 1
     s = 1;
+    p = 1;
+    j = jacobian(vb, vin, Rin, C, diodeA, diodeB);
+    
     for l = 1:L
-        s = s+jacobian(vb, vin, Rin, C, diodeA, diodeB)^l;
+        p = p*j;
+        
+        s = s+p;
     end
 end
 
