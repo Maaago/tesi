@@ -5,7 +5,7 @@ function [vb] = fixed_point(lastIterationOutput, vin, Rin, C, diodeA, diodeB, T)
     oldVb = vb+1;
     
     iteration = 0;
-    while abs(vb-oldVb) > threshold && iteration < 250        
+    while abs(vb-oldVb) > threshold && iteration < 250
         oldVb = vb;
         
         c = common(vb, vin, Rin, diodeA, diodeB);

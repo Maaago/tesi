@@ -32,7 +32,7 @@ for t = 0:samples
     va = T*asinh(diodeB.beta/diodeA.beta*sinh(diodeB.alpha*output(t+1)))/diodeA.alpha;
     output(t+1) = va+output(t+1);
     
-    disp(t/samples*100+"%");
+    %disp(t/samples*100+"%");
 end
 
 plot(0:T:time, input);
