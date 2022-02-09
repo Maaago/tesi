@@ -63,44 +63,74 @@
 \definecolor{codebg}{gray}{0.95}
 \colorlet{darkred}{red!90!black}
 
+\newsavebox\mypostbreak
+\savebox\mypostbreak{\mbox{\ensuremath{\color{red!85!black}\hookrightarrow}\space}}
+
 \lstdefinestyle{code}
 {
 	%basicstyle=\ttfamily,
-	basicstyle=\normalsize,
+	basicstyle=\ttfamily\normalsize,
 	backgroundcolor=\color{codebg},
 	sensitive=false,
 	alsoletter={.},
 	xleftmargin=0.5cm,
 	belowskip=2px,
-	frame=tlbr,
-	framesep=4pt,
-	framerule=0pt,
+	frame=single,
+	framesep=5pt,
+	framerule=1px,
 	gobble=5,
 	tabsize=1,
 	columns=fullflexible,
 	showstringspaces=false,
 	numbers=left,
-	stepnumber=1,
+	firstnumber=1,
+	numberfirstline=false,
+	stepnumber=2,
+	numberstyle=\scriptsize\color{black!80},
 	numbersep=10pt,
 	tabsize=4,
+	keepspaces=true,
+	breaklines=true,
+	%postbreak={\hbox{\textcolor{red}{$\hookrightarrow$}\space}}
+	postbreak=\usebox\mypostbreak
 }
 
-%\lstnewenvironment{bash}[1][]
-%{\lstset{language=bash,style=code,#1}}
-%{}
+\lstdefinestyle{matlab}
+{
+	keywordstyle=\color{blue},
+	stringstyle=\color{red},
+	commentstyle=\color{green!80!black},
+}
 
-\newcommand{\sourcecode}[4]{
+\lstdefinestyle{cpp}
+{
+	%basicstyle=\color{teal}\ttfamily,
+	keywordstyle=\color{magenta!75!black},
+	directivestyle=\color{brown!80!black},
+	stringstyle=\color{red!85!black},
+	commentstyle=\color{green!70!black},
+}
+
+\lstdefinelanguage{cppl}
+{
+	language=C++,
+	morekeywords={override},
+	moredirectives={once, \#ifndef, \#endif, \#if, \#else, \#endif},
+	%moredelim=[s][\color{red!85!black}\ttfamily]{<}{>},
+}
+
+\newcommand{\sourcecode}[5]{
 	%\label{list:#3}
-	\lstset{caption={#4},label=list:#3,style=code}
+	\lstset{caption={#4},label=code:#3,style=code,#5}
 	\lstinputlisting[language=#1]{#2}
 }
 
-\newcommand{\matlabcode}[3]{
-	\sourcecode{Matlab}{../Matlab/#1}{#1}{#1}
+\newcommand{\matlabcode}[2]{
+	\sourcecode{Matlab}{../Matlab/#1}{#1}{#2}{style=matlab}
 }
 
-\newcommand{\cppcode}[4]{
-	\sourcecode{C++}{../Juce/Source/#1}{#1}{#1}
+\newcommand{\cppcode}[1]{
+	\sourcecode{cppl}{../Juce/Source/#1}{#1}{#1}{style=cpp}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Custom commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -291,9 +321,9 @@
 	
 	\appendix
 	
-	\input{06_matlab}
+	%\input{06_matlab}
 	
-	\input{07_cpp}
+	%\input{07_cpp}
 	
 	\backmatter
 	
