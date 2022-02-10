@@ -12,8 +12,8 @@ jobs:
           root_file: Tesi/Tesi.tex
           compiler: pdflatex
           args: -interaction=nonstopmode -shell-escape
-		    env:
-		      TEXINPUTS: ".:./Tesi//:"
+        env:
+          TEXINPUTS: ".:./Tesi//:"
 #      - name: bibtex main
 #        uses: dante-ev/latex-action@latest
 #        with:
