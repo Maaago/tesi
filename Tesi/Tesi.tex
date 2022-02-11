@@ -34,6 +34,7 @@
 \usepackage{setspace}
 
 \usepackage{listings}
+\usepackage{gensymb}
 
 \usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
 
@@ -194,9 +195,9 @@
 	\mainmatter
 
 	\chapter*{Introduzione}
-		Il seguente documento tratta dell'implementazione e dell'efficienza di un metodo numerico a punto fisso per calcolare la soluzione di circuiti non lineari di filtri digitali.
+		Il seguente documento tratta dell'implementazione e dell'efficienza di un metodo numerico a punto fisso geometrico per calcolare la soluzione di circuiti non lineari di filtri digitali.
 		
-		Il metodo numerico utilizzato è quello proposto in \cite{bib:fixed-point}. Questo permette di passare da un risolutore a punto fisso ad un risolutore Newton-Raphson variando un parametro \texttt{L}.
+		Il metodo numerico proposto permette di passare da un risolutore a punto fisso ad un risolutore Newton-Raphson variando un parametro \texttt{L}.
 		
 		Per analizzare questo metodo numerico si è deciso di digitalizzare un circuito clipper analogico formato da 4 diodi.
 		
