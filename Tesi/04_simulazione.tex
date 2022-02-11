@@ -1,0 +1,52 @@
+\chapter{Simulazione}
+	Partendo dalle formule ricavate dalla soluzione analitica, in particolare da (\ref{eq:discretizzazione}), (\ref{eq:punto_fisso2}), (\ref{eq:jacobiana}) e (\ref{eq:tensione_finale}), è stata realizzata una simulazione in linguaggio Matlab.
+	
+	\section{Parametri}
+		Per questa simulazione si è scelto di assegnare caratteristiche uguali a tutti i diodi. In particolare il parametro $\alpha = \frac{1}{nV_{E}}$ dove $n \approx 2$ per i diodi al silicio. In questo caso quindi è stato arrotondato $n = 2$.
+	
+		I valori dei vari componenti scelti per la simulazione sono riassunti di seguito:
+	
+		\[
+			R_{in} = 1\,k\Omega
+		\]
+		\[
+			V_{out} = 100\,nF
+		\]
+		\[
+			V_{E} = 2,23\,mV
+		\]
+		\[
+			\beta = 2,52\,nA
+		\]
+		quindi
+		\[
+			\alpha = \frac{1}{nV_{E}} = \frac{1}{2 \cdot 2,23\,mV} = \frac{1}{4,46\,mV}
+		\]
+	
+		Inoltre è stato scelto
+		\[
+			F_{s} = \frac{1}{T} = 44100\,Hz \; \Rightarrow \; T = \frac{1}{44100}\,s
+		\]
+		come frequenza di campionamento e step temporale e
+		\[
+			|V_{B}^{(\lambda+1)} - V_{B}^{(\lambda)}| < 0.1\,mV
+		\]
+		come criterio d'arresto per il metodo numerico.
+	
+		Come input è stata scelta un'onda sinusoidale caratterizzata dalla classica equazione $y(x) = \sin (2 \pi f x + \phi)$ e dai seguenti parametri (tranne dove specificato diversamente):
+		\[
+			F = 100\,Hz
+		\]
+		\[
+			A = 1\,V
+		\]
+		\[
+			\phi = 0
+		\]
+		
+		\vspace{10px}
+		L'arco temporale preso in esame è di 0.2\,s.
+	\pagebreak
+	
+	\section{Grafico ingresso-uscita}
+		
