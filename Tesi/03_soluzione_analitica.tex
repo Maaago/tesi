@@ -1,7 +1,5 @@
 \raggedbottom
 \chapter{Soluzione analitica}
-	%TODO: aggiungere riferimenti a Kirchhoff
-
 	Il primo passo per trovare il valore di $V_{out}$ ad un istante di tempo $t$ è stato di trovare l'equazione differenziale che rappresenta la correlazione tra il valore della tensione in entrata $V_{in}$ e il valore delle tensioni delle due coppie di diodi $V_{A}$ e $V_{B}$.
 	
 	Per fare ciò si è partiti dalla seconda legge di Kirchhoff applicata al circuito preso in considerazione (figura \ref{fig:clipper}).
@@ -89,6 +87,8 @@
 	\end{equation}
 	
 	% Risolvo la differenziale
+	Da notare che la precedente equazione (\ref{eq:sostituzione}) è in forma implicita, poiché il termine $V_{B}(t)$ compare sia nel lhs che nel rhs dell'equazione. Per tale motivo l'unico modo per trovare il valore di questa incognita è utilizzare un metodo numerico.
+	
 	Arrivati a questo punto per risolvere l'equazione differenziale appena ottenuta (\ref{eq:sostituzione}) si è utilizzato il metodo di Eulero implicito (o all'indietro). Si è scelto questo metodo per discretizzare l'equazione da risolvere perché ha una buona stabilità ed è semplice da applicare.
 	
 	Il metodo di Eulero all'indietro viene ricavato dall'approssimazione della derivata con le differenze finite all'indietro
@@ -99,8 +99,6 @@
 	\[
 		\frac{y_{n}-y_{n-1}}{h} = f(x_{n},y_{n}) \implies y_{n} = y_{n-1}+hf(x_{n},y_{n})
 	\]
-	
-	%TODO equazione implicita, devo usare un metodo numerico per risolverla
 	
 	Sia $T = h$ allora l'equazione discretizzata risulta essere
 	\begin{equation}
