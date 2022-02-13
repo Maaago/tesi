@@ -35,7 +35,7 @@
 	
 		Come input è stata scelta un'onda sinusoidale caratterizzata dalla classica equazione $y(x) = \sin (2 \pi f x + \phi)$ e dai seguenti parametri (tranne dove specificato diversamente):
 		\[
-			F = 100\,Hz
+			f = 100\,Hz
 		\]
 		\[
 			A = 1\,V
@@ -48,5 +48,43 @@
 		L'arco temporale preso in esame è di 0.2\,s.
 	\pagebreak
 	
-	\section{Grafico ingresso-uscita}
+	\section{Grafici}
+		\subsection{Grafici input-output}
+			Nei seguenti grafici verrà mostrata con una linea blu continua
+			\begin{tikzpicture}
+				\draw[thick,color=matlab_blue] (0,0) -- (1,0);
+				\draw[thick,color=white] (1,0) -- (1,-0.07);				%per allineamento verticale
+			\end{tikzpicture}
+			il segnale in \textcolor{matlab_blue}{input}, mentre con una linea tratteggiata arancione
+			\begin{tikzpicture}
+				\draw[thick,dashed,color=matlab_orange] (0,0) -- (1,0);
+				\draw[thick,color=white] (1,0) -- (1,-0.07);				%per allineamento verticale
+			\end{tikzpicture}
+			sarà mostrato il segnale in \textcolor{matlab_orange}{output} generato dal clipper.
 		
+			Il trasferimento ingresso-uscita dell'onda con i parametri sopra riportati è
+			\grafico{in-out/default}{Grafico input-output con $f = 100\,Hz$ e $A = 1\,V$}
+			\pagebreak
+		
+			Per prima cosa si è analizzato il comportamento del clipper al variare della frequenza dell'onda in ingresso.
+			\grafico{in-out/frequenze/50Hz}{Grafico input-output con $f = 50\,Hz$}
+			\grafico{in-out/frequenze/200Hz}{Grafico input-output con $f = 200\,Hz$}
+			\grafico{in-out/frequenze/400Hz}{Grafico input-output con $f = 400\,Hz$}
+		
+			Successivamente si è analizzato il comportamento del clipper al variare dell'ampiezza dell'onda in ingresso.
+			\grafico{in-out/ampiezze/0,5V}{Grafico input-output con $A = 0,5\,V$}
+			\grafico{in-out/ampiezze/1,4V}{Grafico input-output con $A = 1,4\,V$}
+			\grafico{in-out/ampiezze/1,45V}{Grafico input-output con $A = 1,45\,V$}
+			
+			Da notare come nell'ultimo grafico (\ref{fig:in-out/ampiezze/1,45V}) si inizino ad intravedere dei segni di instabilità numerica nelle creste dell'onda, quindi quando si raggiunge il picco dell'ampiezza. Già da $A = 1.5\,V$ l'algoritmo non converge più e quindi ovviamente i grafici non sono stati riportati.
+		
+		\subsection{Grafico tempo d'esecuzione-Valore di L}
+			Nel seguente grafico si può notare la durata dell'esecuzione della simulazione Matlab in base al variare del parametro $L$.
+			\grafico{L-time}{Grafico tempo d'esecuzione-Valore di L}
+			
+			Dal grafico possiamo notare che il valore del tempo d'esecuzione aumenta linearmente al variare di $L$. Anche per valori di $L$ relativamente grandi (i.e. $L = 1000$) il tempo richiesto dal calcolo della soluzione tramite il metodo numerico è abbastanza breve. Il valore massimo del tempo d'esecuzione, ovvero $\approx 16\,ms$, rientra comunque nei limiti di tolleranza per poter utilizzare il clipper audio anche in applicazioni audio real-time.
+			
+			Il tempo d'esecuzione mostrato nel grafico è una media dei valori di varie esecuzioni ripetute della simulazione.
+		
+		\subsection{Grafico iterazioni-tempo}
+			\grafico{iterations-time}{Grafico iterazioni-tempo}
