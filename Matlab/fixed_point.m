@@ -1,4 +1,4 @@
-function [vb] = fixed_point(lastIterationOutput, vin, Rin, C, diodeA, diodeB, T)
+function [vb, iteration] = fixed_point(lastIterationOutput, vin, Rin, C, diodeA, diodeB, T, L)
     threshold = 1e-4;
     
     vb = lastIterationOutput;
@@ -9,7 +9,7 @@ function [vb] = fixed_point(lastIterationOutput, vin, Rin, C, diodeA, diodeB, T)
         oldVb = vb;
         
         c = common(vb, vin, Rin, diodeA, diodeB);
-        vb = vb-summation(C, c)*(vb-discretized(C, T, lastIterationOutput, c));
+        vb = vb-summation(C, c, L)*(vb-discretized(C, T, lastIterationOutput, c));
         
         iteration = iteration+1;
     end
@@ -34,9 +34,7 @@ function vb = common(vb, vin, Rin, diodeA, diodeB)
     vb = part1 * part2;
 end
 
-function s = summation(C, c)
-    L = 10000;
-    
+function s = summation(C, c, L)
     %se l = 0 allora s = 1
     s = 1;
     p = 1;

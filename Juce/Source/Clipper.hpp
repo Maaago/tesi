@@ -34,7 +34,8 @@ class Clipper
 		
 		float Rin, C, T;
 	
-		float fixed_point(float lastIterationOutput, float vin);
+		float capacitorVoltage(float lastIterationOutput, float vin);
+		float fixedPoint(float lastIterationOutput, float vin);
 		float common(float vb, float vin);
 		float discretized(float oldVb, float c);
 		float summation(float c);

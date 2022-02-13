@@ -16,30 +16,20 @@ T = 1/sampleRate;
 
 samples = time*sampleRate;
 input = zeros(1, samples);
-output = zeros(1, samples);
+
+L = 10000;
 
 for t = 0:samples
     input(t+1) = amplitude*sin(2*pi/sampleRate*freq*t+phase);
-        
-    if t <= 1
-        vb = 0;
-    else
-        vb = output(t-1);
-    end
-
-    output(t+1) = fixed_point(vb, input(t+1), Rin, C, diodeA, diodeB, T);
-    
-    va = T*asinh(diodeB.beta/diodeA.beta*sinh(diodeB.alpha*output(t+1)))/diodeA.alpha;
-    output(t+1) = va+output(t+1);
-    
-    %disp(t/samples*100+"%");
 end
+
+output = process(input, samples, Rin, C, diodeA, diodeB, T, L);
 
 plot(0:T:time, input);
 hold on
 plot(0:T:time, output, "--");
 hold off
 
-legend("input", "output")
-xlabel("tempo [s]", "FontSize", 14);
-ylabel("ampiezza [V]", "FontSize", 14);
+legend("Input", "Output");
+xlabel("Tempo [s]", "FontSize", 14);
+ylabel("Ampiezza [V]", "FontSize", 14);

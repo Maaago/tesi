@@ -51,18 +51,23 @@ void Clipper::process(float *buffer, size_t size, float lastSample)
 {
 	for(int sample=0;sample<size;sample++)
 	{
-		float vb = lastSample;
 		if(sample > 0)
-			vb = buffer[sample-1];
+			lastSample = buffer[sample-1];
 		
-		buffer[sample] = fixed_point(vb, buffer[sample]*INPUT_MULTIPLIER);
-		
-		buffer[sample] = T*std::asinh(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*buffer[sample]))/diodeA.alpha+buffer[sample];
+		buffer[sample] = capacitorVoltage(lastSample, buffer[sample]*INPUT_MULTIPLIER);
 	}
 }
 
+float Clipper::capacitorVoltage(float lastIterationOutput, float vin)
+{
+	float vb = fixedPoint(lastIterationOutput, vin*INPUT_MULTIPLIER);
+	
+	float vout = T*std::asinh(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb))/diodeA.alpha+vb;
+	
+	return vout;
+}
 
-float Clipper::fixed_point(float lastIterationOutput, float vin)
+float Clipper::fixedPoint(float lastIterationOutput, float vin)
 {
 	float threshold = 1e-4;
 	
