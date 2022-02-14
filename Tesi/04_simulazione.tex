@@ -46,6 +46,8 @@
 		
 		\vspace{10px}
 		L'arco temporale preso in esame è di 0.2\,s.
+		
+		Per una questione di tempo è stato impostato un limite di iterazioni per il metodo numerico per prevenire cicli infiniti dovuti alla non convergenza del metodo: in particolare questo limite è pari a $250$ iterazioni, dopo le quali si esce dal ciclo e si tiene il valore prodotto dalla $250$-esima iterazione.
 	\pagebreak
 	
 	\section{Grafici}
@@ -60,7 +62,7 @@
 				\draw[thick,dashed,color=matlab_orange] (0,0) -- (1,0);
 				\draw[thick,color=white] (1,0) -- (1,-0.07);				%per allineamento verticale
 			\end{tikzpicture}
-			sarà mostrato il segnale in \textcolor{matlab_orange}{output} generato dal clipper.
+			sarà mostrato il segnale in \textcolor{matlab_orange}{output} generato dal clipper. Il parametro $L$ è fissato a $L = 0$, in quanto l'output, al variare di $L$, non cambia in modo sensibile.
 		
 			Il trasferimento ingresso-uscita dell'onda con i parametri sopra riportati è
 			\grafico{in-out/default}{Grafico input-output con $f = 100\,Hz$ e $A = 1\,V$}
@@ -68,23 +70,51 @@
 		
 			Per prima cosa si è analizzato il comportamento del clipper al variare della frequenza dell'onda in ingresso.
 			\grafico{in-out/frequenze/50Hz}{Grafico input-output con $f = 50\,Hz$}
+			\graficospace
 			\grafico{in-out/frequenze/200Hz}{Grafico input-output con $f = 200\,Hz$}
+			\graficospace
 			\grafico{in-out/frequenze/400Hz}{Grafico input-output con $f = 400\,Hz$}
+			\pagebreak
 		
 			Successivamente si è analizzato il comportamento del clipper al variare dell'ampiezza dell'onda in ingresso.
 			\grafico{in-out/ampiezze/0,5V}{Grafico input-output con $A = 0,5\,V$}
+			\graficospace
 			\grafico{in-out/ampiezze/1,4V}{Grafico input-output con $A = 1,4\,V$}
+			\graficospace
 			\grafico{in-out/ampiezze/1,45V}{Grafico input-output con $A = 1,45\,V$}
 			
 			Da notare come nell'ultimo grafico (\ref{fig:in-out/ampiezze/1,45V}) si inizino ad intravedere dei segni di instabilità numerica nelle creste dell'onda, quindi quando si raggiunge il picco dell'ampiezza. Già da $A = 1.5\,V$ l'algoritmo non converge più e quindi ovviamente i grafici non sono stati riportati.
-		
-		\subsection{Grafico tempo d'esecuzione-Valore di L}
-			Nel seguente grafico si può notare la durata dell'esecuzione della simulazione Matlab in base al variare del parametro $L$.
-			\grafico{L-time}{Grafico tempo d'esecuzione-Valore di L}
-			
-			Dal grafico possiamo notare che il valore del tempo d'esecuzione aumenta linearmente al variare di $L$. Anche per valori di $L$ relativamente grandi (i.e. $L = 1000$) il tempo richiesto dal calcolo della soluzione tramite il metodo numerico è abbastanza breve. Il valore massimo del tempo d'esecuzione, ovvero $\approx 16\,ms$, rientra comunque nei limiti di tolleranza per poter utilizzare il clipper audio anche in applicazioni audio real-time.
-			
-			Il tempo d'esecuzione mostrato nel grafico è una media dei valori di varie esecuzioni ripetute della simulazione.
+			\pagebreak
 		
 		\subsection{Grafico iterazioni-tempo}
-			\grafico{iterations-time}{Grafico iterazioni-tempo}
+			\label{graphs:iterazioni-tempo}
+			Nei seguenti grafici viene visualizzato il numero medio di iterazioni necessarie a calcolare la corrente $V_{out}$ ai capi del condensatore rispetto all'andamento della tensione in entrata $V_{in}$. Questo numero è ottenuto per ogni sample dalla media delle iterazioni richieste per l'esecuzione del metodo numerico, che è stato testato per tutti i valori di $L \in [0; 1000]$. 
+
+			\grafico{iterations/0,5V}{Grafico iterazioni-tempo con $A = 0,5\,V$}
+			\graficospace
+			\grafico{iterations/1,0V}{Grafico iterazioni-tempo con $A = 1,0\,V$}
+			\graficospace
+			\grafico{iterations/1,2V}{Grafico iterazioni-tempo con $A = 1,2\,V$}
+			\graficospace
+			\grafico{iterations/1,3V}{Grafico iterazioni-tempo con $A = 1,3\,V$}
+			\graficospace
+			\grafico{iterations/1,4V}{Grafico iterazioni-tempo con $A = 1,4\,V$}
+			
+			Dai grafici si può notare che in base all'ampiezza dell'onda sinusoidale in ingresso e quindi in base al valore massimo della $V_{in}$ le iterazioni richieste dal metodo per convergere variano. In particolare più è alto il modulo della tensione in ingresso, più iterazioni sono richieste al metodo per convergere: avremo quindi dei picchi di iterazioni in corrispondenza dei picchi, sia positivi che negativi, della tensione in ingresso.
+			
+			Nel caso in cui $A = 1,4\,V$ si può addirittura notare che le iterazioni richieste sono uguali o superano il limite delle $250$ massime in prossimità dei picchi, sia positivi che negativi, della tensione in ingresso, quindi quando $V_{in} \approx 1,4\,V$.
+			\pagebreak
+		
+		\subsection{Grafico tempo d'esecuzione-Valore di L}
+			Nei seguenti grafici si può notare la durata dell'esecuzione della simulazione Matlab in base al variare del parametro $L$.
+			\grafico{L-time/0,5V}{Grafico tempo d'esecuzione-Valore di L con $A = 0,5\,V$}
+			\graficospace
+			\grafico{L-time/1,0V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,0\,V$}
+			\graficospace
+			\grafico{L-time/1,4V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,4\,V$}
+			
+			Dai grafici possiamo notare che il valore del tempo d'esecuzione aumenta linearmente al variare di $L$. Anche per valori di $L$ relativamente grandi (i.e. $L = 1000$) il tempo richiesto dal calcolo della soluzione tramite il metodo numerico se $A = 1\,V$ è abbastanza basso. Il valore massimo del tempo d'esecuzione, ovvero $\approx 16\,ms$, in questa condizione rientra comunque nei limiti di tolleranza per poter utilizzare il clipper audio anche in applicazioni audio real-time.
+			
+			Si osserva inoltre che, coerentemente ai valori visualizzati nei grafici della sotto-sezione precedente (\ref{graphs:iterazioni-tempo}), all'aumentare dell'ampiezza del segnale in ingresso, e quindi di $V_{in}$, aumenta il tempo richiesto per ottenere una convergenza del metodo. Questo sensibile aumento di tempo è dovuto al fatto che le iterazioni richieste per ottenere la convergenza del metodo aumenta con l'aumentare dell'ampiezza del segnale in ingresso.
+			
+			Il tempo d'esecuzione mostrato nel grafico è una media dei valori di varie esecuzioni ripetute della simulazione.
