@@ -14,13 +14,13 @@ phase = 0;
 sampleRate = 44100;
 T = 1/sampleRate;
 
-samples = time*sampleRate;
+samples = time*sampleRate+1;
 input = zeros(1, samples);
 
 L = 10000;
 
-for t = 0:samples
-    input(t+1) = amplitude*sin(2*pi/sampleRate*freq*t+phase);
+for t = 1:samples
+    input(t) = amplitude*sin(2*pi/sampleRate*freq*(t-1)+phase);
 end
 
 output = process(input, samples, Rin, C, diodeA, diodeB, T, L);

@@ -2,14 +2,14 @@ function [output, iterations] = process(input, samples, Rin, C, diodeA, diodeB, 
     output = zeros(1, samples);
     iterations = zeros(1, samples);
     
-    for t = 0:samples
-        if t < 1
+    for t = 1:samples
+        if t == 1
             lastIterationOutput = 0;
         else
-            lastIterationOutput = output(t);
+            lastIterationOutput = output(t-1);
         end
 
-        [output(t+1), iterations(t+1)] = capacitor_voltage(lastIterationOutput, input(t+1), Rin, C, diodeA, diodeB, T, L);
+        [output(t), iterations(t)] = capacitor_voltage(lastIterationOutput, input(t), Rin, C, diodeA, diodeB, T, L);
     end
 end
 
