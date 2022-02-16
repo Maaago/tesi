@@ -45,7 +45,7 @@
 %\author{Francesco Magoga}
 %\date{\today}
 
-\titolo{Clipper audio digitale}
+\titolo{Realizzazione a tempo reale\\di un clipper per il suono\\attraverso schemi numerici\\innovativi}
 \laureando{Magoga Francesco}
 \annoaccademico{2020-2021}
 
@@ -163,14 +163,20 @@
 	\sourcecode{cppl}{../Juce/Source/#1}{#1}{#1}{style=cpp}
 }
 
-\newcommand{\grafico}[2]
+\newcommand{\screenshot}[3][]
 {
 	\begin{figure}[H]
-		\includegraphics[width=\textwidth]{imgs/plots/#1}
+		\centering
+		\includegraphics[#1]{#2}
 		\vspace*{-25px}
-		\caption{#2}
-		\label{fig:#1}
+		\caption{#3}
+		\label{fig:#2}
 	\end{figure}
+}
+
+\newcommand{\grafico}[2]
+{
+	\screenshot[width=\textwidth]{imgs/plots/#1}{#2}
 }
 \newcommand{\graficospace}{\vspace{15px}}
 
@@ -215,13 +221,13 @@
 		
 		Per analizzare questo metodo numerico si è deciso di digitalizzare un circuito clipper analogico formato da 4 diodi.
 		
-	%\input{01_punto_fisso}
+	\input{01_punto_fisso}
 	
-	%\input{02_clipper}
+	\input{02_clipper}
 	
-	%\input{03_soluzione_analitica}
+	\input{03_soluzione_analitica}
 	
-	%\input{04_simulazione}
+	\input{04_simulazione}
 
 	\input{05_implementazione}
 
@@ -229,9 +235,9 @@
 	
 	\appendix
 	
-	%\input{07_matlab}
+	\input{07_matlab}
 	
-	%\input{08_cpp}
+	\input{08_cpp}
 	
 	\backmatter
 	
