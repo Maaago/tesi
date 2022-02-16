@@ -1,2 +1,44 @@
 \chapter{Implementazione}
+	Partendo dal codice della simulazione scritto in Matlab è stata implementata una versione dell'algoritmo in C++. L'implementazione è stata scritta come plugin \textit{VST3}, uno fra gli standard più diffusi per la creazione i plugin audio.
 	
+	Il codice utilizza il framework JUCE ed è disponibile nella appendice (\ref{code:cpp}). Rispetto alla simulazione non è stata cambiata alcuna logica di funzionamento: il codice è solo stato riadattato per essere utilizzato col paradigma di programmazione orientato agli oggetti. L'unica cosa che il VST presenta in più è una semplicissima interfaccia grafica.
+	\pagebreak
+	
+	\section{Grafica}
+		L'interfaccia grafica del plugin VST è composta da due widget: una checkbox, chiamata toggle button in JUCE e uno slider orizzontale.
+		
+		\screenshot[scale=0.8]{vst/gui/L_0}{Interfaccia grafica del VST}
+		
+		Il primo widget serve per attivare o meno il plugin: quando è selezionato l'audio in entrata non viene modificato, quindi il plugin viene bypassato e non viene eseguito alcun calcolo, mentre se è selezionato l'effetto viene attivato e il segnale in ingresso viene processato come mostrato nei grafici input-output (\ref{graphs:input-output}) della simulazione.
+		
+		\screenshot[scale=0.8]{vst/gui/L_1_3}{Interfaccia grafica del VST con parametro $L$ a circa 1/3}
+		\screenshot[scale=0.8]{vst/gui/L_2_3}{Interfaccia grafica del VST con parametro $L$ a circa 2/3}
+		
+		Lo slider invece serve ad aggiustare il parametro L: dal valore $0$ (default) si può arrivare fino al valore $500$. Il valore corrente viene mostrato in una tendina che si apre quando si clicca sul cursore dello slider e si chiude quando si rilascia il tasto del mouse.
+		
+		La scritta visualizzata può risultare non molto intuitiva, ma JUCE permette di appendere del testo solo dopo il valore numerico del parametro.
+	
+	\section{Prestazioni}
+		Mentre la simulazione si presta molto a valutazioni quantitative l'implementazione si presta molto bene a misurazioni qualitative, sia sulla qualità dell'audio, sia sul tempo di risposta del metodo numerico. Se per esempio i calcoli eseguiti sul segnale audio in ingresso dovessero essere troppo pesanti, e quindi richiedere troppo tempo, l'audio in uscita ne risentirebbe, risultando frammentato oppure presentando dei click.
+		
+		Questa situazione si potrebbe presentare particolarmente in contesti real-time, dove il tempo di calcolo deve stare entro determinati limiti per eliminare difetti nel segnale in uscita. Inoltre più è breve il tempo di calcolo, più si può ridurre la latenza audio, ovvero il tempo trascorso dall'acquisizione del segnale e il tempo in cui il segnale viene riprodotto.
+		
+		È importante segnalare che per ridurre i tempi di calcolo è necessaria una buona ottimizzazione del codice. Nel codice sorgente presente nelle appendici (\ref{code:matlab}) e (\ref{code:cpp}) sono state apportate alcune semplici ottimizzazioni che però hanno influito notevolmente sulle prestazioni finali. Inizialmente infatti già per valori del parametro $L$ che si avvicinavano a $100$ il singolo core utilizzato dal VST veniva utilizzato al massimo, ma adesso è possibile utilizzare anche valori di $L \le 500$, richiedendo circa il $75\%$ di utilizzo del core singolo nel caso in cui $L = 500$, con un i7-4770S a $3,10\,$GHz.
+		
+		Le seguenti schermate possono dare un'idea qualitativa delle risorse richieste dall'implementazione in C++ del clipper. Dalle schermate si può riconoscere la Digital Audio Workstation (DAW) Live di Ableton, nel quale è stato utilizzato il VST.
+		
+		\screenshot[scale=0.75]{vst/performances/zero}{Risorse richieste dal clipper quando $L = 0$}
+		\pagebreak
+		\vspace*{-35px}
+		\screenshot[scale=0.75]{vst/performances/half}{Risorse richieste dal clipper quando $L = 250$}
+		\vspace*{-10px}
+		\screenshot[scale=0.75]{vst/performances/full}{Risorse richieste dal clipper quando $L = 500$}
+		\pagebreak
+		
+		Un'ulteriore misura qualitativa delle prestazioni consiste nel capire quante istanze del VST possono essere eseguite contemporaneamente. Nella seguente schermata si può vedere che 4 istanze contemporanee del VST richiedono poco meno del $20\%$ di CPU.
+		
+		\screenshot[width=\textwidth]{vst/four_instances}{Istanze multiple del VST}
+		
+		In questo caso è stato impostato il parametro $L = 0$, ma da come si può dedurre da quanto visto precedentemente più il parametro $L$ è alto, più risorse saranno richieste.
+		
+		
