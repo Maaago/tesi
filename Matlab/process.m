@@ -1,4 +1,6 @@
-function [output, iterations] = process(input, samples, Rin, C, diodeA, diodeB, T, L)
+function [output, iterations] = process(input, Rin, C, diodeA, diodeB, T, L)
+    samples = size(input, 2);
+
     output = zeros(1, samples);
     iterations = zeros(1, samples);
     
