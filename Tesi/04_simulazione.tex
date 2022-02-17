@@ -52,6 +52,7 @@
 	
 	\section{Grafici}
 		\subsection{Grafici input-output}
+			\label{graphs:input-output}
 			Nei seguenti grafici verrà mostrata con una linea blu continua
 			\begin{tikzpicture}
 				\draw[thick,color=matlab_blue] (0,0) -- (1,0);
@@ -118,3 +119,6 @@
 			Si osserva inoltre che, coerentemente ai valori visualizzati nei grafici della sotto-sezione precedente (\ref{graphs:iterazioni-tempo}), all'aumentare dell'ampiezza del segnale in ingresso, e quindi di $V_{in}$, aumenta il tempo richiesto per ottenere una convergenza del metodo. Questo sensibile aumento di tempo è dovuto al fatto che le iterazioni richieste per ottenere la convergenza del metodo aumenta con l'aumentare dell'ampiezza del segnale in ingresso.
 			
 			Il tempo d'esecuzione mostrato nel grafico è una media dei valori di varie esecuzioni ripetute della simulazione.
+			
+		\subsection{Grafico iterazioni-valore di L}
+			\grafico{iterazioni-L_1,4V}{Grafico iterazioni-valore di L con $A = 1,4\,V$}
