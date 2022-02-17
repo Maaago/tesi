@@ -23,6 +23,7 @@
 	\[
 		I = \diff{}{t}(C \cdot \Delta V) = C\diff{\Delta V}{t}
 	\]
+	%TODO i_{in} = i_{out}+i_{D}
 	\pagebreak
 	
 	Da quanto appena osservato otteniamo
@@ -30,6 +31,7 @@
 		\label{eq:differenziale}
 		\begin{split}
 			V_{out}(t) &= V_{in}(t)-V_{R}(t)\\
+			V_{out}(t) &= V_{in}(t)-R_{in}i_{in}\\
 			V_{out}(t) &= V_{in}(t)-R_{in}\left[i_{out}+i_{D}\right]\\
 			V_{out}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{out}(t)}{t}+i_{D}\right]\\
 			V_{out}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{A}(t)}{t}+C\diff{V_{B}(t)}{t}+i_{D}\right]\\
@@ -134,7 +136,7 @@
 	\begin{equation}
 		\label{eq:jacobiana}
 		\begin{split}
-			&J_{V_{B}}(t) = \diff{V_{B}(t)}{t} = \frac{\alpha_{A}\beta_{A}}{C}\reallybig(\frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\hspace{-7px}\reallybig)
+			&J_{V_{B}}(t) = \diff{V_{B}(t)}{t} = \frac{1}{C}\cdot\frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\hspace{-7px}
 		\end{split}
 	\end{equation}
 	%\pagebreak
