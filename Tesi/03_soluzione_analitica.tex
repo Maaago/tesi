@@ -11,7 +11,12 @@
 	\end{cases}
 	\]
 	
-	considerando la definizione di capacità elettrica
+	Inoltre applicando la prima legge di Kirchhoff abbiamo
+	\[
+		i_{in} = i_{out}+i_{D}
+	\]
+	
+	Considerando la definizione di capacità elettrica
 	\[
 		C = \frac{Q}{\Delta V} \Rightarrow Q = C \cdot \Delta V
 	\]
@@ -23,9 +28,9 @@
 	\[
 		I = \diff{}{t}(C \cdot \Delta V) = C\diff{\Delta V}{t}
 	\]
-	%TODO i_{in} = i_{out}+i_{D}
-	\pagebreak
+	%\pagebreak
 	
+	\vspace{20px}
 	Da quanto appena osservato otteniamo
 	\begin{equation}
 		\label{eq:differenziale}
@@ -106,7 +111,7 @@
 	\begin{equation}
 		\label{eq:discretizzazione}
 		\begin{split}
-			&\widehat V_{B}[n] = \frac{T}{C}\cdot\frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)+\\&+\widehat V_{B}[n-1]\\
+			&\widehat V_{B}[n] = \frac{T}{C}\cdot\frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(n)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)+\\&+\widehat V_{B}[n-1]\\
 		\end{split}
 	\end{equation}
 	\pagebreak
@@ -129,6 +134,7 @@
 		\begin{split}
 			%\widetilde V_{B}^{(\lambda+1)} = \widetilde V_{B}^{(\lambda)}-\sum_{l=0}^{L} \left(J_{V_{B}}(\widetilde V_{B}^{(\lambda)})\right)^{l}(\widetilde V_{B}^{(\lambda)}-\widehat V_{B}[\widetilde V_{B}^{(\lambda)}])
 			V_{B}^{(\lambda+1)} = V_{B}^{(\lambda)}-\sum_{l=0}^{L} \left(J_{V_{B}}(V_{B}^{(\lambda)})\right)^{l}(V_{B}^{(\lambda)}-\widehat V_{B}[V_{B}^{(\lambda)}])
+			%TODO da sistemare l'ultimo termine, il parametro della funzione Vb
 		\end{split}
 	\end{equation}
 	

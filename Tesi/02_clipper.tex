@@ -1,9 +1,8 @@
-\chapter{Clipper analogico}
+\chapter{Clipper audio}
 	Per poter analizzare il metodo numerico appena descritto si è deciso di scegliere un circuito analogico da digitalizzare per creare una rete di filtri digitali e poter così eseguire le computazioni necessarie alla risoluzione di questa rete utilizzando proprio il metodo numerico proposto.
 	
-	\section{Descrizione di un clipper analogico}
-		I clipper, detti anche limitatori, sono dei circuiti che tagliano la parte di un'onda che supera una certa ampiezza. Le onde sinusoidali che superano di molto questa soglia tenderanno ad assomigliare a delle onde quadre.
-		%TODO aggiungere un esempio di grafico input-output di un clipper semplice
+	\section{Descrizione di un clipper}
+		I clipper, detti anche limitatori, sono dei circuiti che tagliano la parte di un'onda di un segnale che supera una certa ampiezza. Le onde sinusoidali che superano di molto questa soglia tenderanno ad assomigliare a delle onde quadre.
 		
 		\begin{wrapfigure}{r}{0.615\textwidth}
 			\begin{circuitikz}[american voltages, scale=0.9, transform shape]
@@ -102,3 +101,8 @@
 		\]
 		
 		Siamo quindi interessati a trovare il valore di $V_{out}$ fissati i vari parametri e dato il valore di $V_{in}$.
+		
+		\vspace{40px}
+		In figura (\ref{fig:analog/2,0V}) si può vedere un esempio di come un onda risulti prima e dopo l'applicazione del clipper.
+		
+		\screenshot[width=\textwidth]{analog/2,0V}{Esempio di onda prima e dopo del clipper}
