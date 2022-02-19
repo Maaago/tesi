@@ -9,7 +9,6 @@
 #define Clipper_hpp
 
 #include <vector>
-#include <fstream>
 
 class Diode
 {
@@ -26,26 +25,23 @@ class Clipper
 	
 		void setL(int L);
 
-		void process(float *buffer, size_t size, float lastSample);
+		void process(float *buffer, size_t size);
 		
 	private:
 		Diode diodeA;
 		Diode diodeB;
 		
-		float Rin, C, T;
+		float Rin, C, T, lastFPOutput;
 	
-		float capacitorVoltage(float lastIterationOutput, float vin);
-		float fixedPoint(float lastIterationOutput, float vin);
-		float common(float vb, float vin);
-		float discretized(float oldVb, float c);
-		float summation(float c);
-		float jacobian(float c);
-	
-		std::ofstream log;
+		float capacitorVoltage(float vin);
+		float fixedPoint(float lastFPOutput, float vin);
+		float jacobian(float vb, float vin);
+		float discretized(float j, float oldVb);
+		float summation(float j);
 	
 		int L;
 	
-	float arcsinh(float x);
+		float arcsinh(float x);
 };
 
 #endif /* Clipper_hpp */

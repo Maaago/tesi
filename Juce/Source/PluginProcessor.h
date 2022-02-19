@@ -2,6 +2,8 @@
 
 #include <JuceHeader.h>
 
+#include <fstream>
+
 #include "Clipper.hpp"
 
 class ClipperAudioProcessor : public juce::AudioProcessor
@@ -44,7 +46,7 @@ public:
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ClipperAudioProcessor)
 	
-	Clipper clipper;
+	std::vector<Clipper> clippers;
 	bool bypass;
 	
 	std::ofstream log;

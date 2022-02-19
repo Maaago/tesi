@@ -12,12 +12,16 @@ ClipperAudioProcessor::ClipperAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       ), clipper(44100)
+                       )
 #endif
 {
 	//unlink("/Users/francesco/Desktop/log.txt");
 	
 	//log = std::ofstream("/Users/francesco/Desktop/log.txt", std::ios::app);
+	
+	auto totalNumInputChannels  = getTotalNumInputChannels();
+	for(int channel=0;channel<totalNumInputChannels;channel++)
+		clippers.push_back(Clipper(44100));
 }
 
 ClipperAudioProcessor::~ClipperAudioProcessor() {}
@@ -116,20 +120,13 @@ void ClipperAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
 	//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 	if(!bypass)
 	{
-		if(lastSamples.size() < totalNumInputChannels)
-			lastSamples.resize(totalNumInputChannels, 0);
-			
 		for(int channel=0;channel<totalNumInputChannels;channel++)
 		{
 			auto *channelData = buffer.getWritePointer(channel);
 			
-			clipper.process(channelData, buffer.getNumSamples(), lastSamples[channel]);
-			
-			lastSamples[channel] = channelData[buffer.getNumSamples()-1];
+			clippers[channel].process(channelData, buffer.getNumSamples());
 		}
 	}
-	else
-		lastSamples.clear();
 	
 	//std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 	//log << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << std::endl;
@@ -142,7 +139,8 @@ void ClipperAudioProcessor::setBypass(bool bypass)
 
 void ClipperAudioProcessor::setL(unsigned int L)
 {
-	clipper.setL(L);
+	for(Clipper &clipper : clippers)
+		clipper.setL(L);
 }
 
 bool ClipperAudioProcessor::hasEditor() const

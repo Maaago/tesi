@@ -13,7 +13,7 @@
 
 #include <juce_dsp/maths/juce_FastMathApproximations.h>
 
-#define INPUT_MULTIPLIER 0.95f
+#define THRESHOLD 1e-4				//in Volts
 #define MAX_ITERATIONS 250
 
 using juce_math = juce::dsp::FastMathApproximations;
@@ -30,11 +30,9 @@ Clipper::Clipper(int sampleRate)
 	
 	T = 1.0f/sampleRate;
 	
-	L = 0;
+	L = 0;								//Valore iniziale di L
 	
-	//unlink("/Users/francesco/Desktop/log.txt");
-	
-	//log = std::ofstream("/Users/francesco/Desktop/log.txt", std::ios::app);
+	lastFPOutput = 0;
 }
 
 Clipper::~Clipper()
@@ -44,91 +42,79 @@ Clipper::~Clipper()
 
 void Clipper::setL(int L)
 {
-	this->L = L;
+	//this->L = L;
 }
 
-void Clipper::process(float *buffer, size_t size, float lastSample)
+void Clipper::process(float *buffer, size_t size)
 {
 	for(int sample=0;sample<size;sample++)
-	{
-		if(sample > 0)
-			lastSample = buffer[sample-1];
-		
-		buffer[sample] = capacitorVoltage(lastSample, buffer[sample]*INPUT_MULTIPLIER);
-	}
+		buffer[sample] = capacitorVoltage(buffer[sample]);
 }
 
-float Clipper::capacitorVoltage(float lastIterationOutput, float vin)
+float Clipper::capacitorVoltage(float vin)
 {
-	float vb = fixedPoint(lastIterationOutput, vin*INPUT_MULTIPLIER);
+	float vb = fixedPoint(lastFPOutput, vin);
+	float va = std::asinh(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb))/diodeA.alpha;
 	
-	float vout = T*std::asinh(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb))/diodeA.alpha+vb;
+	lastFPOutput = vb;
 	
-	return vout;
+	return va+vb;
 }
 
-float Clipper::fixedPoint(float lastIterationOutput, float vin)
+float Clipper::fixedPoint(float lastFPOutput, float vin)
 {
-	float threshold = 1e-4;
-	
-	float vb = lastIterationOutput;
+	float vb = lastFPOutput;
 	float oldVb = vb+1;
 	
 	unsigned int iteration = 0;
-	while(std::abs(vb-oldVb) > threshold && iteration < MAX_ITERATIONS)
+	while(std::abs(vb-oldVb) > THRESHOLD && iteration < MAX_ITERATIONS)
 	{
 		oldVb = vb;
 		
-		float c = common(vb, vin);
-		vb = vb-summation(c)*(vb-discretized(lastIterationOutput, c));
+		float j = jacobian(vb, vin);
+		vb = vb-summation(j)*(vb-discretized(j, lastFPOutput));
 		
 		iteration++;
 	}
 	
-	//log << iteration << std::endl;
-	
 	return vb;
 }
 
-float Clipper::discretized(float oldVb, float c)
+float Clipper::discretized(float j, float oldVb)
 {
-	return T/C * c + oldVb;
+	return T * j + oldVb;
 }
 
-float Clipper::common(float vb, float vin)
+float Clipper::jacobian(float vb, float vin)
 {
 	//part1
-	float squareRoot = diodeA.alpha*diodeA.beta*std::sqrt(1+std::pow(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb), 2));
+	float arg = diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb);
+	float squareRoot = diodeA.alpha*diodeA.beta*std::sqrt(1+std::pow(arg, 2));
 	float denominator = diodeB.alpha*diodeB.beta*juce_math::cosh(diodeB.alpha*vb)+squareRoot;
 	float part1 = squareRoot/denominator;
 
 	//part2
-	float voltagesPart = (vin-std::asinh(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb))/diodeA.alpha-vb)/Rin;
+	float va = std::asinh(diodeB.beta/diodeA.beta*juce_math::sinh(diodeB.alpha*vb))/diodeA.alpha;
+	float voltagesPart = (vin-va-vb)/Rin;
 	float diodePart = 2*diodeB.beta*juce_math::sinh(diodeB.alpha*vb);
 	float part2 = voltagesPart-diodePart;
 
-	return part1 * part2;
+	return part1 * part2 / C;
 }
 
-float Clipper::summation(float c)
+float Clipper::summation(float j)
 {
 	//Invece che calcolare la potenza ad ogni iterazione del ciclo viene moltiplicato il valore dell'iterazione precedente per j
 	
-	float s = 1;
-	float p = 1;
-	float j = jacobian(c);
+	float sum = 1;
+	float power = 1;
 
-	for(int l=1;l<L;l++)
+	for(int l=1;l<=L;l++)
 	{
-		p *= j;
+		power *= j;
 		
-		s = s+p;
+		sum += power;
 	}
 	
-	return s;
-}
-
-float Clipper::jacobian(float c)
-{
-	return C * c;
+	return sum;
 }
