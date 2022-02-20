@@ -1,5 +1,13 @@
 \chapter{Codice Matlab}
 	\label{code:matlab}
-	\matlabcode{tesi.m}{tesi.m}
+	Il codice Matlab si compone di 3 file:
+	
+	\noindent\hspace{5px}\begin{tabularx}{\textwidth}{r X}
+		\textbf{clipper.m}			&dove viene generata l'onda sinusoidale passata in input al clipper e dove si possono aggiustare i vari parametri, come le caratteristiche dei vari componenti o il valore di L\\
+		\textbf{process.m}			&dove vengono processati i singoli campioni del segnale e dove viene richiamato anche il metodo numerico\\
+		\textbf{fixed\_point.m}		&dove è implementato il metodo numerico a punto fisso geometrico 
+	\end{tabularx}\\
+	
+	\matlabcode{clipper.m}{clipper.m}
 	\matlabcode{process.m}{process.m}
 	\matlabcode{fixed_point.m}{fixed\_point.m}
