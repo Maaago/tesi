@@ -148,7 +148,7 @@
 		12188BA4D70C7FA5DEAF91F2 /* Info-AU.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-AU.plist"; sourceTree = SOURCE_ROOT; };
 		12EC2855A730372F34978278 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		135F2C8927A8AFE200035912 /* Clipper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Clipper.cpp; path = ../../Source/Clipper.cpp; sourceTree = "<group>"; };
-		135F2C8A27A8AFE200035912 /* Clipper.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Clipper.hpp; path = ../../Source/Clipper.hpp; sourceTree = "<group>"; };
+		135F2C8A27A8AFE200035912 /* Clipper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Clipper.h; path = ../../Source/Clipper.h; sourceTree = "<group>"; };
 		194403F9FA604FD72FD78E87 /* juce_graphics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_graphics; path = /Users/francesco/Desktop/JUCE/modules/juce_graphics; sourceTree = "<absolute>"; };
 		1AA1A0C958C54DB33E68F362 /* PluginProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginProcessor.h; path = ../../Source/PluginProcessor.h; sourceTree = SOURCE_ROOT; };
 		1EAD58F4D8D9B05B55AD7719 /* juce_audio_devices */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_devices; path = /Users/francesco/Desktop/JUCE/modules/juce_audio_devices; sourceTree = "<absolute>"; };
@@ -298,7 +298,7 @@
 				4F06092D06E4E994BA603D52 /* PluginEditor.cpp */,
 				3AEAC871AEC250EA9829F6BC /* PluginEditor.h */,
 				135F2C8927A8AFE200035912 /* Clipper.cpp */,
-				135F2C8A27A8AFE200035912 /* Clipper.hpp */,
+				135F2C8A27A8AFE200035912 /* Clipper.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
