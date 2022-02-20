@@ -8,7 +8,7 @@ C = 100e-9;                         %100nF
 
 freq = 100;                         %in Hz
 time = 0.02;                        %in secondi
-amplitude = 1.4;                    %in Volt
+amplitude = 1.0;                    %in Volt
 phase = 0*3.14;                     %in radianti
 
 sampleRate = 44100;                 %in Hz
