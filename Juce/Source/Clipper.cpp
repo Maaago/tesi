@@ -5,7 +5,7 @@
 //  Created by Francesco Magoga
 //
 
-#include "Clipper.hpp"
+#include "Clipper.h"
 
 #include <cmath>
 

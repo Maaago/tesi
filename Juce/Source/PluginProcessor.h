@@ -4,7 +4,7 @@
 
 #include <fstream>
 
-#include "Clipper.hpp"
+#include "Clipper.h"
 
 class ClipperAudioProcessor : public juce::AudioProcessor
 {
