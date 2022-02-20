@@ -7,11 +7,11 @@ Rin = 1e3;                          %1kOhm
 C = 100e-9;                         %100nF
 
 freq = 100;                         %in Hz
-time = 0.02;
-amplitude = 1.0;
-phase = 0;
+time = 0.02;                        %in secondi
+amplitude = 1.0;                    %in Volt
+phase = 0*3.14;                     %in radianti
 
-sampleRate = 44100;
+sampleRate = 44100;                 %in Hz
 T = 1/sampleRate;
 
 samples = time*sampleRate+1;
@@ -21,8 +21,8 @@ for t = 1:samples
     input(t) = amplitude*sin(2*pi/sampleRate*freq*(t-1)+phase);
 end
 
-maxL = 50;
-rep = 20;
+maxL = 100;
+rep = 10;
 
 % % Tempo d'esecizione
 % times = zeros(1, maxL+1);
@@ -45,7 +45,7 @@ rep = 20;
 
 % % Numero iterazioni
 % L = 0;
-% [~, iterations] = process(input, samples, Rin, C, diodeA, diodeB, T, L);
+% [~, iterations] = process(input, Rin, C, diodeA, diodeB, T, L);
 % 
 % figure;
 % plot(0:T*1000:time*1000, iterations);
