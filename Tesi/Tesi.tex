@@ -36,6 +36,9 @@
 \usepackage{listings}
 \usepackage{gensymb}
 \usepackage{adjustbox}
+\usepackage{tabularx}
+\usepackage{makecell}
+\renewcommand{\cellalign}{tr}
 
 \usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
 
@@ -97,7 +100,8 @@
 	keepspaces=true,
 	breaklines=true,
 	%postbreak={\hbox{\textcolor{red}{$\hookrightarrow$}\space}}
-	postbreak=\usebox\mypostbreak
+	postbreak=\usebox\mypostbreak,
+	captionpos=b
 }
 
 \lstdefinestyle{matlab}
@@ -153,6 +157,7 @@
 	%\label{list:#3}
 	\lstset{caption={#4},label=code:#3,style=code,#5}
 	\lstinputlisting[language=#1]{#2}
+	\vspace{10px}
 }
 
 \newcommand{\matlabcode}[2]{
