@@ -16,7 +16,7 @@ function [vb, iteration] = fixed_point(lastFPOutput, vin, Rin, C, diodeA, diodeB
 end
 
 function vb = discretized(T, j, oldVb)
-    % visto che lo jacobiano è identico alla funzione discretizzata tolta
+    % visto che lo jacobiano e' identico alla funzione discretizzata tolta
     % la somma di oldVb e la moltiplicazione per T riciclo i calcoli
     % eseguiti in precedenza per ottimizzare le prestazioni
     
