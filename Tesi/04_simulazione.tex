@@ -25,7 +25,7 @@
 	
 		Inoltre è stato scelto
 		\[
-			F_{s} = \frac{1}{T} = 44100\,Hz \; \Rightarrow \; T = \frac{1}{44100}\,s
+			h = 10^{-5}
 		\]
 		come frequenza di campionamento e step temporale e
 		\[
@@ -45,7 +45,7 @@
 		\]
 		
 		\vspace{10px}
-		L'arco temporale preso in esame è di 0.2\,s.
+		L'arco temporale preso in esame è di 0.02\,s.
 		
 		Per una questione di tempo è stato impostato un limite di iterazioni per il metodo numerico per prevenire cicli infiniti dovuti alla non convergenza del metodo: in particolare questo limite è pari a $250$ iterazioni, dopo le quali si esce dal ciclo e si tiene il valore prodotto dalla $250$-esima iterazione.
 	\pagebreak
@@ -78,32 +78,41 @@
 			\pagebreak
 		
 			Successivamente si è analizzato il comportamento del clipper al variare dell'ampiezza dell'onda in ingresso.
-			\grafico{in-out/ampiezze/0,5V}{Grafico input-output con $A = 0,5\,V$}
+			\grafico{in-out/ampiezze/0,5V_L0}{Grafico input-output con $A = 0,5\,V$}
 			\graficospace
-			\grafico{in-out/ampiezze/1,4V}{Grafico input-output con $A = 1,4\,V$}
+			\grafico{in-out/ampiezze/1,5V_L0}{Grafico input-output con $A = 1,5\,V$}
 			\graficospace
-			\grafico{in-out/ampiezze/1,45V}{Grafico input-output con $A = 1,45\,V$}
+			\grafico{in-out/ampiezze/1,7V_L0}{Grafico input-output con $A = 1,7\,V$}
+			\graficospace
+			\grafico{in-out/ampiezze/1,9V_L0}{Grafico input-output con $A = 1,9\,V$}
 			
-			Da notare come in quest'ultimo grafico si inizino ad intravedere dei segni di instabilità numerica nelle creste dell'onda, quindi quando si raggiunge il picco dell'ampiezza. Già da $A = 1.5\,V$ l'algoritmo non converge più e quindi ovviamente i grafici non sono stati riportati.
+			Da notare come con $A = 1,7\,V$ (\ref{fig:plots/in-out/ampiezze/1,7V_L0}) si inizino ad intravedere dei segni di instabilità numerica nelle creste dell'onda, quindi quando si raggiunge il picco dell'ampiezza. Se non ci fosse il limite sulle iterazioni già per questo valore dell'ampiezza il metodo numerico non terminerebbe mai. A partire da circa $A = 1,9\,V$ (\ref{fig:plots/in-out/ampiezze/1,9V_L0}) l'algoritmo non converge più e da un certo momento in poi ($t \approx 2\,ms$) viene restituito infinito come valore di output.
+			\pagebreak
+			
+			\grafico{in-out/ampiezze/1,9V_L50}{Grafico input-output con $A = 1,9\,V$ e $L = 50$}
+			\graficospace
+			\grafico{in-out/ampiezze/2,2V_L50}{Grafico input-output con $A = 2,2\,V$ e $L = 50$}
+			
+			Vediamo che aumentando il valore di $L$ l'algoritmo adesso converge anche per valori che prima portavano ad una divergenza (\ref{fig:plots/in-out/ampiezze/1,9V_L50}), nonostante sia presente un'evidente instabilità numerica. Comunque per $L = 50$ il metodo numerico non converge più a partire da circa $A = 2,2\,V$ (\ref{fig:plots/in-out/ampiezze/2,2V_L50}).
 			\pagebreak
 		
 		\subsection{Grafico iterazioni-tempo}
 			\label{graphs:iterazioni-tempo}
-			Nei seguenti grafici viene visualizzato il numero medio di iterazioni necessarie a calcolare la corrente $V_{out}$ ai capi del condensatore rispetto all'andamento della tensione in entrata $V_{in}$. Questo numero è ottenuto per ogni sample dalla media delle iterazioni richieste per l'esecuzione del metodo numerico, che è stato testato per tutti i valori di $L \in [0; 1000]$. 
+			Nei seguenti grafici viene visualizzato il numero medio di iterazioni necessarie a calcolare la corrente $V_{out}$ ai capi del condensatore rispetto all'andamento della tensione in entrata $V_{in}$. Questo numero è ottenuto per ogni sample dalla media delle iterazioni richieste per l'esecuzione del metodo numerico, che è stato testato per tutti i valori di $L \in [0; 50]$. 
 
 			\grafico{iterations/0,5V}{Grafico iterazioni-tempo con $A = 0,5\,V$}
 			\graficospace
 			\grafico{iterations/1,0V}{Grafico iterazioni-tempo con $A = 1,0\,V$}
 			\graficospace
-			\grafico{iterations/1,2V}{Grafico iterazioni-tempo con $A = 1,2\,V$}
+			\grafico{iterations/1,5V}{Grafico iterazioni-tempo con $A = 1,5\,V$}
 			\graficospace
-			\grafico{iterations/1,3V}{Grafico iterazioni-tempo con $A = 1,3\,V$}
+			\grafico{iterations/1,7V}{Grafico iterazioni-tempo con $A = 1,7\,V$}
 			\graficospace
-			\grafico{iterations/1,4V}{Grafico iterazioni-tempo con $A = 1,4\,V$}
+			\grafico{iterations/1,9V}{Grafico iterazioni-tempo con $A = 1,9\,V$}
 			
 			Dai grafici si può notare che in base all'ampiezza dell'onda sinusoidale in ingresso e quindi in base al valore massimo della $V_{in}$ le iterazioni richieste dal metodo per convergere variano. In particolare più è alto il modulo della tensione in ingresso, più iterazioni sono richieste al metodo per convergere: avremo quindi dei picchi di iterazioni in corrispondenza dei picchi, sia positivi che negativi, della tensione in ingresso.
 			
-			Nel caso in cui $A = 1,4\,V$ si può addirittura notare che le iterazioni richieste sono uguali o superano il limite delle $250$ massime in prossimità dei picchi, sia positivi che negativi, della tensione in ingresso, quindi quando $V_{in} \approx 1,4\,V$.
+			Nel caso in cui $A = 1,7\,V$ si può addirittura notare che le iterazioni richieste sono uguali al limite massimo, ovvero $250$ iterazioni, in prossimità dei picchi, sia positivi che negativi, della tensione in ingresso. Se non ci fosse tale limite il metodo numerico non terminerebbe mai.
 			\pagebreak
 		
 		\subsection{Grafico tempo d'esecuzione-Valore di L}
@@ -112,13 +121,18 @@
 			\graficospace
 			\grafico{L-time/1,0V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,0\,V$}
 			\graficospace
-			\grafico{L-time/1,4V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,4\,V$}
+			\grafico{L-time/1,5V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,5\,V$}
+			\graficospace
+			\grafico{L-time/1,7V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,7\,V$}
 			
-			Dai grafici possiamo notare che il valore del tempo d'esecuzione aumenta linearmente al variare di $L$. Anche per valori di $L$ relativamente grandi (i.e. $L = 1000$) il tempo richiesto dal calcolo della soluzione tramite il metodo numerico se $A = 1\,V$ è abbastanza basso. Il valore massimo del tempo d'esecuzione, ovvero $\approx 16\,ms$, in questa condizione rientra comunque nei limiti di tolleranza per poter utilizzare il clipper audio anche in applicazioni audio real-time.
+			Dai grafici possiamo notare che il valore del tempo d'esecuzione aumenta linearmente al variare di $L$. Anche per valori di $L$ relativamente grandi (i.e. $L = 50$) il tempo richiesto dal calcolo della soluzione tramite il metodo numerico se $A = 1\,V$ è abbastanza basso. Il valore massimo del tempo d'esecuzione, ovvero $\approx 18\,ms$,  a questa ampiezza massima rientra comunque nei limiti di tolleranza per poter utilizzare il clipper audio anche in applicazioni audio real-time.
 			
-			Si osserva inoltre che, coerentemente ai valori visualizzati nei grafici della sotto-sezione precedente (\ref{graphs:iterazioni-tempo}), all'aumentare dell'ampiezza del segnale in ingresso, e quindi di $V_{in}$, aumenta il tempo richiesto per ottenere una convergenza del metodo. Questo sensibile aumento di tempo è dovuto al fatto che le iterazioni richieste per ottenere la convergenza del metodo aumenta con l'aumentare dell'ampiezza del segnale in ingresso.
+			Si osserva inoltre che, coerentemente ai valori visualizzati nei grafici della sotto-sezione precedente (\ref{graphs:iterazioni-tempo}), all'aumentare dell'ampiezza del segnale in ingresso, e quindi di $V_{in}$, aumenta il tempo richiesto per ottenere una convergenza del metodo. Questo sensibile aumento di tempo è dovuto al fatto che le iterazioni richieste per ottenere la convergenza del metodo aumentano con l'aumentare dell'ampiezza del segnale in ingresso.
+			
+			%Vediamo che tra $A = 1,5\,V$ (\ref{plots/L-time/1,5V}) e $A = 1,7\,V$ (\ref{plots/L-time/1,7V}) il tempo di esecuzione aumenta notevolmente, questo perché aumentano notevolmente le iterazioni richieste per ottenere un risultato.
 			
 			Il tempo d'esecuzione mostrato nel grafico è una media dei valori di varie esecuzioni ripetute della simulazione.
 			
 		\subsection{Grafico iterazioni-valore di L}
-			\grafico{iterazioni-L_1,4V}{Grafico iterazioni-valore di L con $A = 1,4\,V$}
+			
+			\grafico{iterazioni-L_1,7V}{Grafico iterazioni-valore di L con $A = 1,4\,V$}

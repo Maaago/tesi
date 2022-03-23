@@ -40,13 +40,20 @@ public:
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
+	void setSampleCallback(std::function<void(unsigned int, float)> sampleCallback);
+	
 	void setBypass(bool bypass);
 	void setL(unsigned int L);
+	void setSampleRate(unsigned int sampleRate);
+	void useNewtonRaphson(bool newtonRaphson);
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ClipperAudioProcessor)
 	
 	std::vector<Clipper> clippers;
+	
+	std::function<void(unsigned int, float)> sampleCallback;
+	
 	bool bypass;
 	
 	std::ofstream log;

@@ -107,11 +107,11 @@
 		\frac{y_{n}-y_{n-1}}{h} = f(x_{n},y_{n}) \implies y_{n} = y_{n-1}+hf(x_{n},y_{n})
 	\]
 	
-	Sia $T = h$ allora l'equazione discretizzata risulta essere
+	L'equazione discretizzata risulta essere
 	\begin{equation}
 		\label{eq:discretizzazione}
 		\begin{split}
-			&\widehat V_{B}[n] = \frac{T}{C}\cdot\frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(n)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)+\\&+\widehat V_{B}[n-1]\\
+			&\widehat V_{B}[n] = \frac{h}{C}\cdot\frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(n)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)+\\&+\widehat V_{B}[n-1]\\
 		\end{split}
 	\end{equation}
 	\pagebreak
@@ -155,4 +155,50 @@
 			&= \frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)+V_{B}(t)
 		\end{split}
 	\end{equation}
+	
+	
+	\begin{equation}
+		\begin{split}
+			f &= \frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\\
+			&= \left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}+1\right)^{-1} = \frac{1}{\varphi}
+		\end{split}
+	\end{equation}
+
+	
+	\begin{equation}
+		\begin{split}
+			\widehat V_{B}' = \frac{h}{C}(f'\cdot g+f\cdot g') = \frac{h}{C}\left(-\frac{\varphi'}{\varphi^{2}}\cdot g+\frac{1}{\varphi}\cdot g'\right)
+		\end{split}
+	\end{equation}
+
+	\begin{equation}
+		\begin{split}
+			g' = \frac{1}{R_{in}}\left(-\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B})}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B})\right)^{2}}}-1\right)-2\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B})
+		\end{split}
+	\end{equation}
+
+	\begin{equation}
+		\begin{split}
+			\varphi' &= \left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}+1\right)'\\
+			&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\left(\frac{\cosh(\alpha_{B}\widehat V_{B}[n])}{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\right)'\\
+			%&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\frac{\psi}{\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right)^{2}}
+			&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\frac{\psi}{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}
+		\end{split}
+	\end{equation}
+	
+	\begin{equation}
+		\begin{split}
+			\psi = \alpha_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\cdot\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}-\cosh(\alpha_{B}\widehat V_{B}[n])\cdot\\
+			\cdot\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right)'
+		\end{split}
+	\end{equation}
+	
+	\begin{equation}
+		\begin{split}
+			\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right)' &= \frac{\left(1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}\right)'}{2\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\\
+			&= \frac{2\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)\frac{\beta_{B}}{\beta_{A}}\left(\sinh(\alpha_{B}\widehat V_{B}[n])\right)'}{2\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\\
+			&= \frac{\alpha_{B}\beta_{B}^{2}}{\beta_{A}^{2}}\cdot\frac{\sinh(\alpha_{B}\widehat V_{B}[n])\cosh(\alpha_{B}\widehat V_{B}[n])}{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}
+		\end{split}
+	\end{equation}
+	
 %\flushbottom

@@ -19,9 +19,11 @@ ClipperAudioProcessor::ClipperAudioProcessor()
 	
 	//log = std::ofstream("/Users/francesco/Desktop/log.txt", std::ios::app);
 	
-	auto totalNumInputChannels  = getTotalNumInputChannels();
+	sampleCallback = [](unsigned int, float) {};
+	
+	auto totalNumInputChannels = getTotalNumInputChannels();
 	for(int channel=0;channel<totalNumInputChannels;channel++)
-		clippers.push_back(Clipper(44100));
+		clippers.push_back(Clipper());
 }
 
 ClipperAudioProcessor::~ClipperAudioProcessor() {}
@@ -82,7 +84,11 @@ const juce::String ClipperAudioProcessor::getProgramName (int index)
 
 void ClipperAudioProcessor::changeProgramName(int index, const juce::String& newName) {}
 
-void ClipperAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {}
+void ClipperAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
+{
+	for(Clipper &clipper : clippers)
+		clipper.setSampleRate(sampleRate);
+}
 
 void ClipperAudioProcessor::releaseResources() {}
 
@@ -114,8 +120,8 @@ void ClipperAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+    for(auto i=totalNumInputChannels;i<totalNumOutputChannels;i++)
+        buffer.clear(i, 0, buffer.getNumSamples());
 
 	//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 	if(!bypass)
@@ -125,11 +131,19 @@ void ClipperAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
 			auto *channelData = buffer.getWritePointer(channel);
 			
 			clippers[channel].process(channelData, buffer.getNumSamples());
+			
+			for(int i=0;i<buffer.getNumSamples();i++)
+				sampleCallback(channel, channelData[i]);
 		}
 	}
 	
 	//std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 	//log << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << std::endl;
+}
+
+void ClipperAudioProcessor::setSampleCallback(std::function<void(unsigned int, float)> sampleCallback)
+{
+	this->sampleCallback = sampleCallback;
 }
 
 void ClipperAudioProcessor::setBypass(bool bypass)
@@ -141,6 +155,12 @@ void ClipperAudioProcessor::setL(unsigned int L)
 {
 	for(Clipper &clipper : clippers)
 		clipper.setL(L);
+}
+
+void ClipperAudioProcessor::useNewtonRaphson(bool newtonRaphson)
+{
+	for(Clipper &clipper : clippers)
+		clipper.useNewtonRaphson(newtonRaphson);
 }
 
 bool ClipperAudioProcessor::hasEditor() const
