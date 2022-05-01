@@ -53,7 +53,6 @@ void Clipper::setSampleRate(unsigned int sampleRate)
 {
 	this->sampleRate = sampleRate;
 	
-	sampleRate = 192000;
 	T = 1.0f/sampleRate;
 }
 
@@ -90,9 +89,6 @@ float Clipper::capacitorVoltage(float vin)
 	}
 	
 	lastFPOutput = vb;
-	
-	//if(log != nullptr)
-	//	*log << vin << std::endl << vb << std::endl << std::endl;
 	
 	return va+vb;
 }

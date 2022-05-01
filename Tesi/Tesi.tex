@@ -6,7 +6,6 @@
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
 
-
 \usepackage{uniudtesi}
 \usepackage{siunitx}
 
@@ -21,8 +20,6 @@
 \usepackage{circuitikz}
 \usepackage{comment}
 \usepackage{bigints}
-
-\usepackage{hyperref}
 
 \usepackage{xcolor}
 \usepackage{graphicx}
@@ -40,7 +37,8 @@
 \usepackage{makecell}
 \renewcommand{\cellalign}{tr}
 
-\usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\bibliography{bibliography}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Configs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,8 +58,6 @@
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \def\arraystretch{1.5}
-
-\addbibresource{bibliography.bib}
 
 \setstretch{1.2}
 
@@ -101,7 +97,19 @@
 	breaklines=true,
 	%postbreak={\hbox{\textcolor{red}{$\hookrightarrow$}\space}}
 	postbreak=\usebox\mypostbreak,
-	captionpos=b
+	captionpos=b,
+	literate=
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+    {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+    {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+    {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+    {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+    {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+    {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+    {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+    {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+    {€}{{\EUR}}1 {£}{{\pounds}}1 {~}{{\fontfamily{ptm}\selectfont \textasciitilde}}1
 }
 
 \lstdefinestyle{matlab}
@@ -115,7 +123,7 @@
 {
 	%basicstyle=\color{teal}\ttfamily,
 	keywordstyle=\color{magenta!75!black},
-	directivestyle=\color{brown!80!black},
+	%directivestyle=\color{brown!80!black},
 	stringstyle=\color{red!85!black},
 	commentstyle=\color{green!70!black},
 }
@@ -145,12 +153,12 @@
 
 %\facolta{Scienze Matematiche, Fisiche e Naturali} % (default)
 \corsodilaureamagistralein{Informatica}
-\relatore[Prof.]{Federico Fontana}
+\relatore[Prof.]{Fontana Federico}
 %\relatoreDue[Prof.]{Secondo relatore}
-%\correlatore{Talaltro dei Tali}
+\correlatore{Bozzo Enrico}
 %\correlatoreDue{Secondo Correlatore}
-%\dedica{Ai miei genitori\\
-%    per non avermi tagliato i viveri} % (facoltativo)
+\dedica{Ai miei genitori\\
+    per avermi sempre supportato in ogni modo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Custom commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\sourcecode}[5]{
@@ -184,6 +192,16 @@
 	\screenshot[width=\textwidth]{plots/#1}{#2}
 }
 \newcommand{\graficospace}{\vspace{15px}}
+
+\newcommand{\subscreenshot}[3][]
+{
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.8\linewidth,#1]{#2}
+		\caption{#3}
+		\label{fig:#2}
+	\end{subfigure}
+}
 
 \DeclareMathOperator{\arcsinh}{arcsinh}
 
@@ -226,27 +244,30 @@
 		
 		Per analizzare questo metodo numerico si è deciso di digitalizzare un circuito clipper analogico formato da 4 diodi.
 		
-	%\input{01_punto_fisso}
+	\raggedbottom
 	
-	%\input{02_clipper}
+	\input{01_punto_fisso}
+	
+	\input{02_clipper}
 	
 	\input{03_soluzione_analitica}
 	
-	%\input{04_simulazione}
+	\input{04_simulazione}
+	
+	\input{05_implementazione}
+	
+	\input{06_circuito_analogico}
 
-	%\input{05_implementazione}
+	\input{07_conclusioni}
 	
-	%\input{06_circuito_analogico}
+	\appendix
+	
+	\input{08_matlab}
+	
+	\input{09_cpp}
+	
+	\backmatter
+	
+	\printbibliography
 
-	%\input{07_conclusioni}
-	
-	%\appendix
-	
-	%\input{08_matlab}
-	
-	%\input{09_cpp}
-	
-	%\backmatter
-	
-	%\printbibliography
 \end{document}

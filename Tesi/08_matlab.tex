@@ -1,11 +1,12 @@
 \chapter{Codice Matlab}
 	\label{code:matlab}
-	Il codice Matlab si compone di 3 file:
+	Il codice Matlab si compone di 4U file:
 	
 	\noindent\hspace{5px}\begin{tabularx}{\textwidth}{r X}
 		\textbf{clipper.m}			&dove viene generata l'onda sinusoidale passata in input al clipper e dove si possono aggiustare i vari parametri, come le caratteristiche dei vari componenti o il valore di L\\
 		\textbf{process.m}			&dove vengono processati i singoli campioni del segnale e dove viene richiamato anche il metodo numerico\\
-		\textbf{fixed\_point.m}		&dove è implementato il metodo numerico a punto fisso geometrico 
+		\textbf{fixed\_point.m}		&dove è implementato il metodo numerico a punto fisso geometrico\\
+		\textbf{generator.m}			&dove che contiene la funzione che genera le onde dei segnali d'ingresso (non riportato in questo documento)
 	\end{tabularx}\\
 	
 	\matlabcode{clipper.m}{clipper.m}

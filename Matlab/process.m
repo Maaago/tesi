@@ -1,3 +1,4 @@
+% applicazione il metodo numerico a tutti i sample
 function [output, iterations] = process(input, Rin, C, diodeA, diodeB, T, L)
     samples = size(input, 2);
 
@@ -10,6 +11,7 @@ function [output, iterations] = process(input, Rin, C, diodeA, diodeB, T, L)
     end
 end
 
+% calcolo di Vout
 function [vout, vb, iterations] = capacitor_voltage(lastFPOutput, vin, Rin, C, diodeA, diodeB, T, L)
     [vb, iterations] = fixed_point(lastFPOutput, vin, Rin, C, diodeA, diodeB, T, L);
     

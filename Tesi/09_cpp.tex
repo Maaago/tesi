@@ -13,23 +13,26 @@
 	%\cppcode{PluginProcessor.h}
 	%\cppcode{PluginProcessor.cpp}
 	Nel seguente listato, che rappresenta parte del file \texttt{PluginProcessor.cpp}, parte del codice è stato omesso a causa della sua eccessiva lunghezza. Sono state incluse solo le funzioni strettamente necessarie alla comprensione del funzionamento dell'intero progetto.
+	\vspace{10px}
 	\begin{lstlisting}[caption={PluginProcessor.cpp},label=code:PluginProcessor.cpp,style=code,style=cpp,language=cppl,gobble=8]
 		ClipperAudioProcessor::ClipperAudioProcessor()
-		#ifndef JucePlugin_PreferredChannelConfigurations
-		     : AudioProcessor (BusesProperties()
-		                     #if ! JucePlugin_IsMidiEffect
-		                      #if ! JucePlugin_IsSynth
-		                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-		                      #endif
-		                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-		                     #endif
-		                       )
-		#endif
-		{
-			auto totalNumInputChannels  = getTotalNumInputChannels();
-			for(int channel=0;channel<totalNumInputChannels;channel++)
-				clippers.push_back(Clipper(44100));
-		}
+			#ifndef JucePlugin_PreferredChannelConfigurations
+				: AudioProcessor (BusesProperties()
+					#if ! JucePlugin_IsMidiEffect
+						#if ! JucePlugin_IsSynth
+							.withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
+						#endif
+						.withOutput ("Output", juce::AudioChannelSet::stereo(), true)
+					#endif
+				)
+		    #endif
+			{
+				sampleCallback = [](unsigned int, float) {};
+				
+				auto totalNumInputChannels = getTotalNumInputChannels();
+				for(int channel=0;channel<totalNumInputChannels;channel++)
+					clippers.push_back(Clipper());
+			}
 
 		ClipperAudioProcessor::~ClipperAudioProcessor() {}
 		
@@ -43,10 +46,9 @@
 			auto totalNumInputChannels  = getTotalNumInputChannels();
 			auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-			for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-				buffer.clear (i, 0, buffer.getNumSamples());
+			for(auto i=totalNumInputChannels;i<totalNumOutputChannels;i++)
+				buffer.clear(i, 0, buffer.getNumSamples());
 
-			//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 			if(!bypass)
 			{
 				for(int channel=0;channel<totalNumInputChannels;channel++)
@@ -54,11 +56,33 @@
 					auto *channelData = buffer.getWritePointer(channel);
 					
 					clippers[channel].process(channelData, buffer.getNumSamples());
+					
+					for(int i=0;i<buffer.getNumSamples();i++)
+						sampleCallback(channel, channelData[i]);
 				}
 			}
-			
-			//std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-			//log << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << std::endl;
+		}
+
+		void ClipperAudioProcessor::setSampleCallback(std::function<void(unsigned int, float)> sampleCallback)
+		{
+			this->sampleCallback = sampleCallback;
+		}
+
+		void ClipperAudioProcessor::setBypass(bool bypass)
+		{
+			this->bypass = bypass;
+		}
+
+		void ClipperAudioProcessor::setL(unsigned int L)
+		{
+			for(Clipper &clipper : clippers)
+				clipper.setL(L);
+		}
+
+		void ClipperAudioProcessor::useNewtonRaphson(bool newtonRaphson)
+		{
+			for(Clipper &clipper : clippers)
+				clipper.useNewtonRaphson(newtonRaphson);
 		}
 		
 		.
@@ -68,4 +92,5 @@
 	\vspace{10px}
 	
 	\cppcode{Clipper.h}
+	\pagebreak
 	\cppcode{Clipper.cpp}

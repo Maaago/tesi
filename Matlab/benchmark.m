@@ -6,27 +6,32 @@ diodeB.beta = 2.52e-9;              %2.52nA
 Rin = 1e3;                          %1kOhm
 C = 100e-9;                         %100nF
 
-freq = 100;                         %in Hz
-time = 0.02;                        %in secondi
-amplitude = 2.9;                    %in Volt
+freq = 100;                        %in Hz
+time = 1/freq*2;                   %in secondi
+amplitude = 1.45;                    %in Volt
 phase = 0*3.14;                     %in radianti
 
-sampleRate = 192000;                 %in Hz
+sampleRate = 48e3;                  %in Hz
 T = 1/sampleRate;
 samples = time*sampleRate+1;
-input = zeros(1, samples);
 
+samples = round(samples);
 input = amplitude*generator(T, freq, phase, samples, "sine");
+%input = amplitude*input_normalized;
 
-maxL = 50;
-rep = 1;
+%[input, Fs] = audioread("/Users/francesco/Desktop/test.mp3");
+%input = input(:, 1);           % Take just one channel
+%samples = size(input, 1);
+%time = T*(samples-1);
+
+maxL = 60;
+rep = 10;
 
 % % Tempo d'esecizione
 % times = zeros(1, maxL+1);
 % for L = 0:maxL    
 %     f = @() process(input, Rin, C, diodeA, diodeB, T, L);
 %     
-%     times(L+1) = 0;
 %     for t = 1:rep
 %         times(L+1) = times(L+1)+timeit(f)*1000;
 %     end
@@ -50,9 +55,9 @@ rep = 1;
 % ylabel("Iterazioni", "FontSize", 14);
 
 % % Media iterazioni
-% range = 1;%0:maxL
+% range = 0:maxL;%[3 50 51];%0:maxL;
 % rangeSize = size(range, 2);
-% iterationsAvg = zeros(1, rangeSize);
+% iterationsAvg = zeros(1, samples);
 % i = 1;
 % for L = range
 %     [output, newIterations] = process(input, Rin, C, diodeA, diodeB, T, L);
@@ -82,8 +87,7 @@ rep = 1;
 % grid on
 
 % Media iterazioni
-% nella tesi: A=2.0V, L={0,1,2,3,4,5,10,20,50, inf}
-range = 0:21;%[0 1 2 5 10 25 50];%0:maxL
+range = [0 1 2 3 4 5 10 20 50 60];%[3 50 51];%0:maxL;
 rangeSize = size(range, 2);
 iterationsAvg = zeros(1, rangeSize);
 i = 1;
@@ -92,13 +96,28 @@ for L = range
     
     iterationsAvg(i) = sum(newIterations, "all")/samples;
     
+%      if iterationsAvg(i) < 1 %|| L < 10
+%          iterationsAvg(i) = 0;
+%      end
+    
     disp(i/rangeSize*100+"%");
     
     i = i+1;
 end
 
 figure;
+rangeSize = size(range, 2);
+labels = cell(rangeSize);
+for i = 1:rangeSize
+    labels{i} = range(i);
+end
+labels{rangeSize} = "Infinito";
+
 plot(range, iterationsAvg, "*r", "MarkerSize", 10);
+xticks(range);
+xticklabels(labels);
+%ylim([min(iterationsAvg)-0.5 max(iterationsAvg)+0.5])
+ylim([0 max(iterationsAvg)+0.5])
 ylabel("Numero medio di iterazioni", "FontSize", 14);
 xlabel("L", "FontSize", 14);
 grid on

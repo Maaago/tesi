@@ -6,20 +6,18 @@ diodeB.beta = 2.52e-9;              %2.52nA
 Rin = 1e3;                          %1kOhm
 C = 100e-9;                         %100nF
 
-freq = 100;                         %in Hz
-time = 0.02;                        %in secondi
-amplitude = 20.0;                    %in Volt
+freq = 1000;                        %in Hz
+time = 1/freq*2;                    %in secondi
+amplitude = 1;                      %in Volt
 phase = 0*3.14;                     %in radianti
 
-sampleRate = 192000;                %in Hz
+sampleRate = 48e3;                  %in Hz
 T = 1/sampleRate;
 samples = time*sampleRate+1;
 
-L = 51;
+L = 0;
 
-%for amplitude = 1.0:0.1:3.0
-%   figure;
-
+samples = round(samples);           % il risultato è già una cifra tonda, ma potrebbe essere un decimale, quindi devo fare il cast esplicito
 input = amplitude*generator(T, freq, phase, samples, "sine");
 
 output = process(input, Rin, C, diodeA, diodeB, T, L);
@@ -29,8 +27,8 @@ hold on
 plot(0:T:time, output, "--");
 hold off
 
+title("Ampiezza massima: "+num2str(amplitude)+"V");
 legend("Input", "Output");
 xlabel("Tempo [s]", "FontSize", 14);
 ylabel("Ampiezza [V]", "FontSize", 14);
-
-%end
+set(gca,'XLim',[0 time],'YLim',[-amplitude amplitude])

@@ -1,3 +1,4 @@
+% funzione principale dell'algoritmo di punto fisso geometrico
 function [vb, iteration] = fixed_point(lastFPOutput, vin, Rin, C, diodeA, diodeB, h, L)
     threshold = 1e-4;               %in Volts
     
@@ -14,6 +15,7 @@ function [vb, iteration] = fixed_point(lastFPOutput, vin, Rin, C, diodeA, diodeB
     end
 end
 
+% calcolo della funzione differenziale discretizzata
 function vb = discretized(vb, vin, Rin, C, diodeA, diodeB, h, oldVb)
     %part1
     arg = diodeB.beta/diodeA.beta*sinh(diodeB.alpha*vb);
@@ -31,8 +33,8 @@ function vb = discretized(vb, vin, Rin, C, diodeA, diodeB, h, oldVb)
     vb = h * part1 * part2 / C + oldVb;
 end
 
+% calcolo dello jacobiano
 function jc = jacobian(vb, vin, Rin, C, h, diodeA, diodeB)
-    %TODO inserire sta roba nella tesi
     sqrtArg = 1+(diodeB.beta/diodeA.beta*sinh(diodeB.alpha*vb))^2;
     
     % derivata di f
@@ -70,6 +72,7 @@ function jc = jacobian(vb, vin, Rin, C, h, diodeA, diodeB)
     jc = h*(fDer*g+f*gDer)/C;
 end
 
+% calcolo della sommatoria
 function sum = summation(vb, vin, Rin, C, h, diodeA, diodeB, L)
     %se l = 0 allora s = 1
     sum = 1;

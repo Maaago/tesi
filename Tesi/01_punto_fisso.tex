@@ -1,10 +1,10 @@
 \chapter{Metodo mumerico}
-	Definiamo un vettore di $N$ funzioni non lineari $\mathbf{f(x)} = [f_{1}(\mathbf{x}), \dots , f_{N}(\mathbf{x})]^{T}$ nel vettore sconosciuto $\mathbf{x} = [\mathbf{x}_{1}, \dots , \mathbf{x}_{N}]^{T}$, dove $^T$ indica la trasposizione. Christoffersen propone una famiglia di risolutori numerici per la computazione a punto fisso di una soluzione $\mathbf{x}^{*} = \mathbf{f(x^{*})}$ del vettore sconosciuto $\mathbf{x}$ attraverso lo schema seguente:
+	Definiamo un vettore di $N$ funzioni non lineari $\mathbf{f(x)} = [f_{1}(\mathbf{x}), \dots , f_{N}(\mathbf{x})]^{T}$ nel vettore sconosciuto $\mathbf{x} = [\mathbf{x}_{1}, \dots , \mathbf{x}_{N}]^{T}$, dove $^T$ indica la trasposizione. Christoffersen \cite{christoffersen} propone una famiglia di risolutori numerici per la computazione a punto fisso di una soluzione $\mathbf{x}^{*} = \mathbf{f(x^{*})}$ del vettore sconosciuto $\mathbf{x}$ attraverso lo schema seguente:
 	\begin{equation}
 		\label{eq:fixed-point}
 		\mathbf{x}^{(\lambda+1)} = \mathbf{x}^{(\lambda)}-\mathbf{K}(\mathbf{x}^{(\lambda)})(\mathbf{x}^{(\lambda)}-\mathbf{f}(\mathbf{x}^{(\lambda)}))
 	\end{equation}
-	dove $\mathbf{x}^{(\lambda)}$ è la $\lambda$-esima iterazione dello schema e $\mathbf{K(x)}$ è una matrice quadrata di dimensione $N \times N$, i quali elementi dipendono da $\mathbf{x}$. Se $\mathbf{K}(\mathbf{x}) = \mathbf{I}$, la matrice identità, allora il metodo si riduce ad un risolutore di punto fisso standard. Se $\mathbf{K}(\mathbf{x}) = (\mathbf{I}-\mathbf{J_{f}(x)})^{-1}$, dove $\mathbf{J}_{f}$ è la matrice Jacobiana di $f$, allora il metodo in particolare diventa un risolutore Newton-Raphson.
+	dove $\mathbf{x}^{(\lambda)}$ è la $\lambda$-esima iterazione dello schema e $\mathbf{K(x)}$ è una matrice quadrata di dimensione $N \times N$, i quali elementi dipendono da $\mathbf{x}$. Se $\mathbf{K}(\mathbf{x}) = \mathbf{I}$, la matrice identità, allora il metodo si riduce ad un risolutore di punto fisso standard \cite{atkinson}. Se $\mathbf{K}(\mathbf{x}) = (\mathbf{I}-\mathbf{J_{f}(x)})^{-1}$, dove $\mathbf{J}_{f}$ è la matrice Jacobiana di $f$, allora il metodo in particolare diventa un risolutore Newton-Raphson \cite{atkinson}.
 		
 	Una caratteristica notevole è che il metodo di punto fisso standard e il metodo Newton-Raphson possono essere visti come due casi limite che racchiudono una sotto-famiglia di (\ref{eq:fixed-point}). Consideriamo la somma
 	\begin{equation}

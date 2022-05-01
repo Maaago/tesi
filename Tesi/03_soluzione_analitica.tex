@@ -1,4 +1,3 @@
-\raggedbottom
 \chapter{Soluzione analitica}
 	Il primo passo per trovare il valore di $V_{out}$ ad un istante di tempo $t$ è stato di trovare l'equazione differenziale che rappresenta la correlazione tra il valore della tensione in entrata $V_{in}$ e il valore delle tensioni delle due coppie di diodi $V_{A}$ e $V_{B}$.
 	
@@ -28,177 +27,203 @@
 	\[
 		I = \diff{}{t}(C \cdot \Delta V) = C\diff{\Delta V}{t}
 	\]
-	%\pagebreak
-	
-	\vspace{20px}
-	Da quanto appena osservato otteniamo
-	\begin{equation}
-		\label{eq:differenziale}
-		\begin{split}
-			V_{out}(t) &= V_{in}(t)-V_{R}(t)\\
-			V_{out}(t) &= V_{in}(t)-R_{in}i_{in}\\
-			V_{out}(t) &= V_{in}(t)-R_{in}\left[i_{out}+i_{D}\right]\\
-			V_{out}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{out}(t)}{t}+i_{D}\right]\\
-			V_{out}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{A}(t)}{t}+C\diff{V_{B}(t)}{t}+i_{D}\right]\\
-			V_{A}(t)+V_{B}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{A}(t)}{t}+C\diff{V_{B}(t)}{t}+\beta_{B}\left(e^{\alpha_{B}V_{B}(t)}-e^{-\alpha_{B}V_{B}(t)}\right)\right]\\
-			V_{A}(t)+V_{B}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{A}(t)}{t}+C\diff{V_{B}(t)}{t}+2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right]\\
-			\frac{V_{A}(t)+V_{B}(t)}{R_{in}} &= \frac{V_{in}(t)}{R_{in}}-C\diff{V_{A}(t)}{t}-C\diff{V_{B}(t)}{t}-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\\
-			C\diff{V_{A}(t)}{t}+C\diff{V_{B}(t)}{t} &= \frac{V_{in}(t)-V_{A}(t)-V_{B}(t)}{R_{in}}-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\\
-			\diff{V_{A}(t)}{t}+\diff{V_{B}(t)}{t} &= \frac{1}{C}\left(\frac{V_{in}(t)-V_{A}(t)-V_{B}(t)}{R_{in}}-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\\
-		\end{split}
-	\end{equation}
 	\pagebreak
-	
-	Per poter risolvere l'equazione tramite il metodo numerico dobbiamo esprimere l'equazione differenziale (\ref{eq:differenziale}) in funzione di una delle due variabili $V_{A}$ o $V_{B}$, variabile che comparirà sia nel primo, che nel secondo termine della nostra equazione. In questo caso è stato scelto di esprimere tutto in funzione di $V_{B}$, perciò il passo successivo è stato di trovare una formula che mettesse in relazione $V_{A}$ con $V_{B}$.
-	\begin{equation}
-		\label{eq:tensione_A_B}
-		\begin{split}
-			\beta_{A}\left(e^{\alpha_{A}V_{A}(t)}-1\right)-\beta_{A}\left(e^{-\alpha_{A}V_{A}(t)}-1\right) &= \beta_{B}\left(e^{\alpha_{B}V_{B}(t)}-1\right)-\beta_{B}\left(e^{-\alpha_{B}V_{B}(t)}-1\right)\\
-			\beta_{A}\left(e^{\alpha_{A}V_{A}(t)}-e^{-\alpha_{A}V_{A}(t)}\right) &= \beta_{B}\left(e^{\alpha_{B}V_{B}(t)}-e^{-\alpha_{B}V_{B}(t)}\right)\\
-			\cancel{2}\beta_{A}\left(\frac{e^{\alpha_{A}V_{A}(t)}-e^{-\alpha_{A}V_{A}(t)}}{2}\right) &= \cancel{2}\beta_{B}\left(\frac{e^{\alpha_{B}V_{B}(t)}-e^{-\alpha_{B}V_{B}(t)}}{2}\right)\\
-			\beta_{A} \sinh(\alpha_{A}V_{A}(t)) &= \beta_{B} \sinh(\alpha_{B}V_{B}(t))\\
-			\sinh(\alpha_{A}V_{A}(t)) &= \frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\\
-			\alpha_{A}V_{A}(t) &= \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)\\
-			V_{A}(t) &= \frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)
-		\end{split}
-	\end{equation}
-	\pagebreak
-	
-	Prima di sostituire le occorrenze di $V_{A}$ nell'equazione differenziale (\ref{eq:differenziale}) con la formula appena trovata (\ref{eq:tensione_A_B}) notiamo che nella (\ref{eq:differenziale}) è richiesto di derivare $V_{A}$.
-	\begin{equation}
-		\label{eq:derivata}
-		\begin{split}
-			\diff{V_{a}(t)}{t} &= \diff{}{t}\left(\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)\hspace{-5px}\right)\\
-			&= \frac{1}{\alpha_{A}}\cdot\diff{}{t}\left(\arcsin\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)\hspace{-5px}\right)\\
-			&= \frac{\diff{}{t}\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)}{\alpha_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\\
-			&= \frac{\beta_{B}}{\beta_{A}}\cdot\frac{\diff{}{t}(\sinh(\alpha_{B}V_{B}(t)))}{\alpha_{A}\sqrt{1+\left(\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\\
-			&= \frac{\beta_{B}\cosh(\alpha_{B}V_{B}(t))\diff{}{t}(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\\
-			&= \frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\diff{V_{B}(t)}{t}
-		\end{split}
-	\end{equation}
-	
-	\vspace{100px}
-	
-	Procediamo quindi con la sostituzione di $V_{A}$ e $\diff{V_{A}}{t}$ nell'equazione differenziale (\ref{eq:differenziale}) con quanto nelle equazioni (\ref{eq:tensione_A_B}) e (\ref{eq:derivata}).
-	\pagebreak
-	
-	\begin{equation}
-		\label{eq:sostituzione}
-		\begin{split}
-			&\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\diff{V_{B}(t)}{t}+\diff{V_{B}(t)}{t} =\\&= \frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\Rightarrow\\
-			&\Rightarrow \diff{V_{B}(t)}{t}\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}+1\right) =\\&= \frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\Rightarrow\\
-			&\Rightarrow \diff{V_{B}(t)}{t}\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\right) =\\&= \frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\Rightarrow\\
-			&\Rightarrow \diff{V_{B}(t)}{t} = \frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\\&\cdot\frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\Rightarrow\\
-			&\Rightarrow V_{B}(t) = \frac{\alpha_{A}\beta_{A}}{C}\Int{\frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)}{t}\\
-		\end{split}
-	\end{equation}
-	
-	% Risolvo la differenziale
-	Da notare che la precedente equazione (\ref{eq:sostituzione}) è in forma implicita, poiché il termine $V_{B}(t)$ compare sia nel lhs che nel rhs dell'equazione. Per tale motivo l'unico modo per trovare il valore di questa incognita è utilizzare un metodo numerico.
-	
-	Arrivati a questo punto per risolvere l'equazione differenziale appena ottenuta (\ref{eq:sostituzione}) si è utilizzato il metodo di Eulero implicito (o all'indietro). Si è scelto questo metodo per discretizzare l'equazione da risolvere perché ha una buona stabilità ed è semplice da applicare.
-	
-	Il metodo di Eulero all'indietro viene ricavato dall'approssimazione della derivata con le differenze finite all'indietro
-	\[
-		\diff{y}{x} \approx \frac{y_{n}-y_{n-1}}{h}
-	\]
-	da cui si ottiene
-	\[
-		\frac{y_{n}-y_{n-1}}{h} = f(x_{n},y_{n}) \implies y_{n} = y_{n-1}+hf(x_{n},y_{n})
-	\]
-	
-	L'equazione discretizzata risulta essere
-	\begin{equation}
-		\label{eq:discretizzazione}
-		\begin{split}
-			&\widehat V_{B}[n] = \frac{h}{C}\cdot\frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(n)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)+\\&+\widehat V_{B}[n-1]\\
-		\end{split}
-	\end{equation}
-	\pagebreak
-	
-	% Risolvo la funzione ottenuta dalla risoluzione della differenziale
-	Richiamiamo la formula del metodo numerico da applicare (\ref{eq:fixed-point})
-	\begin{equation}
-		\label{eq:punto_fisso1}
-		\begin{split}
-			\mathbf{x}^{(\lambda+1)} &= \mathbf{x}^{(\lambda)}-\mathbf{K}(\mathbf{x}^{(\lambda)})(\mathbf{x}^{(\lambda)}-\mathbf{f}(\mathbf{x}^{(\lambda)}))\\
-			&= \mathbf{x}^{(\lambda)}-\sum_{l=0}^{L} \left(\mathbf{J_{f}(x)}\right)^{l}(\mathbf{x}^{(\lambda)}-\mathbf{f}(\mathbf{x}^{(\lambda)}))\\
-		\end{split}
-	\end{equation}
-	poiché per (\ref{eq:fixed-point-sum}) abbiamo $\mathbf{K}^{(L)}(\mathbf{x}) = \sum_{l=0}^{L} \left(\mathbf{J_{f}(x)}\right)^{l}$\\
-	
-	%Applichiamo quindi il metodo numerico al nostro problema, ovvero trovare il valore numerico di $V_{B}$.
-	Nel nostro caso la formula del metodo numerico verrà usata per trovare $V_{B}$, quindi la (\ref{eq:punto_fisso1}) diventa
-	\begin{equation}
-		\label{eq:punto_fisso2}
-		\begin{split}
-			%\widetilde V_{B}^{(\lambda+1)} = \widetilde V_{B}^{(\lambda)}-\sum_{l=0}^{L} \left(J_{V_{B}}(\widetilde V_{B}^{(\lambda)})\right)^{l}(\widetilde V_{B}^{(\lambda)}-\widehat V_{B}[\widetilde V_{B}^{(\lambda)}])
-			V_{B}^{(\lambda+1)} = V_{B}^{(\lambda)}-\sum_{l=0}^{L} \left(J_{V_{B}}(V_{B}^{(\lambda)})\right)^{l}(V_{B}^{(\lambda)}-\widehat V_{B}[V_{B}^{(\lambda)}])
-			%TODO da sistemare l'ultimo termine, il parametro della funzione Vb
-		\end{split}
-	\end{equation}
-	
-	Il metodo richiede il calcolo del termine $J_{V_{B}}$, ovvero la matrice jacobiana della funzione $V_{B}$. La matrice jacobiana nel caso di vettori con un singolo elemento, come nel nostro caso, si riduce alla derivata della funzione a cui è associata. In poche parole, in questo caso $J_{V_{B}}(t) = \diff{V_{B}(t)}{t}$.
-	\begin{equation}
-		\label{eq:jacobiana}
-		\begin{split}
-			&J_{V_{B}}(t) = \diff{V_{B}(t)}{t} = \frac{1}{C}\cdot\frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\hspace{-7px}
-		\end{split}
-	\end{equation}
-	%\pagebreak
-	
-	Dopo aver calcolato numericamente il valore di $V_{B}$, si può calcolare la corrente ai capi del condensatore, ovvero $V_{out}$, utilizzando sempre la seconda legge di Kirchhoff:
-	\begin{equation}
-		\label{eq:tensione_finale}
-		\begin{split}
-			V_{out}(t) &= V_{A}(t)+V_{B}(t)\\
-			&= \frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)+V_{B}(t)
-		\end{split}
-	\end{equation}
-	
-	
-	\begin{equation}
-		\begin{split}
-			f &= \frac{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\\
-			&= \left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}+1\right)^{-1} = \frac{1}{\varphi}
-		\end{split}
-	\end{equation}
+		
+	\section{Equazione differenziale}
+		Da quanto appena osservato otteniamo
+		\begin{equation}
+			\label{eq:differenziale}
+			\begin{split}
+				V_{out}(t) &= V_{in}(t)-V_{R}(t)\\
+				V_{out}(t) &= V_{in}(t)-R_{in}i_{in}\\
+				V_{out}(t) &= V_{in}(t)-R_{in}\left[i_{out}+i_{D}\right]\\
+				V_{out}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{out}(t)}{t}+i_{D}\right]\\
+				V_{out}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{A}(t)}{t}+C\diff{V_{B}(t)}{t}+i_{D}\right]\\
+				V_{A}(t)+V_{B}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{A}(t)}{t}+C\diff{V_{B}(t)}{t}+\beta_{B}\left(e^{\alpha_{B}V_{B}(t)}-e^{-\alpha_{B}V_{B}(t)}\right)\right]\\
+				V_{A}(t)+V_{B}(t) &= V_{in}(t)-R_{in}\left[C\diff{V_{A}(t)}{t}+C\diff{V_{B}(t)}{t}+2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right]\\
+				\frac{V_{A}(t)+V_{B}(t)}{R_{in}} &= \frac{V_{in}(t)}{R_{in}}-C\diff{V_{A}(t)}{t}-C\diff{V_{B}(t)}{t}-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\\
+				C\diff{V_{A}(t)}{t}+C\diff{V_{B}(t)}{t} &= \frac{V_{in}(t)-V_{A}(t)-V_{B}(t)}{R_{in}}-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\\
+				\diff{V_{A}(t)}{t}+\diff{V_{B}(t)}{t} &= \frac{1}{C}\left(\frac{V_{in}(t)-V_{A}(t)-V_{B}(t)}{R_{in}}-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\\
+			\end{split}
+		\end{equation}
+		che è l'equazione che mette in relazione le tensioni sui vari componenti del circuito.
+		\pagebreak
+		
+		Per poter risolvere l'equazione tramite il metodo numerico dobbiamo esprimere l'equazione differenziale appena trovata (\ref{eq:differenziale}) in funzione di una delle due variabili $V_{A}$ o $V_{B}$, variabile che comparirà sia nel primo, che nel secondo termine della nostra equazione. In questo caso è stato scelto di esprimere tutto in funzione di $V_{B}$, perciò il passo successivo è stato di trovare una formula che esprimesse $V_{A}$ in funzione di $V_{B}$.
+		\begin{equation}
+			\label{eq:tensione_A_B}
+			\begin{split}
+				\beta_{A}\left(e^{\alpha_{A}V_{A}(t)}-1\right)-\beta_{A}\left(e^{-\alpha_{A}V_{A}(t)}-1\right) &= \beta_{B}\left(e^{\alpha_{B}V_{B}(t)}-1\right)-\beta_{B}\left(e^{-\alpha_{B}V_{B}(t)}-1\right)\\
+				\beta_{A}\left(e^{\alpha_{A}V_{A}(t)}-e^{-\alpha_{A}V_{A}(t)}\right) &= \beta_{B}\left(e^{\alpha_{B}V_{B}(t)}-e^{-\alpha_{B}V_{B}(t)}\right)\\
+				\cancel{2}\beta_{A}\left(\frac{e^{\alpha_{A}V_{A}(t)}-e^{-\alpha_{A}V_{A}(t)}}{2}\right) &= \cancel{2}\beta_{B}\left(\frac{e^{\alpha_{B}V_{B}(t)}-e^{-\alpha_{B}V_{B}(t)}}{2}\right)\\
+				\beta_{A} \sinh(\alpha_{A}V_{A}(t)) &= \beta_{B} \sinh(\alpha_{B}V_{B}(t))\\
+				\sinh(\alpha_{A}V_{A}(t)) &= \frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\\
+				\alpha_{A}V_{A}(t) &= \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)\\
+				V_{A}(t) &= \frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)
+			\end{split}
+		\end{equation}
+		\pagebreak
+		
+		Prima di sostituire le occorrenze di $V_{A}$ nell'equazione differenziale (\ref{eq:differenziale}) con la formula appena trovata (\ref{eq:tensione_A_B}) notiamo che nella (\ref{eq:differenziale}) è richiesto di derivare $V_{A}$.
+		\begin{equation}
+			\label{eq:derivata_va}
+			\begin{split}
+				\diff{V_{a}(t)}{t} &= \diff{}{t}\left(\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)\hspace{-5px}\right)\\
+				&= \frac{1}{\alpha_{A}}\cdot\diff{}{t}\left(\arcsin\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)\hspace{-5px}\right)\\
+				&= \frac{\diff{}{t}\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)}{\alpha_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\\
+				&= \frac{\beta_{B}}{\beta_{A}}\cdot\frac{\diff{}{t}(\sinh(\alpha_{B}V_{B}(t)))}{\alpha_{A}\sqrt{1+\left(\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\\
+				&= \frac{\beta_{B}\cosh(\alpha_{B}V_{B}(t))\diff{}{t}(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\\
+				&= \frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\diff{V_{B}(t)}{t}
+			\end{split}
+		\end{equation}
+		\pagebreak
 
+		Procediamo quindi con la sostituzione di $V_{A}$ e $\diff{V_{A}}{t}$ nell'equazione differenziale (\ref{eq:differenziale}) con quanto nelle equazioni (\ref{eq:tensione_A_B}) e (\ref{eq:derivata_va}).
+		\begin{equation}
+			\label{eq:integrale}
+			\begin{split}
+				&\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\cdot\diff{V_{B}(t)}{t}+\diff{V_{B}(t)}{t} =\\&= \frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\Rightarrow\\
+				&\Rightarrow \diff{V_{B}(t)}{t}\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}+1\right) =\\&= \frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\Rightarrow\\
+				&\Rightarrow \diff{V_{B}(t)}{t} = \left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}+1\right)^{-1}\cdot\\&\cdot\frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\Rightarrow\\
+				&\Rightarrow V_{B}(t) = \Int{\Bigg(\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}+1\right)^{-1}\cdot\\&\cdot\frac{1}{C}\left(\frac{1}{R_{in}}\left(V_{in}(t)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}(t))\right)-V_{B}(t)\right)-2\beta_{B}\sinh(\alpha_{B}V_{B}(t))\right)\Bigg)}{t}\\
+			\end{split}
+		\end{equation}
+		\pagebreak
+		
+	\section{Calcolo numerico dell'equazione differenziale}
+		Da notare che la precedente equazione (\ref{eq:sostituzione}) è in forma implicita, poiché il termine $V_{B}(t)$ compare sia nel lhs che nel rhs dell'equazione. Per tale motivo l'unico modo per trovare il valore di questa incognita è utilizzare un metodo numerico.
+		
+		Arrivati a questo punto per risolvere l'equazione differenziale appena ottenuta (\ref{eq:sostituzione}) si è utilizzato il metodo di Eulero implicito (o all'indietro). Si è scelto questo metodo per discretizzare l'equazione da risolvere perché ha una buona stabilità ed è semplice da applicare.
+		
+		Il metodo di Eulero all'indietro viene ricavato dall'approssimazione della derivata con le differenze finite all'indietro
+		\[
+			\diff{y}{x} \approx \frac{y_{n}-y_{n-1}}{h}
+		\]
+		da cui si ottiene
+		\[
+			\frac{y_{n}-y_{n-1}}{h} = f(x_{n},y_{n}) \implies y_{n} = y_{n-1}+hf(x_{n},y_{n})
+		\]
+		
+		Sappiamo che 
+		\begin{equation}
+			\label{eq:sostituzione}
+			\begin{split}
+				&\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}+1\right)^{-1} =\\
+				&= \left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}\right)^{-1}\\
+				&= \frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}(t))+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}(t))\right)^{2}}}
+			\end{split}
+		\end{equation}
+		
+		Impostiamo il parametro $h$ in modo che sia equivalente al periodo di campionamento
+		\begin{equation}
+			\label{eq:valore_h}
+			\begin{split}
+				h = T = \frac{1}{Fs}
+			\end{split}
+		\end{equation}
+		
+		L'equazione discretizzata risulta quindi essere
+		\begin{equation}
+			\label{eq:discretizzazione}
+			\begin{split}
+				&\widehat V_{B}[n] = h \; \widehat V_{B}[n]+\widehat V_{B}[n-1] =\\
+				&= \frac{T}{C}\cdot\frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(n)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)+\\&+\widehat V_{B}[n-1]\\
+			\end{split}
+		\end{equation}
+		\pagebreak
 	
-	\begin{equation}
-		\begin{split}
-			\widehat V_{B}' = \frac{h}{C}(f'\cdot g+f\cdot g') = \frac{h}{C}\left(-\frac{\varphi'}{\varphi^{2}}\cdot g+\frac{1}{\varphi}\cdot g'\right)
-		\end{split}
-	\end{equation}
+	\section{Applicazione del metodo numerico}
+		% Risolvo la funzione ottenuta dalla risoluzione della differenziale
+		Richiamiamo ora la formula del metodo numerico da applicare (\ref{eq:fixed-point})
+		\begin{equation}
+			\label{eq:punto_fisso1}
+			\begin{split}
+				\mathbf{x}^{(\lambda+1)} &= \mathbf{x}^{(\lambda)}-\mathbf{K}(\mathbf{x}^{(\lambda)})(\mathbf{x}^{(\lambda)}-\mathbf{f}(\mathbf{x}^{(\lambda)}))\\
+				&= \mathbf{x}^{(\lambda)}-\sum_{l=0}^{L} \left(\mathbf{J_{f}(x)}\right)^{l}(\mathbf{x}^{(\lambda)}-\mathbf{f}(\mathbf{x}^{(\lambda)}))\\
+			\end{split}
+		\end{equation}
+		poiché per (\ref{eq:fixed-point-sum}) abbiamo $\mathbf{K}^{(L)}(\mathbf{x}) = \sum_{l=0}^{L} \left(\mathbf{J_{f}(x)}\right)^{l}$\\
+		
+		%Applichiamo quindi il metodo numerico al nostro problema, ovvero trovare il valore numerico di $V_{B}$.
+		Nel nostro caso la formula del metodo numerico verrà usata per calcolare il valore $V_{B}$, utilizzando la funzione discretizzata $f = \widehat V_{B}$. La (\ref{eq:punto_fisso1}) dunque diventa
+		\begin{equation}
+			\label{eq:punto_fisso2}
+			\begin{split}
+				V_{B}^{(\lambda+1)} = V_{B}^{(\lambda)}-\sum_{l=0}^{L} \left(J_{\widehat V_{B}}(V_{B}^{(\lambda)})\right)^{l}(V_{B}^{(\lambda)}-\widehat V_{B}[V_{B}^{(\lambda)}])
+			\end{split}
+		\end{equation}
+		
+		Il metodo richiede il calcolo del termine $J_{\widehat V_{B}}$, ovvero la matrice jacobiana della funzione $\widehat V_{B}$. La matrice jacobiana nel caso di vettori con un singolo elemento, come nel nostro caso, equivale alla derivata della funzione a cui è associata. In poche parole, in questo caso $J_{\widehat V_{B}}(n) = \diff{\widehat V_{B}[n]}{n}$.\\
+		
+		Per calcolare tale derivata bisognerà applicare la regola del prodotto che richiederà di scomporre la funzione $\widehat V_{B}[n] = \frac{h}{C}\cdot f[n]\cdot g[n]$.
+		Le due funzioni $f[n]$ e $g[n]$ risulteranno essere
+		\begin{equation}
+			\begin{split}
+				f[n] = \left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}+1\right)^{-1} = \frac{1}{\varphi[n]}
+			\end{split}
+		\end{equation}
+		\begin{equation}
+			\begin{split}
+				g[n] = \frac{1}{R_{in}}\left(V_{in}(n)-V_{A}[n]-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])
+			\end{split}
+		\end{equation}
+		dove si è sostituito il termine della sottrazione con $V_{A}[n]$ seguendo la (\ref{eq:tensione_A_B}).
 
-	\begin{equation}
-		\begin{split}
-			g' = \frac{1}{R_{in}}\left(-\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B})}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B})\right)^{2}}}-1\right)-2\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B})
-		\end{split}
-	\end{equation}
+		La derivata sarà
+		\begin{equation}
+			\begin{split}
+				\diff{\widehat V_{B}[n]}{n} &= \frac{h}{C}\left(\diff{f[n]}{n}\cdot g[n]+f[n]\cdot \diff{g[n]}{n}\right)\\
+				&= \frac{h}{C}\left(-\diff{\varphi[n]}{n}\cdot\frac{1}{\varphi[n]^{2}}\cdot g[n]+\frac{1}{\varphi[n]}\cdot \diff{g[n]}{n}\right)
+			\end{split}
+		\end{equation}
 
-	\begin{equation}
-		\begin{split}
-			\varphi' &= \left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}+1\right)'\\
-			&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\left(\frac{\cosh(\alpha_{B}\widehat V_{B}[n])}{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\right)'\\
-			%&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\frac{\psi}{\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right)^{2}}
-			&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\frac{\psi}{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}
-		\end{split}
-	\end{equation}
-	
-	\begin{equation}
-		\begin{split}
-			\psi = \alpha_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\cdot\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}-\cosh(\alpha_{B}\widehat V_{B}[n])\cdot\\
-			\cdot\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right)'
-		\end{split}
-	\end{equation}
-	
-	\begin{equation}
-		\begin{split}
-			\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right)' &= \frac{\left(1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}\right)'}{2\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\\
-			&= \frac{2\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)\frac{\beta_{B}}{\beta_{A}}\left(\sinh(\alpha_{B}\widehat V_{B}[n])\right)'}{2\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\\
-			&= \frac{\alpha_{B}\beta_{B}^{2}}{\beta_{A}^{2}}\cdot\frac{\sinh(\alpha_{B}\widehat V_{B}[n])\cosh(\alpha_{B}\widehat V_{B}[n])}{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}
-		\end{split}
-	\end{equation}
-	
+		Iniziamo con la derivata della funzione $f[n]$ che abbiamo detto equivalere a $\diff{f[n]}{n} = \diff{\frac{1}{\varphi[n]}}{n} = -\diff{\varphi[n]}{n}\cdot\frac{1}{\varphi[n]^{2}}$. A questo punto bisogna calcolare la derivata della funzione $\varphi[n]$.
+		\begin{equation}
+			\begin{split}
+				\diff{\varphi[n]}{n} &= \diff{}{n}\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}+1\right)\\
+				&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\diff{}{n}\left(\frac{\cosh(\alpha_{B}\widehat V_{B}[n])}{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\right)\\
+				%&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\frac{\psi}{\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right)^{2}}
+				&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\frac{\psi}{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}
+			\end{split}
+		\end{equation}
+		
+		dove $\psi[n]$ è definita come segue
+		\begin{equation}
+			\begin{split}
+				\psi[n] = \alpha_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\cdot\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}-\cosh(\alpha_{B}\widehat V_{B}[n])\,\cdot\\
+				\cdot\,\diff{}{n}\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right)
+			\end{split}
+		\end{equation}
+		\pagebreak
+		
+		Calcoliamo infine l'ultima derivata
+		\vspace{-10px}
+		\begin{equation}
+			\begin{split}
+				\diff{}{n}\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right) &= \frac{\diff{}{n}\left(1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}\right)}{2\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\\
+				&= \frac{2\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)\frac{\beta_{B}}{\beta_{A}}\diff{}{n}\left(\sinh(\alpha_{B}\widehat V_{B}[n])\right)}{2\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\\
+				&= \frac{\alpha_{B}\beta_{B}^{2}}{\beta_{A}^{2}}\cdot\frac{\sinh(\alpha_{B}\widehat V_{B}[n])\cosh(\alpha_{B}\widehat V_{B}[n])}{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}
+			\end{split}
+		\end{equation}
+
+		Passiamo ora alla derivata della funzione $g[n]$, che equivale a
+		\begin{equation}
+			\begin{split}
+				\diff{g[n]}{n} &= \frac{1}{R_{in}}\cdot\diff{\left(V_{in}(n)-V_{A}[n]-V_{B}[n]\right)}{n}-\diff{\left(2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)}{n} =\\
+				&= \frac{1}{R_{in}}\left(\diff{V_{in}(n)}{n}-\diff{V_{A}[n]}{n}-\diff{V_{B}[n]}{n}\right)-2\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n]) =\\
+				&= \frac{1}{R_{in}}\left(-\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}-1\right)-2\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])
+			\end{split}
+		\end{equation}
+		\vspace{-8px}
+		
+		\noindent dove $\diff{V_{A}[n]}{n}$ è data dalla (\ref{eq:derivata_va}).\\
+		
+		Dopo aver calcolato numericamente il valore di $V_{B}$ tramite la formula (\ref{eq:punto_fisso2}), si può calcolare la corrente ai capi del condensatore, ovvero $V_{out}$, utilizzando sempre la seconda legge di Kirchhoff:
+		\begin{equation}
+			\label{eq:tensione_finale}
+			\begin{split}
+				V_{out}[n] &= V_{A}[n]+V_{B}[n]\\
+				&= \frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}V_{B}[n])\right)+V_{B}[n]
+			\end{split}
+		\end{equation}
 %\flushbottom

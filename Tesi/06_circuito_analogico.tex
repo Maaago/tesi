@@ -1,4 +1,3 @@
-%TODO da mettere come appendice?
 \chapter{Circuito analogico}
 	Per confermare i risultati ottenuti si è deciso poi di realizzare il circuito analogico del clipper analizzato. Il circuito, che segue lo schema (\ref{fig:clipper}), è mostrato nelle figure (\ref{fig:analog/circuito}) e (\ref{fig:analog/circuito2}).
 	
@@ -9,28 +8,17 @@
 	
 	Per generare il segnale è stato utilizzato un generatore di funzioni, mentre per visualizzare il segnale in uscita è stato usato un oscilloscopio digitale. Il cavo di bypass serve per visualizzare sull'oscilloscopio l'onda originale. Nell'immagine (\ref{fig:analog/banco}) si può vedere la strumentazione coinvolta e i collegamenti tra i vari strumenti.
 	
-	In figura (\ref{fig:analog/generatore_funzioni}) è mostrato il generatore di funzioni utilizzato. La frequenza in questo caso è impostata a $100\,Hz$, mentre l'ampiezza è pari a $1,5V\,$ e l'onda è di tipo sinusoidale. Da notare che l'ampiezza visualizzata nello schermo del generatore di funzioni è l'ampiezza picco-picco, che indica quindi la differenza di tensione tra un picco positivo dell'onda e un picco negativo. Nel nostro caso, visto che l'onda è verticalmente centrata, per passare dall'ampiezza picco-picco all'ampiezza di picco, quindi quella usata finora, basta semplicemente dividere per $2$.
+	In figura (\ref{fig:analog/generatore_funzioni}) è mostrato il generatore di funzioni utilizzato. La frequenza in questo caso è impostata a $100Hz$, mentre l'ampiezza è pari a $1,5V$ e l'onda è di tipo sinusoidale. Da notare che l'ampiezza visualizzata nello schermo del generatore di funzioni è l'ampiezza picco-picco, che indica quindi la differenza di tensione tra un picco positivo dell'onda e un picco negativo. Nel nostro caso, visto che l'onda è verticalmente centrata, per passare dall'ampiezza picco-picco all'ampiezza di picco, quindi quella usata finora, basta semplicemente dividere per $2$.
 	
 	\screenshot[width=\textwidth]{analog/banco}{Banco di lavoro}
 	\screenshot[width=\textwidth]{analog/generatore_funzioni}{Generatore di funzioni}
 	
 	\section{Risultati}
-		Il circuito è stato provato con delle onde sinusoidali, tutte a frequenza di $100\,Hz$ e con ampiezza variabile. Di seguito sono riportate delle schermate dell'oscilloscopio: il segnale di \textcolor{red!90!black}{input}, quindi ciò che viene generato dal generatore di funzioni, è riportato in \textcolor{red!90!black}{rosso}, mentre l'\textcolor{yellow!90!black}{output}, quindi il segnale processato dal clipper, è visualizzato in \textcolor{yellow!90!black}{giallo}.
-		
-		\screenshot[width=\textwidth]{analog/screens/0,5V}{Input e output del clipper analogico con $V = 0,5V$}
+		Il circuito è stato provato con delle onde sinusoidali, tutte a frequenza di $1000Hz$ e con ampiezza variabile. Di seguito sono riportate delle schermate dell'oscilloscopio: il segnale di \textcolor{red!90!black}{input}, quindi ciò che viene generato dal generatore di funzioni, è riportato in \textcolor{red!90!black}{rosso}, mentre l'\textcolor{yellow!90!black}{output}, quindi il segnale processato dal clipper, è visualizzato in \textcolor{yellow!90!black}{giallo}.
+				
+		\screenshot[width=\textwidth]{analog/screens/1,0V}{Input e output del clipper analogico con $V = 1V$}
 		\pagebreak
 		\vspace*{-30px}
-		\screenshot[width=\textwidth]{analog/screens/1,0V}{Input e output del clipper analogico con $V = 1,0V$}
-		\screenshot[width=\textwidth]{analog/screens/1,2V}{Input e output del clipper analogico con $V = 1,2V$}
+		\screenshot[width=\textwidth]{analog/screens/1,5V}{Input e output del clipper analogico con $V = 1,5V$}
+		\screenshot[width=\textwidth]{analog/screens/2,0V}{Input e output del clipper analogico con $V = 2V$}
 		\pagebreak
-		\vspace*{-30px}
-		\screenshot[width=\textwidth]{analog/screens/1,4V}{Input e output del clipper analogico con $V = 1,4V$}
-		\screenshot[width=\textwidth]{analog/screens/1,6V}{Input e output del clipper analogico con $V = 1,6V$}
-		\pagebreak
-		\vspace*{-30px}
-		\screenshot[width=\textwidth]{analog/screens/1,8V}{Input e output del clipper analogico con $V = 1,8V$}
-		\screenshot[width=\textwidth]{analog/screens/2,0V}{Input e output del clipper analogico con $V = 2,0V$}
-		\pagebreak
-		\vspace*{-30px}
-		\screenshot[width=\textwidth]{analog/screens/2,2V}{Input e output del clipper analogico con $V = 2,2V$}
-		
