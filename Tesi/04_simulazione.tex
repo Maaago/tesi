@@ -127,7 +127,7 @@
 				\pagebreak
 				
 				Se non ci fosse il limite sulle iterazioni, già per questo valore dell'ampiezza il metodo numerico non terminerebbe mai, come si può notare dal seguente grafico.
-				\grafico{in-out/ampiezze/100Hz_1,6V_L=0-iterations}{Grafico delle iterazioni con $f = 100Hz$, $A = 1,5V$ e $L = 0$}
+				\grafico{in-out/ampiezze/100Hz_1,5V_L=0-iterations}{Grafico delle iterazioni con $f = 100Hz$, $A = 1,5V$ e $L = 0$}
 				
 				Per $A \ge 1,6V$ (\ref{fig:plots/in-out/ampiezze/100Hz_1,6V_L=0}) l'algoritmo non converge più e da un certo momento in poi ($t \approx 2ms$) viene restituito infinito come valore di output.
 				\grafico{in-out/ampiezze/100Hz_1,6V_L=0}{Grafico input-output con $f = 100Hz$, $A = 1,6V$ e $L = 0$}
@@ -182,8 +182,7 @@
 			\grafico{iterations/L=0/1,45V}{Grafico iterazioni-tempo con $L = 0$ e $A = 1,45V$}
 			\graficospace
 			\grafico{iterations/L=0/1,5V}{Grafico iterazioni-tempo con $L = 0$ e $A = 1,5V$}
-			
-			\quad\\
+			\graficospace
 
 			Per $L = 50$ notiamo invece che come il numero di iterazioni richieste aumenta in modo meno lineare rispetto al caso precedente. Rispetto ai singoli campioni si ha un esplosione esponenziale quando l'ampiezza del campione raggiunge il picco dell'onda.
 			\grafico{iterations/L=50/1,4V}{Grafico iterazioni-tempo con $L = 50$ e $A = 1,4V$}
@@ -253,7 +252,7 @@
 			\label{subsec:tempo_esecuzione}
 			Nei seguenti grafici si può notare la durata dell'esecuzione della simulazione Matlab in base al variare del parametro $L$. Il tempo d'esecuzione mostrato nel grafico è una media dei valori di varie esecuzioni ripetute della simulazione.
 			
-			\grafico{L-time/1,0V_no_optimization}{Grafico tempo d'esecuzione-Valore di L con $A = 1V$ con calcolo dello jacobiano per $L = 0$}
+			\grafico{L-time/sine/1,0V_no_optimization}{Grafico tempo d'esecuzione-Valore di L con $A = 1V$ con calcolo dello jacobiano per $L = 0$}
 			\graficospace
 			
 			Da questo grafico possiamo osservare come l'andamento del tempo d'esecuzione riflette il variare del numero di iterazioni richieste per ogni valore di $L$. In particolare per valore piccoli di $L$, quindi per $L < 4$, il tempo d'esecuzione tenderà a diminuire con l'aumentare del valore di $L$, poiché il numero di iterazioni richieste per arrivare ad un risultato tende a diminuire (vedi \ref{fig:L-iterations/1000Hz/1,0V}). Per $L \ge 4$ invece il tempo aumenta linearmente, seppur di poco, con l'aumentare di $L$. Questo perché si vanno ad aggiungere termini alla sommatoria descritta in (\ref{eq:fixed-point-sum}).
@@ -265,17 +264,29 @@
 			
 			Sapendo questo è possibile evitare il calcolo di $J_{\widehat V_{B}}(V_{B}^{(\lambda)})$ per $L = 0$ e questo permette di risparmiare molto tempo, come si può osservare dai grafici seguenti.
 			
-			\grafico{L-time/1,0V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,0V$}
+			\grafico{L-time/sine/1,0V}{Grafico tempo d'esecuzione-valore di L di un segnale sinusoidale con $A = 1,0V$}
 			\graficospace
-			\grafico{L-time/1,2V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,2V$}
+			\grafico{L-time/sine/1,2V}{Grafico tempo d'esecuzione-valore di L di un segnale sinusoidale con $A = 1,2V$}
 			\graficospace
-			\grafico{L-time/1,4V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,4V$}
+			\grafico{L-time/sine/1,4V}{Grafico tempo d'esecuzione-valore di L di un segnale sinusoidale con $A = 1,4V$}
 			\graficospace
-			\grafico{L-time/1,45V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,45V$}
+			\grafico{L-time/sine/1,45V}{Grafico tempo d'esecuzione-valore di L di un segnale sinusoidale con $A = 1,45V$}
 			\graficospace
-			\grafico{L-time/1,5V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,5V$}
+			\grafico{L-time/sine/1,5V}{Grafico tempo d'esecuzione-valore di L di un segnale sinusoidale con $A = 1,5V$}
 			\graficospace
 			
 			Anche per valori di $L$ piccoli (i.e. $L \in [1;3]$) il tempo richiesto dal calcolo della soluzione tramite il metodo numerico è molto basso. Il valore massimo del tempo d'esecuzione, ovvero $\approx 2,7ms$, per $L = 1$ all'ampiezza di $1,5V$, permette di poter utilizzare il clipper in applicazioni audio real-time senza avere latenze sensibili.
 			
 			Si osserva inoltre che, coerentemente ai valori visualizzati nei grafici della sotto-sezione precedente (\ref{graphs:iterazioni-tempo}), all'aumentare dell'ampiezza del segnale in ingresso, e quindi di $V_{in}$, aumenta il tempo richiesto per ottenere una convergenza del metodo. Questo aumento di tempo è dovuto al fatto che le iterazioni richieste per ottenere la convergenza del metodo aumentano con l'aumentare dell'ampiezza del segnale in ingresso.
+			\pagebreak
+			
+			Nel caso in cui l'entrata sia un rumore, l'andamento del tempo d'esecuzione è lo stesso. Per questo specifico rumore l'algoritmo converge fino ad un valore $A = 4,5V$.
+			
+			\grafico{L-time/noise/3V}{Grafico tempo d'esecuzione-valore di L di un rumore con $A = 3,0V$}
+			\graficospace
+			\grafico{L-time/noise/3,5V}{Grafico tempo d'esecuzione-valore di L di un rumore con $A = 3,5V$}
+			\graficospace
+			\grafico{L-time/noise/4V}{Grafico tempo d'esecuzione-valore di L di un rumore con $A = 4,0V$}
+			\graficospace
+			\grafico{L-time/noise/4,5V}{Grafico tempo d'esecuzione-valore di L di un rumore con $A = 4,5V$}
+			\graficospace

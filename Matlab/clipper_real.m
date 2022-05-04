@@ -18,10 +18,10 @@ samples = time*sampleRate+1;
 L = 50;
 Ls = [0 1 2 3 4 5 10 20 50 60];
 
-minAmplitude = 1.6;
+minAmplitude = 3;
 %maxAmplitude = minAmplitude;
 step = 0.5;
-steps = 1;
+steps = 6;
 maxAmplitude = minAmplitude+step*(steps-1);
 %w = 3;
 %h = 3;
@@ -35,7 +35,7 @@ if s-floor(s) < 0.5
 end
 
 samples = round(samples);
-input_normalized = generator(T, freq, phase, samples, "sine");
+%input_normalized = generator(T, freq, phase, samples, "noise");
 
 %[input, Fs] = audioread("/Users/francesco/Desktop/PTT-20210106-WA0003-1.mp3");
 %input = input(:, 1);           % Take just one channel
@@ -43,8 +43,8 @@ input_normalized = generator(T, freq, phase, samples, "sine");
 %time = T*(samples-1);
 %input_normalized = input/max(abs(input));
 
-%for L = Ls
-%    figure;
+for L = Ls
+    figure;
     
 for amplitude = minAmplitude:step:maxAmplitude
 	input = amplitude*input_normalized;
@@ -64,4 +64,4 @@ for amplitude = minAmplitude:step:maxAmplitude
     ylabel("Ampiezza [V]", "FontSize", 14);
     set(gca,'XLim',[0 time],'YLim',[-amplitude amplitude])
 end
-%end
+end
