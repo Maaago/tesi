@@ -1,5 +1,5 @@
 \chapter{Simulazione}
-	Partendo dalle formule ricavate dalla soluzione analitica, in particolare da (\ref{eq:discretizzazione}), (\ref{eq:punto_fisso2}), (\ref{eq:jacobiana}) e (\ref{eq:tensione_finale}), è stata realizzata una simulazione in linguaggio Matlab \cite{matlab, matlab_book}. Matlab mette a disposizione un ambiente per il calcolo numerico che offre del programmatore delle funzionalità molto potenti richiedendo di scrivere un codice di dimensioni abbastanza contenute. Il sorgente è disponibile nell'appendice (\ref{code:matlab}).
+	Partendo dalle formule ricavate dalla soluzione analitica, in particolare da (\ref{eq:discretizzazione}), (\ref{eq:punto_fisso2}), (\ref{eq:jacobiano}) e (\ref{eq:tensione_finale}), è stata realizzata una simulazione in linguaggio Matlab \cite{matlab, matlab_book}. Matlab mette a disposizione un ambiente per il calcolo numerico che offre del programmatore delle funzionalità molto potenti richiedendo di scrivere un codice di dimensioni abbastanza contenute. Il sorgente è disponibile nell'appendice (\ref{code:matlab}).
 	
 	\section{Parametri}
 		Per questa simulazione si è scelto di assegnare caratteristiche uguali a tutti i diodi. In particolare il parametro $\alpha = \frac{1}{nV_{E}}$ dove $n \approx 2$ per i diodi al silicio. In questo caso quindi è stato arrotondato $n = 2$.
@@ -197,31 +197,34 @@
 			Nel caso in cui $A = 1,45V$ si può addirittura notare che per alcuni campioni le iterazioni richieste sono uguali al limite massimo, ovvero $250$ iterazioni (in prossimità dei picchi del segnale). Se non ci fosse tale limite l'algoritmo iterativo non terminerebbe mai.
 			\pagebreak
 			
+		\subsection{Grafico Matrice Jacobiana}
+			Approfondiamo adesso il motivo dell'instabilità numerica quando si supera una certa soglia dell'ampiezza del segnale in ingresso. Come detto nella sezione (\ref{sec:metodo_numerico}) per avere una convergenza del metodo bisogna che valga $\lVert\mathbf{J_{f}(x)}\rVert < 1$. Questo significa che la derivata, che corrisponde alla matrice jacobiana nel caso monodimensionale, \ref{eq:jacobiano}
+			
 		\subsection{Grafico iterazioni-valore di L}
 			Da come si può già osservare dai grafici del sottoparagrafo precedente c'è una relazione tra il numero di iterazioni richieste per trovare la soluzione dell'equazione differenziale (\ref{eq:discretizzazione}) e il valore del parametro $L$. Si è deciso quindi di indagare la questa relazione tra i due parametri, che viene dunque rappresentata nei seguenti grafici (i valori di $L$ per cui l'algoritmo non converge sono stati rimossi).
 			
-			\grafico{L-iterations/100Hz/1,0V}{Grafico iterazioni-valore di L con $f = 100\;Hz$ e $A = 1,0V$}
+			\grafico{L-iterations/100Hz/1,0V}{Grafico iterazioni-valore di L di un segnale sinusoidale con $f = 100\;Hz$ e $A = 1,0V$}
 			\graficospace
-			\grafico{L-iterations/100Hz/1,45V}{Grafico iterazioni-valore di L con $f = 100\;Hz$ e $A = 1,45V$}
+			\grafico{L-iterations/100Hz/1,45V}{Grafico iterazioni-valore di L di un segnale sinusoidale con $f = 100\;Hz$ e $A = 1,45V$}
 			\graficospace
-			\grafico{L-iterations/100Hz/1,5V}{Grafico iterazioni-valore di L con $f = 100\;Hz$ e $A = 1,5V$}
+			\grafico{L-iterations/100Hz/1,5V}{Grafico iterazioni-valore di L di un segnale sinusoidale con $f = 100\;Hz$ e $A = 1,5V$}
 			\graficospace
-			\grafico{L-iterations/1000Hz/1,0V}{Grafico iterazioni-valore di L con $f = 1000\;Hz$ e $A = 1,0V$}
+			\grafico{L-iterations/1000Hz/1,0V}{Grafico iterazioni-valore di L di un segnale sinusoidale con $f = 1000\;Hz$ e $A = 1,0V$}
 			\graficospace
-			\grafico{L-iterations/1000Hz/1,45V}{Grafico iterazioni-valore di L con $f = 1000\;Hz$ e $A = 1,45V$}
+			\grafico{L-iterations/1000Hz/1,45V}{Grafico iterazioni-valore di L di un segnale sinusoidale con $f = 1000\;Hz$ e $A = 1,45V$}
 			\graficospace
-			\grafico{L-iterations/1000Hz/1,5V}{Grafico iterazioni-valore di L con $f = 1000\;Hz$ e $A = 1,5V$}
+			\grafico{L-iterations/1000Hz/1,5V}{Grafico iterazioni-valore di L di un segnale sinusoidale con $f = 1000\;Hz$ e $A = 1,5V$}
 			\graficospace
 			
 			Dai grafici osserviamo che più il valore di $L$ aumenta, più il numero di iterazioni per quel preciso valore di $L$ tende al numero di iterazioni richiesto dall'algoritmo di Newton-Raphson (ovvero quando $L = \infty$). L'andamento generale prevede dunque un decremento del numero di iterazioni richieste all'aumentare del valore di $L$.
 			
 			Da notare come, per il segnale sinusoidale con $f = 100Hz$, se $A \ge 1,45V$ alcuni valori a variare in modo anomalo, discostandosi significativamente dalla tendenza al valore di Newton-Raphson. Questo è legato alla convergenza dell'algoritmo: valori di iterazioni molto alti rispetto alla tendenza indicano che l'algoritmo richiede molte iterazioni per convergere, ma comunque, anche grazie al limite massimo delle iterazioni, poi arriva ad un risultato. Valori invece molto bassi, ovvero più bassi del numero di iterazioni richieste per $L$ infinito, indica che, da un certo campione in poi, l'algoritmo non convergerà più. Questo farà sì che il numero di iterazioni richieste dai campioni successivi sarà nullo.
 			
-			\grafico{L-iterations/noise/3,0V}{Grafico iterazioni-valore di L con $A = 3,0V$}
+			\grafico{L-iterations/noise/3,0V}{Grafico iterazioni-valore di L di un rumore con $A = 3,0V$}
 			\graficospace
-			\grafico{L-iterations/noise/3,5V}{Grafico iterazioni-valore di L con $A = 3,5V$}
+			\grafico{L-iterations/noise/3,5V}{Grafico iterazioni-valore di L di un rumore con $A = 3,5V$}
 			\graficospace
-			\grafico{L-iterations/noise/4,0V}{Grafico iterazioni-valore di L con $A = 4,0V$}
+			\grafico{L-iterations/noise/4,0V}{Grafico iterazioni-valore di L di un rumore con $A = 4,0V$}
 			\graficospace
 			
 			Se il segnale in input è un rumore possiamo osservare gli stessi fenomeni che si verificano nel caso del segnale sinusoidale. Un'importante differenza è però che l'ampiezza del segnale per la quale l'algoritmo smette di convergere è significativamente maggiore per il rumore rispetto alla sinusoide. Si tratta di più del doppio: circa $1,5V$ contro circa $3,5V$.
@@ -243,15 +246,15 @@
 			
 			Sapendo questo è possibile evitare il calcolo di $J_{\widehat V_{B}}(V_{B}^{(\lambda)})$ per $L = 0$ e questo permette di risparmiare molto tempo, come si può osservare dai grafici seguenti.
 			
-			\grafico{L-time/1,0V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,0V$}
+			\grafico{L-time/1,0V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,0V$}
 			\graficospace
-			\grafico{L-time/1,2V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,2V$}
+			\grafico{L-time/1,2V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,2V$}
 			\graficospace
-			\grafico{L-time/1,4V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,4V$}
+			\grafico{L-time/1,4V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,4V$}
 			\graficospace
-			\grafico{L-time/1,45V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,45V$}
+			\grafico{L-time/1,45V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,45V$}
 			\graficospace
-			\grafico{L-time/1,5V}{Grafico tempo d'esecuzione-Valore di L con $A = 1,5V$}
+			\grafico{L-time/1,5V}{Grafico tempo d'esecuzione-Valore di L di un segnale sinusoidale con $A = 1,5V$}
 			\graficospace
 			
 			Anche per valori di $L$ piccoli (i.e. $L \in [1;3]$) il tempo richiesto dal calcolo della soluzione tramite il metodo numerico è molto basso. Il valore massimo del tempo d'esecuzione, ovvero $\approx 2,7ms$, per $L = 1$ all'ampiezza di $1,5V$, permette di poter utilizzare il clipper in applicazioni audio real-time senza avere latenze sensibili.
