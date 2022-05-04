@@ -155,9 +155,9 @@
 \corsodilaureamagistralein{Informatica}
 \relatore[Prof.]{Fontana Federico}
 %\relatoreDue[Prof.]{Secondo relatore}
-\correlatore{Bozzo Enrico}
+%\correlatore{Bozzo Enrico}
 %\correlatoreDue{Secondo Correlatore}
-\dedica{Ai miei genitori\\
+\dedica{Ai miei genitori e ai miei nonni\\
     per avermi sempre supportato in ogni modo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Custom commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -223,27 +223,23 @@
 	\enlargethispage{-1.5\baselineskip}
 	\tableofcontents
 	%\listoffigures
-%	\begingroup
-%		\let\clearpage\relax
-%		\listoffigures
-%		\begingroup
-%			\let\clearpage\relax
-%			\let\cleardoublepage\relax
-%			\par\vspace{2\baselineskip}
-			%\lstlistoflistings
-%		\endgroup
-%		\thispagestyle{empty}
-%	\endgroup
-
+	
+	\chapter*{Introduzione}
+		\markboth{Introduzione}{}
+		Spesso nella creazione di effetti audio digitali si parte da un modello analogico che viene opportunamente modificato per poter sottostare ai limiti imposti dalle caratteristiche hardware del computer. Questo si traduce in un passaggio di digitalizzazione del modello di partenza perché quando si lavora con i computer che presentano una memoria limitata non è possibile lavorare con segnali continui: bisogna utilizzare quindi dei segnali discreti.
+		
+		Un altro problema che può presentarsi quando affronta il tema degli effetti audio digitali è la modellazione di \textit{delay-free loop}, ovvero circuiti che presentano un ciclo che collega l'uscita con l'entrata (feedback) e non vi sono componenti che creano dei ritardi in tale ciclo. Questo significa che ad ogni instante il segnale d'uscita fa parte anche del segnale d'ingresso. Questa situazione crea non pochi problemi nella risoluzione delle equazioni associate alla rete di filtri che descrive il circuito analogico, poiché l'unico modo per calcolare il risultato è utilizzare dei metodi numerici.
+		
+		Un'ulteriore complicazione è causata dalle componenti non lineari che spesso caratterizzano queste delay-free loop: spesso nel percorso del feedback sono presenti dei componenti elettronici che presentano caratteristiche non lineari che devono essere opportunamente tenute in considerazione.
+			
+		Il seguente documento tratta quindi dell'implementazione e dell'efficienza di un metodo numerico a punto fisso geometrico, utile per calcolare la soluzione di circuiti delay-free non lineari di filtri digitali. Il metodo numerico proposto permette di passare da un risolutore a punto fisso ad un risolutore Newton-Raphson variando un parametro \texttt{L}.
+		
+		Per analizzare questo metodo numerico si è deciso di digitalizzare un circuito clipper analogico formato da 4 diodi, poiché tale circuito presenta entrambe le caratteristiche di non linearità e di assenza di ritardo nel feedback.
+		
+		Si è partiti quindi dalla realizzazione fisica del circuito analogico, per poi passare ad una simulazione della rete di filtri digitali ricavata dallo schema elettrico del circuito creato ed infine, basandosi sui risultati e sul codice della simulazione è stato poi implementato un effetto audio digitale utilizzabile in tempo reale, anche in contesti molto pratici, tra i quali per esempio la produzione musicale.
+	
 	\mainmatter
 
-	\chapter*{Introduzione}
-		Il seguente documento tratta dell'implementazione e dell'efficienza di un metodo numerico a punto fisso geometrico per calcolare la soluzione di circuiti non lineari di filtri digitali.
-		
-		Il metodo numerico proposto permette di passare da un risolutore a punto fisso ad un risolutore Newton-Raphson variando un parametro \texttt{L}.
-		
-		Per analizzare questo metodo numerico si è deciso di digitalizzare un circuito clipper analogico formato da 4 diodi.
-		
 	\raggedbottom
 	
 	\input{01_punto_fisso}
