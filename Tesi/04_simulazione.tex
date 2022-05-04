@@ -197,8 +197,27 @@
 			Nel caso in cui $A = 1,45V$ si può addirittura notare che per alcuni campioni le iterazioni richieste sono uguali al limite massimo, ovvero $250$ iterazioni (in prossimità dei picchi del segnale). Se non ci fosse tale limite l'algoritmo iterativo non terminerebbe mai.
 			\pagebreak
 			
-		\subsection{Grafico Matrice Jacobiana}
-			Approfondiamo adesso il motivo dell'instabilità numerica quando si supera una certa soglia dell'ampiezza del segnale in ingresso. Come detto nella sezione (\ref{sec:metodo_numerico}) per avere una convergenza del metodo bisogna che valga $\lVert\mathbf{J_{f}(x)}\rVert < 1$. Questo significa che la derivata, che corrisponde alla matrice jacobiana nel caso monodimensionale, \ref{eq:jacobiano}
+		\subsection{Grafico della matrice jacobiana}
+			Approfondiamo adesso il motivo dell'instabilità numerica quando si supera una certa soglia dell'ampiezza del segnale in ingresso. Come detto nella sezione (\ref{sec:metodo_numerico}) per ottenere la convergenza del metodo bisogna che valga $\lVert\mathbf{J_{f}(x)}\rVert < 1$. Questo significa che la derivata (\ref{eq:jacobiano}), che corrisponde alla matrice jacobiana nel caso monodimensionale, deve essere sempre minore di $1$.
+			
+			Analizziamo quindi i valori massimi assunti da tale derivata per ogni campione. Noteremo che quando la derivata supera in modulo il valore $1$ allora l'algoritmo smetterà di convergere.
+			
+			\grafico{jacobiano/100Hz/1,4V}{Grafico della matrice jacobiana di un segnale sinusoidale con $f = 100\;Hz$ e $A = 1,4V$}
+			\graficospace
+			\grafico{jacobiano/100Hz/1,45V}{Grafico della matrice jacobiana di un segnale sinusoidale con $f = 100\;Hz$ e $A = 1,45V$}
+			\graficospace
+			\grafico{jacobiano/100Hz/1,48V}{Grafico della matrice jacobiana di un segnale sinusoidale con $f = 100\;Hz$ e $A = 1,48V$}
+			\graficospace
+			
+			\grafico{jacobiano/1000Hz/1,4V}{Grafico della matrice jacobiana di un segnale sinusoidale con $f = 1000\;Hz$ e $A = 1,4V$}
+			\graficospace
+			\grafico{jacobiano/1000Hz/1,5V}{Grafico della matrice jacobiana di un segnale sinusoidale con $f = 1000\;Hz$ e $A = 1,5V$}
+			\graficospace
+			\grafico{jacobiano/1000Hz/1,6V}{Grafico della matrice jacobiana di un segnale sinusoidale con $f = 1000\;Hz$ e $A = 1,6V$}
+			\graficospace
+			
+			Dai grafici si può anche osservare che la derivata per i valori di L più piccoli tende a decrescere meno velocemente, fermandosi vicino al valore $-1$, rimanendo poi più stabile nel tempo.
+			\pagebreak
 			
 		\subsection{Grafico iterazioni-valore di L}
 			Da come si può già osservare dai grafici del sottoparagrafo precedente c'è una relazione tra il numero di iterazioni richieste per trovare la soluzione dell'equazione differenziale (\ref{eq:discretizzazione}) e il valore del parametro $L$. Si è deciso quindi di indagare la questa relazione tra i due parametri, che viene dunque rappresentata nei seguenti grafici (i valori di $L$ per cui l'algoritmo non converge sono stati rimossi).

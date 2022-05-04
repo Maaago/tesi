@@ -18,6 +18,6 @@ function samples = generator(T, freq, phase, num_samples, type)
             samples = samples/max(abs(samples));
             samples = samples';
         otherwise
-            samples(t) = 1.0;
+            samples = ones(1, num_samples);
     end
 end

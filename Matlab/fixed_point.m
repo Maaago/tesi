@@ -1,17 +1,23 @@
 % funzione principale dell'algoritmo di punto fisso geometrico
-function [vb, iteration] = fixed_point(lastFPOutput, vin, Rin, C, diodeA, diodeB, h, L)
+function [vb, iteration, maxJc] = fixed_point(lastFPOutput, vin, Rin, C, diodeA, diodeB, h, L)
     threshold = 1e-4;               %in Volts
     
     vb = lastFPOutput;
     oldVb = vb+1;
     
+    maxJc = 0;
     iteration = 0;
     while abs(vb-oldVb) > threshold && iteration < 250
         oldVb = vb;
         
-        vb = vb-summation(vb, vin, Rin, C, h, diodeA, diodeB, L)*(vb-discretized(vb, vin, Rin, C, diodeA, diodeB, h, lastFPOutput));
+        [sum, jc] = summation(vb, vin, Rin, C, h, diodeA, diodeB, L);
+        vb = vb-sum*(vb-discretized(vb, vin, Rin, C, diodeA, diodeB, h, lastFPOutput));
         
         iteration = iteration+1;
+        
+        if abs(jc) > abs(maxJc)
+            maxJc = jc;
+        end
     end
 end
 
@@ -73,12 +79,14 @@ function jc = jacobian(vb, vin, Rin, C, h, diodeA, diodeB)
 end
 
 % calcolo della sommatoria
-function sum = summation(vb, vin, Rin, C, h, diodeA, diodeB, L)
+function [sum, jc] = summation(vb, vin, Rin, C, h, diodeA, diodeB, L)
     %se l = 0 allora s = 1
     sum = 1;
     power = 1;
     if L > 0
         jc = jacobian(vb, vin, Rin, C, h, diodeA, diodeB);
+    else
+        jc = 0;
     end
     
     if L > 50
