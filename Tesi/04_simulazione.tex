@@ -1,8 +1,8 @@
 \chapter{Simulazione}
-	Partendo dalle formule ricavate dalla soluzione analitica, in particolare da (\ref{eq:discretizzazione}), (\ref{eq:punto_fisso2}), (\ref{eq:jacobiano}) e (\ref{eq:tensione_finale}), è stata realizzata una simulazione in linguaggio Matlab \cite{matlab, matlab_book}. Matlab mette a disposizione un ambiente per il calcolo numerico che offre del programmatore delle funzionalità molto potenti richiedendo di scrivere un codice di dimensioni abbastanza contenute. Il sorgente è disponibile nell'appendice (\ref{code:matlab}).
+	Partendo dalle formule ricavate dalla soluzione analitica, in particolare da (\ref{eq:discretizzazione}), (\ref{eq:punto_fisso2}), (\ref{eq:jacobiano}) e (\ref{eq:tensione_finale}), è stata realizzata una simulazione in linguaggio Matlab \cite{matlab, matlab_book}. Matlab mette a disposizione un ambiente per il calcolo numerico che offre del programmatore delle funzionalità molto potenti, richiedendo di scrivere un codice di dimensioni abbastanza contenute. Il sorgente è disponibile nell'appendice (\ref{code:matlab}).
 	
 	\section{Parametri}
-		Per questa simulazione si è scelto di assegnare caratteristiche uguali a tutti i diodi. In particolare il parametro $\alpha = \frac{1}{nV_{E}}$ dove $n \approx 2$ per i diodi al silicio. In questo caso quindi è stato arrotondato $n = 2$.
+		Per questa simulazione si è scelto di assegnare caratteristiche uguali a tutti i diodi. In particolare vale $\alpha = \frac{1}{nV_{E}}$ dove $n \approx 2$ per i diodi al silicio. In questo caso quindi è stato arrotondato $n = 2$.
 	
 		I valori dei vari componenti scelti per la simulazione sono riassunti di seguito:
 	
@@ -52,7 +52,7 @@
 		\vspace{10px}
 		L'arco temporale preso in esame è di 0.02s.\\
 		
-		Per una questione di tempo è stato impostato un limite di iterazioni per il metodo numerico per prevenire cicli infiniti dovuti alla non convergenza del metodo: in particolare questo limite è pari a $250$ iterazioni, dopo le quali si esce dal ciclo e si tiene il valore prodotto dalla $250$-esima iterazione.
+		Inoltre, per prevenire cicli infiniti dovuti alla non convergenza del metodo numerico è stato impostato un limite massimo di iterazioni nella risoluzione dell'equazione differenziale discreta (\ref{eq:discretizzazione}): in particolare questo limite è pari a $250$ iterazioni, dopo le quali si esce dal ciclo e si tiene il valore prodotto dalla $250$-esima iterazione.
 	\pagebreak
 	
 	\section{Grafici}
@@ -84,9 +84,9 @@
 				\graficospace
 				\grafico{in-out/frequenze/1500Hz}{Grafico input-output con $f = 1500Hz$}
 				
-				All'aumentare della frequenza notiamo uno sfasamento tra le onde di input e di output. Questa latenza, dovuta al fenomeno di carica e scarica di un condensatore, non varia mai, ma è più visibile ad alte frequenze del segnale di input perché l'intervallo di tempo nel quale si va ad analizzare i vari segnali è si riduce con l'aumentare della frequenza.
+				All'aumentare della frequenza notiamo uno sfasamento tra le onde di input e di output. Questa latenza, dovuta al fenomeno di carica e scarica di un condensatore, non varia mai, ma è più visibile ad alte frequenze del segnale di input perché l'intervallo di tempo nel quale si va ad analizzare i vari segnali si riduce con l'aumentare della frequenza.
 				
-				Inoltre l'ampiezza del segnale in uscita si riduce con l'aumentare della frequenza, poiché l'alta velocità di variazione del segnale richiede al condensatore di cambiare stato molto frequentemente e questo impedisce proprio al condensatore di caricarsi del tutto e anzi fa in modo che, con l'aumentare della frequenza, il condensatore si carichi sempre di meno per ogni picco del segnale.
+				Inoltre l'ampiezza del segnale in uscita si riduce con l'aumentare della frequenza, poiché l'alta velocità di variazione del segnale richiede al condensatore di cambiare stato molto frequentemente e questo impedisce proprio al condensatore di caricarsi del tutto e anzi fa in modo che, all'aumentare della frequenza, il condensatore si carichi sempre di meno per ogni picco del segnale.
 				\pagebreak
 				
 				Successivamente si è analizzato il comportamento del clipper al variare dell'ampiezza dell'onda in ingresso.
@@ -122,7 +122,7 @@
 				
 				Il valore del parametro $L$ come già detto equivale a $L = \infty$, dato che, per valori minori, non si riesce ad ottenere una buona convergenza dell'algoritmo per segnali sinusoidali. Ricordiamo che se $L = \infty$ allora $\sum_{l=0}^{L} \left(J_{\widehat V_{B}}(V_{B}^{(\lambda)})\right)^{l} = (\mathbf{I}-\mathbf{J_{f}(x)})^{-1}$ per (\ref{eq:fixed-point-sum}) e (\ref{eq:punto_fisso2}).
 				
-				Per valori di $L \in [0;50]$ l'algoritmo converge su segnali di input sinusoidali solo per valori dell'ampiezza $A < 1,5V$. Per $A = 1,5V$ invece si inizino ad intravedere dei segni di instabilità numerica nelle creste dell'onda, quando si raggiunge il picco dell'ampiezza, in particolare per $f = 100Hz$. Per segnali di questa frequenza e $L = 50$ l'algoritmo non converge, mentre per $L = 0$ si ottiene il seguente grafico.
+				Per valori di $L \in [0;50]$ l'algoritmo converge su segnali di input sinusoidali solo per valori dell'ampiezza $A < 1,5V$. Per $A = 1,5V$ invece si inizino ad intravedere dei segni di instabilità numerica nelle creste dell'onda, quando si raggiunge il picco dell'ampiezza, in particolare per $f = 100Hz$. Per segnali con questa frequenza e $L = 50$ l'algoritmo non converge, mentre per $L = 0$ si ottiene il seguente grafico.
 				\grafico{in-out/ampiezze/100Hz_1,5V_L=0}{Grafico input-output con $f = 100Hz$, $A = 1,5V$ e $L = 0$}
 				\pagebreak
 				
@@ -176,7 +176,7 @@
 			\grafico{iterations/media/1,5V}{Grafico iterazioni-tempo e $A = 1,5V$}
 			\pagebreak
 
-			In particolare per $L = 0$ possiamo notare come il numero di iterazioni richieste per arrivare ad una soluzione aumenta in modo lineare rispetto all'ampiezza massima del segnale.
+			In particolare per $L = 0$ possiamo notare come il numero di iterazioni richieste per arrivare ad una soluzione aumenta in modo esponenziale rispetto all'ampiezza massima del segnale.
 			\grafico{iterations/L=0/1,4V}{Grafico iterazioni-tempo con $L = 0$ e $A = 1,4V$}
 			\graficospace
 			\grafico{iterations/L=0/1,45V}{Grafico iterazioni-tempo con $L = 0$ e $A = 1,45V$}
@@ -184,7 +184,7 @@
 			\grafico{iterations/L=0/1,5V}{Grafico iterazioni-tempo con $L = 0$ e $A = 1,5V$}
 			\graficospace
 
-			Per $L = 50$ notiamo invece che come il numero di iterazioni richieste aumenta in modo meno lineare rispetto al caso precedente. Rispetto ai singoli campioni si ha un esplosione esponenziale quando l'ampiezza del campione raggiunge il picco dell'onda.
+			Per $L = 50$ notiamo invece che come il numero di iterazioni richieste aumenta in modo diverso rispetto al caso precedente. Rispetto ai singoli campioni si ha un esplosione esponenziale quando l'ampiezza del campione raggiunge il picco dell'onda.
 			\grafico{iterations/L=50/1,4V}{Grafico iterazioni-tempo con $L = 50$ e $A = 1,4V$}
 			\graficospace
 			\grafico{iterations/L=50/1,45V}{Grafico iterazioni-tempo con $L = 50$ e $A = 1,45V$}
@@ -236,7 +236,7 @@
 			
 			Dai grafici osserviamo che più il valore di $L$ aumenta, più il numero di iterazioni per quel preciso valore di $L$ tende al numero di iterazioni richiesto dall'algoritmo di Newton-Raphson (ovvero quando $L = \infty$). L'andamento generale prevede dunque un decremento del numero di iterazioni richieste all'aumentare del valore di $L$.
 			
-			Da notare come, per il segnale sinusoidale con $f = 100Hz$, se $A \ge 1,45V$ alcuni valori a variare in modo anomalo, discostandosi significativamente dalla tendenza al valore di Newton-Raphson. Questo è legato alla convergenza dell'algoritmo: valori di iterazioni molto alti rispetto alla tendenza indicano che l'algoritmo richiede molte iterazioni per convergere, ma comunque, anche grazie al limite massimo delle iterazioni, poi arriva ad un risultato. Valori invece molto bassi, ovvero più bassi del numero di iterazioni richieste per $L$ infinito, indica che, da un certo campione in poi, l'algoritmo non convergerà più. Questo farà sì che il numero di iterazioni richieste dai campioni successivi sarà nullo.
+			Da notare come, per il segnale sinusoidale con $f = 100Hz$, se $A \ge 1,45V$ alcuni valori a variare in modo anomalo, discostandosi significativamente dalla tendenza al valore di Newton-Raphson. Questo è legato alla convergenza dell'algoritmo: valori di iterazioni molto alti rispetto alla tendenza indicano che l'algoritmo richiede molte iterazioni per convergere, ma comunque, anche grazie al limite massimo delle iterazioni, poi arriva ad un risultato. Valori invece molto bassi, ovvero più bassi del numero di iterazioni richieste per $L$ infinito (che sono stati omessi), indicano che, da un certo campione in poi, l'algoritmo non convergerà più. Questo farà sì che il numero di iterazioni richieste dai campioni successivi sia nullo.
 			
 			\grafico{L-iterations/noise/3,0V}{Grafico iterazioni-valore di L di un rumore con $A = 3,0V$}
 			\graficospace
@@ -245,7 +245,7 @@
 			\grafico{L-iterations/noise/4,0V}{Grafico iterazioni-valore di L di un rumore con $A = 4,0V$}
 			\graficospace
 			
-			Se il segnale in input è un rumore possiamo osservare gli stessi fenomeni che si verificano nel caso del segnale sinusoidale. Un'importante differenza è però che l'ampiezza del segnale per la quale l'algoritmo smette di convergere è significativamente maggiore per il rumore rispetto alla sinusoide. Si tratta di più del doppio: circa $1,5V$ contro circa $3,5V$.
+			Se il segnale in input è un rumore possiamo osservare gli stessi fenomeni che si verificano nel caso del segnale sinusoidale. Un'importante differenza è però che l'ampiezza del segnale per la quale l'algoritmo smette di convergere è significativamente maggiore per il rumore rispetto alla sinusoide. Si tratta di più del doppio: circa $3,5V$ contro circa $1,5V$.
 			\pagebreak
 			
 		\subsection{Grafico tempo d'esecuzione-Valore di L}
@@ -255,7 +255,7 @@
 			\grafico{L-time/sine/1,0V_no_optimization}{Grafico tempo d'esecuzione-Valore di L con $A = 1V$ con calcolo dello jacobiano per $L = 0$}
 			\graficospace
 			
-			Da questo grafico possiamo osservare come l'andamento del tempo d'esecuzione riflette il variare del numero di iterazioni richieste per ogni valore di $L$. In particolare per valore piccoli di $L$, quindi per $L < 4$, il tempo d'esecuzione tenderà a diminuire con l'aumentare del valore di $L$, poiché il numero di iterazioni richieste per arrivare ad un risultato tende a diminuire (vedi \ref{fig:L-iterations/1000Hz/1,0V}). Per $L \ge 4$ invece il tempo aumenta linearmente, seppur di poco, con l'aumentare di $L$. Questo perché si vanno ad aggiungere termini alla sommatoria descritta in (\ref{eq:fixed-point-sum}).
+			Da questo grafico possiamo osservare come l'andamento del tempo d'esecuzione riflette il variare del numero di iterazioni richieste per ogni valore di $L$. In particolare per valori piccoli di $L$, quindi per $L < 4$, il tempo d'esecuzione tenderà a diminuire con l'aumentare del valore di $L$, poiché il numero di iterazioni richieste per arrivare ad un risultato tende a diminuire (vedi \ref{fig:plots/L-iterations/1000Hz/1,0V}). Per $L \ge 4$ invece il tempo aumenta linearmente, seppur di poco, con l'aumentare di $L$. Questo perché si vanno ad aggiungere termini alla sommatoria descritta in (\ref{eq:fixed-point-sum}).
 			
 			Il grafico appena presentato è stato generato calcolando il valore dello jacobiano anche nel caso base, quindi quando $L = 0$: in questo caso la sommatoria (\ref{eq:fixed-point-sum}), contenuta nella (\ref{eq:punto_fisso2}), vale $1$, poiché
 			\[
@@ -277,7 +277,7 @@
 			
 			Anche per valori di $L$ piccoli (i.e. $L \in [1;3]$) il tempo richiesto dal calcolo della soluzione tramite il metodo numerico è molto basso. Il valore massimo del tempo d'esecuzione, ovvero $\approx 2,7ms$, per $L = 1$ all'ampiezza di $1,5V$, permette di poter utilizzare il clipper in applicazioni audio real-time senza avere latenze sensibili.
 			
-			Si osserva inoltre che, coerentemente ai valori visualizzati nei grafici della sotto-sezione precedente (\ref{graphs:iterazioni-tempo}), all'aumentare dell'ampiezza del segnale in ingresso, e quindi di $V_{in}$, aumenta il tempo richiesto per ottenere una convergenza del metodo. Questo aumento di tempo è dovuto al fatto che le iterazioni richieste per ottenere la convergenza del metodo aumentano con l'aumentare dell'ampiezza del segnale in ingresso.
+			Si osserva inoltre che, coerentemente ai valori visualizzati nei grafici della sottosezione precedente (\ref{graphs:iterazioni-tempo}), all'aumentare dell'ampiezza del segnale in ingresso, e quindi di $V_{in}$, aumenta il tempo richiesto per ottenere una convergenza del metodo. Questo aumento di tempo è dovuto al fatto che le iterazioni richieste per ottenere la convergenza del metodo aumentano con l'aumentare dell'ampiezza del segnale in ingresso.
 			\pagebreak
 			
 			Nel caso in cui l'entrata sia un rumore, l'andamento del tempo d'esecuzione è lo stesso. Per questo specifico rumore l'algoritmo converge fino ad un valore $A = 4,5V$.

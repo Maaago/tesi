@@ -6,6 +6,8 @@
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
 
+\usepackage[a-1b]{pdfx}
+
 \usepackage{uniudtesi}
 \usepackage{siunitx}
 
@@ -226,9 +228,9 @@
 	
 	\chapter*{Introduzione}
 		\markboth{Introduzione}{}
-		Spesso nella creazione di effetti audio digitali si parte da un modello analogico che viene opportunamente modificato per poter sottostare ai limiti imposti dalle caratteristiche hardware del computer. Questo si traduce in un passaggio di digitalizzazione del modello di partenza perché quando si lavora con i computer che presentano una memoria limitata non è possibile lavorare con segnali continui: bisogna utilizzare quindi dei segnali discreti.
+		Spesso nella creazione di effetti audio digitali si parte da un modello analogico che viene opportunamente modificato per poter sottostare ai limiti imposti dalle caratteristiche hardware del computer. Questo si traduce in un passaggio di digitalizzazione del modello di partenza, poiché quando si lavora con i computer, che presentano una memoria limitata, non è possibile lavorare con segnali continui: bisogna utilizzare quindi dei segnali discreti.
 		
-		Un altro problema che può presentarsi quando affronta il tema degli effetti audio digitali è la modellazione di \textit{delay-free loop}, ovvero circuiti che presentano un ciclo che collega l'uscita con l'entrata (feedback) e non vi sono componenti che creano dei ritardi in tale ciclo. Questo significa che ad ogni instante il segnale d'uscita fa parte anche del segnale d'ingresso. Questa situazione crea non pochi problemi nella risoluzione delle equazioni associate alla rete di filtri che descrive il circuito analogico, poiché l'unico modo per calcolare il risultato è utilizzare dei metodi numerici.
+		Un altro problema che può presentarsi quando si affronta il tema degli effetti audio digitali è la modellazione di \textit{delay-free loop}, ovvero circuiti che presentano un ciclo che collega l'uscita con l'entrata, detto feedback e non vi sono componenti che creano dei ritardi in tale ciclo. Questo significa che ad ogni instante il segnale d'uscita fa parte anche del segnale d'ingresso. Questa situazione crea non pochi problemi nella risoluzione delle equazioni associate alla rete di filtri che descrive il circuito analogico, poiché l'unico modo per calcolare il risultato è utilizzare dei metodi numerici.
 		
 		Un'ulteriore complicazione è causata dalle componenti non lineari che spesso caratterizzano queste delay-free loop: spesso nel percorso del feedback sono presenti dei componenti elettronici che presentano caratteristiche non lineari che devono essere opportunamente tenute in considerazione.
 			
@@ -236,7 +238,7 @@
 		
 		Per analizzare questo metodo numerico si è deciso di digitalizzare un circuito clipper analogico formato da 4 diodi, poiché tale circuito presenta entrambe le caratteristiche di non linearità e di assenza di ritardo nel feedback.
 		
-		Si è partiti quindi dalla realizzazione fisica del circuito analogico, per poi passare ad una simulazione della rete di filtri digitali ricavata dallo schema elettrico del circuito creato ed infine, basandosi sui risultati e sul codice della simulazione è stato poi implementato un effetto audio digitale utilizzabile in tempo reale, anche in contesti molto pratici, tra i quali per esempio la produzione musicale.
+		Si è partiti quindi dalla realizzazione fisica del circuito analogico, per poi passare ad una simulazione della rete di filtri digitali ricavata dallo schema elettrico del circuito creato ed infine, basandosi sui risultati e sul codice della simulazione, è stato poi implementato un effetto audio digitale utilizzabile in tempo reale, anche in contesti molto pratici, tra i quali per esempio la produzione musicale.
 	
 	\mainmatter
 

@@ -46,10 +46,10 @@
 		\grafico{conclusioni/analog/1,6V}{Grafico del segnale sinusoidale analogico con $A = 1,6V$}
 		\pagebreak
 		
-		In particolare vicino ai picchi l'output calcolato dalla simulazione presenta delle imprecisioni, dovute alla limitazione delle iterazioni dell'algoritmo. Queste limitazioni come già detto impediscono che il metodo entri in loop infinito. Probabilmente rimuovendo questo limite si riesce ad arrivare ad un risultato migliore, a rischio di un numero eccessivamente alto di iterazioni e quindi di un tempo di calcolo molto elevato. In tale situazione ci sarebbe ovviamente anche il pericolo della non terminazione dell'algoritmo.
+		In particolare vicino ai picchi l'output calcolato dalla simulazione presenta delle imprecisioni, dovute alla limitazione delle iterazioni dell'algoritmo. Queste limitazioni come già detto impediscono che il metodo entri in loop infinito. %Probabilmente rimuovendo questo limite si riesce ad arrivare ad un risultato migliore, a rischio di un numero eccessivamente alto di iterazioni e quindi di un tempo di calcolo molto elevato. In tale situazione ci sarebbe ovviamente anche il pericolo della non terminazione dell'algoritmo.
 	
-		Anche nel caso del segnale sinusoidale per cui l'algoritmo non converge per alcuni valori di $L$ il numero medio di iterazioni si riduce drasticamente, esattamente come per il caso del segnale costituito da del rumore. Anche in questo grafico sono stati rimossi i valori di $L$ per cui l'algoritmo non converge.
+		Anche nel caso del segnale sinusoidale per cui l'algoritmo non converge per alcuni valori di $L$ il numero medio di iterazioni si riduce drasticamente, esattamente come per il caso del segnale costituito da un rumore. Anche in questo grafico sono stati rimossi i valori di $L$ per cui l'algoritmo non converge.
 	
 		\grafico{conclusioni/sine/1,6V}{Grafico delle iterazioni per ogni campione del segnale sinusoidale con $A = 1,6V$}
 	
-		Possiamo affermare quindi che quando il segnale in ingrasso ha un'ampiezza che supera una certa soglia, determinata anche in base alla tipologia dell'onda che rappresenta il segnale, l'algoritmo non converge più per alcuni o tutti i valori di $L$, a partire da un determinato campione, solitamente vicino ad un picco dell'onda.
+		Possiamo affermare quindi che quando il segnale in ingresso ha un'ampiezza che supera una certa soglia, determinata anche in base alla tipologia dell'onda che rappresenta il segnale, l'algoritmo non converge più per alcuni o tutti i valori di $L$, a partire da un determinato campione, solitamente vicino ad un picco dell'onda.

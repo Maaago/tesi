@@ -6,9 +6,9 @@ diodeB.beta = 2.52e-9;              %2.52nA
 Rin = 1e3;                          %1kOhm
 C = 100e-9;                         %100nF
 
-freq = 1000;                         %in Hz
+freq = 100;                         %in Hz
 time = 1/freq*2;                    %in secondi
-amplitude = 1.7;                    %in Volt
+amplitude = 1.4;                    %in Volt
 phase = 0*3.14;                     %in radianti
 
 sampleRate = 48e3;                  %in Hz
@@ -18,10 +18,10 @@ samples = time*sampleRate+1;
 L = 50;
 Ls = [0 1 2 3 4 5 10 20 50 60];
 
-minAmplitude = 3;
+minAmplitude = 1.0;
 %maxAmplitude = minAmplitude;
-step = 0.5;
-steps = 6;
+step = 0.1;
+steps = 4;
 maxAmplitude = minAmplitude+step*(steps-1);
 %w = 3;
 %h = 3;
@@ -35,7 +35,7 @@ if s-floor(s) < 0.5
 end
 
 samples = round(samples);
-%input_normalized = generator(T, freq, phase, samples, "noise");
+input_normalized = generator(T, freq, phase, samples, "sine");
 
 %[input, Fs] = audioread("/Users/francesco/Desktop/PTT-20210106-WA0003-1.mp3");
 %input = input(:, 1);           % Take just one channel
@@ -43,8 +43,8 @@ samples = round(samples);
 %time = T*(samples-1);
 %input_normalized = input/max(abs(input));
 
-for L = Ls
-    figure;
+%for L = Ls
+%    figure;
     
 for amplitude = minAmplitude:step:maxAmplitude
 	input = amplitude*input_normalized;
@@ -64,4 +64,4 @@ for amplitude = minAmplitude:step:maxAmplitude
     ylabel("Ampiezza [V]", "FontSize", 14);
     set(gca,'XLim',[0 time],'YLim',[-amplitude amplitude])
 end
-end
+%end

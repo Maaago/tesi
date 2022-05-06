@@ -1,8 +1,8 @@
 \chapter{Implementazione}
 	\label{sec:implementazione}
-	Partendo dal codice della simulazione scritto in Matlab è stata implementata una versione dell'algoritmo in C++. L'implementazione è stata scritta come plugin \textit{VST3}, uno fra gli standard più diffusi per la creazione i plugin audio.
+	Partendo dal codice della simulazione scritto in Matlab è stata implementata una versione dell'algoritmo in C++. L'implementazione è stata scritta in modo da ottenere un plugin \textit{VST3}, uno fra gli standard più diffusi per la creazione di plugin audio.
 	
-	Il codice, che si basa su JUCE \cite{juce}, è disponibile nella appendice (\ref{code:cpp}). JUCE è framework cross-platform e open-source particolarmente focalizzato sulle applicazioni audio. La sua popolarità negli ultimi anni è molto cresciuta poiché permette di scrivere delle applicazioni molto avanzate con pochissimo codice. Le prestazioni delle applicazioni sviluppate risultano eccellenti, visto che sia il framework, sia la logica di controllo delle applicazioni sono scritte in C++.
+	Il codice, che si basa su JUCE \cite{juce}, è disponibile nell'appendice (\ref{code:cpp}). JUCE è framework cross-platform e open-source, particolarmente focalizzato sulle applicazioni audio. La sua popolarità negli ultimi anni è molto cresciuta poiché permette di scrivere delle applicazioni molto avanzate con pochissimo codice. Le prestazioni delle applicazioni sviluppate risultano eccellenti, visto che sia il framework, sia la logica di controllo delle applicazioni sono scritti in C++.
 	
 	Rispetto alla simulazione non è stata cambiata alcuna logica di funzionamento: il codice è solo stato riadattato per essere utilizzato col paradigma di programmazione orientato agli oggetti. L'unica cosa che il VST presenta in più è una semplicissima interfaccia grafica.
 	\pagebreak
@@ -12,7 +12,7 @@
 		
 		\screenshot[scale=0.8]{vst/gui/L_0}{Interfaccia grafica del VST}
 		
-		Il primo widget serve per attivare o meno il plugin: quando è selezionato l'audio in entrata non viene modificato, quindi il plugin viene bypassato e non viene eseguito alcun calcolo, mentre se è selezionato l'effetto viene attivato e il segnale in ingresso viene processato come mostrato nei grafici input-output (\ref{graphs:input-output}) della simulazione.
+		Il primo widget serve per attivare o meno il plugin: quando questo è selezionato l'audio in entrata non viene modificato, quindi il plugin viene bypassato e non viene eseguito alcun calcolo, mentre se è selezionato l'effetto viene attivato e il segnale in ingresso viene processato come mostrato nei grafici input-output (\ref{graphs:input-output}) della simulazione.
 		
 		Il secondo permette di attivare il metodo Newton-Raphson: se selezionato imposterà il valore della sommatoria (\ref{eq:fixed-point-sum}) a $(\mathbf{I}-\mathbf{J_{f}(x)})^{-1}$ e quindi il valore di $L$ selezionabile tramite lo slider non verrà considerato.
 		
@@ -24,11 +24,11 @@
 		La scritta visualizzata può risultare non molto intuitiva, ma JUCE permette di appendere del testo solo dopo il valore numerico del parametro.
 	
 	\section{Prestazioni}
-		Mentre la simulazione si presta molto a valutazioni quantitative, l'implementazione si presta molto bene a misurazioni qualitative, sia sulla qualità dell'audio, sia sul tempo di risposta del metodo numerico. Se per esempio i calcoli eseguiti sul segnale audio in ingresso dovessero essere troppo pesanti, e quindi richiedere troppo tempo, l'audio in uscita ne risentirebbe, risultando frammentato oppure presentando dei click.
+		Mentre la simulazione si presta molto a valutazioni quantitative, l'implementazione si presta molto bene a misurazioni qualitative, sia riguardanti la qualità dell'audio, sia riguardanti il tempo di risposta del metodo numerico. Se per esempio i calcoli eseguiti sul segnale audio in ingresso dovessero essere troppo pesanti, e quindi richiedere troppo tempo, l'audio in uscita ne risentirebbe, risultando frammentato oppure presentando dei click.
 		
 		Questa situazione si potrebbe presentare in modo particolare in contesti real-time, dove il tempo di calcolo deve stare entro determinati limiti: più è breve il tempo di calcolo, più si può ridurre la latenza audio, ovvero il tempo trascorso dall'acquisizione del segnale al momento in cui il segnale viene riprodotto.
 		
-		È importante dire che per ridurre i tempi di calcolo è necessaria una buona ottimizzazione del codice. Nel codice sorgente presente nelle appendici (\ref{code:matlab}) e (\ref{code:cpp}) sono state apportate alcune semplici ottimizzazioni che però hanno influito notevolmente sulle prestazioni finali. Una di queste è già stata introdotta durante la discussione dei grafici riguardanti il tempo d'esecuzione della simulazione (\ref{subsec:tempo_esecuzione}). Inizialmente infatti per valori relativamente alti del parametro $L$ il singolo core utilizzato dal VST veniva utilizzato al massimo, ma adesso viene richiesto circa il $15\%$ di utilizzo del core singolo, nel caso in cui $L = 50$, con un i7-4770S a $3,10GHz$, a fronte di un $9\%$ di utilizzo se il VST viene disattivato.
+		È importante dire che per ridurre i tempi di calcolo è necessaria una buona ottimizzazione del codice. Nel codice sorgente presente nelle appendici (\ref{code:matlab}) e (\ref{code:cpp}) sono state apportate alcune semplici ottimizzazioni che però hanno influito notevolmente sulle prestazioni finali. Una di queste è già stata introdotta durante la discussione dei grafici riguardanti il tempo d'esecuzione della simulazione (\ref{subsec:tempo_esecuzione}). Inizialmente infatti per valori relativamente alti del parametro $L$ il singolo core utilizzato dal VST veniva utilizzato al massimo, ma adesso viene richiesto circa il $16\%$ di utilizzo del core singolo, nel caso in cui $L = 50$, con un i7-4770S a $3,10GHz$, a fronte di un $8\%$ di utilizzo se il VST viene disattivato.
 		
 		Le seguenti schermate possono dare un'idea qualitativa delle risorse richieste dall'implementazione in C++ del clipper. Dalle schermate si può riconoscere la Digital Audio Workstation (DAW) Live di Ableton, nella quale è stato utilizzato il VST.
 		

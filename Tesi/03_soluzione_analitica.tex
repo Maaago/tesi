@@ -1,5 +1,5 @@
 \chapter{Soluzione analitica}
-	Il primo passo per trovare il valore di $V_{out}$ ad un istante di tempo $t$ è stato di trovare l'equazione differenziale che rappresenta la correlazione tra il valore della tensione in entrata $V_{in}$ e il valore delle tensioni delle due coppie di diodi $V_{A}$ e $V_{B}$.
+	Il primo passo per trovare il valore di $V_{out}$ ad un istante di tempo $t$ è stato trovare l'equazione differenziale che rappresenta la correlazione tra il valore della tensione in entrata $V_{in}$ e il valore delle tensioni delle due coppie di diodi $V_{A}$ e $V_{B}$.
 	
 	Per fare ciò si è partiti dalla seconda legge di Kirchhoff applicata al circuito preso in considerazione (figura \ref{fig:clipper}).
 	\[
@@ -155,7 +155,7 @@
 		
 		Il metodo richiede il calcolo del termine $J_{\widehat V_{B}}$, ovvero la matrice jacobiana della funzione $\widehat V_{B}$. La matrice jacobiana nel caso di vettori con un singolo elemento, come nel nostro caso, equivale alla derivata della funzione a cui è associata. In poche parole, in questo caso $J_{\widehat V_{B}}(n) = \diff{\widehat V_{B}[n]}{n}$.\\
 		
-		Per calcolare tale derivata bisognerà applicare la regola del prodotto che richiederà di scomporre la funzione $\widehat V_{B}[n] = \frac{h}{C}\cdot f[n]\cdot g[n]$.
+		Per calcolare tale derivata bisognerà applicare la regola del prodotto, che richiederà di scomporre la funzione $\widehat V_{B}[n] = \frac{h}{C}\cdot f[n]\cdot g[n]$.
 		Le due funzioni $f[n]$ e $g[n]$ risulteranno essere
 		\begin{equation}
 			\begin{split}
@@ -178,7 +178,16 @@
 			\end{split}
 		\end{equation}
 
-		Iniziamo con la derivata della funzione $f[n]$ che abbiamo detto equivalere a $\diff{f[n]}{n} = \diff{\frac{1}{\varphi[n]}}{n} = -\diff{\varphi[n]}{n}\cdot\frac{1}{\varphi[n]^{2}}$. A questo punto bisogna calcolare la derivata della funzione $\varphi[n]$.
+		Iniziamo con la derivata della funzione $f[n]$ che abbiamo detto equivalere a
+		\begin{equation}
+			\label{eq:jacobiano}
+			\begin{split}
+				\diff{f[n]}{n} = \diff{\frac{1}{\varphi[n]}}{n} = -\diff{\varphi[n]}{n}\cdot\frac{1}{\varphi[n]^{2}}
+			\end{split}
+		\end{equation}
+
+		
+		A questo punto bisogna calcolare la derivata della funzione $\varphi[n]$.
 		\begin{equation}
 			\begin{split}
 				\diff{\varphi[n]}{n} &= \diff{}{n}\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}+1\right)\\
