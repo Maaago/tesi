@@ -49,7 +49,7 @@
 		che è l'equazione che mette in relazione le tensioni sui vari componenti del circuito.
 		\pagebreak
 		
-		Per poter risolvere l'equazione tramite il metodo numerico dobbiamo esprimere l'equazione differenziale appena trovata (\ref{eq:differenziale}) in funzione di una delle due variabili $V_{A}$ o $V_{B}$, variabile che comparirà sia nel primo, che nel secondo termine della nostra equazione. In questo caso è stato scelto di esprimere tutto in funzione di $V_{B}$, perciò il passo successivo è stato di trovare una formula che esprimesse $V_{A}$ in funzione di $V_{B}$.
+		Per poter risolvere l'equazione tramite il metodo numerico dobbiamo esprimere l'equazione differenziale (\ref{eq:differenziale}) appena trovata in funzione di una delle due variabili $V_{A}$ o $V_{B}$, variabile che comparirà sia nel primo, che nel secondo termine della nostra equazione. In questo caso è stato scelto di esprimere tutto in funzione di $V_{B}$, perciò il passo successivo è stato di trovare una formula che esprimesse $V_{A}$ in funzione di $V_{B}$.
 		\begin{equation}
 			\label{eq:tensione_A_B}
 			\begin{split}
@@ -78,7 +78,7 @@
 		\end{equation}
 		\pagebreak
 
-		Procediamo quindi con la sostituzione di $V_{A}$ e $\diff{V_{A}}{t}$ nell'equazione differenziale (\ref{eq:differenziale}) con quanto nelle equazioni (\ref{eq:tensione_A_B}) e (\ref{eq:derivata_va}).
+		Procediamo quindi con la sostituzione di $V_{A}$ e $\diff{V_{A}}{t}$ nell'equazione differenziale (\ref{eq:differenziale}) con quanto trovato nelle equazioni (\ref{eq:tensione_A_B}) e (\ref{eq:derivata_va}).
 		\begin{equation}
 			\label{eq:integrale}
 			\begin{split}
@@ -133,8 +133,7 @@
 		\pagebreak
 	
 	\section{Applicazione del metodo numerico}
-		% Risolvo la funzione ottenuta dalla risoluzione della differenziale
-		Richiamiamo ora la formula del metodo numerico da applicare (\ref{eq:fixed-point})
+		Richiamiamo ora la formula (\ref{eq:fixed-point}) del metodo numerico da applicare
 		\begin{equation}
 			\label{eq:punto_fisso1}
 			\begin{split}
@@ -144,7 +143,6 @@
 		\end{equation}
 		poiché per (\ref{eq:fixed-point-sum}) abbiamo $\mathbf{K}^{(L)}(\mathbf{x}) = \sum_{l=0}^{L} \left(\mathbf{J_{f}(x)}\right)^{l}$\\
 		
-		%Applichiamo quindi il metodo numerico al nostro problema, ovvero trovare il valore numerico di $V_{B}$.
 		Nel nostro caso la formula del metodo numerico verrà usata per calcolare il valore $V_{B}$, utilizzando la funzione discretizzata $f = \widehat V_{B}$. La (\ref{eq:punto_fisso1}) dunque diventa
 		\begin{equation}
 			\label{eq:punto_fisso2}
@@ -192,7 +190,6 @@
 			\begin{split}
 				\diff{\varphi[n]}{n} &= \diff{}{n}\left(\frac{\alpha_{B}\beta_{B}\cosh(\alpha_{B}\widehat V_{B}[n])}{\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}+1\right)\\
 				&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\diff{}{n}\left(\frac{\cosh(\alpha_{B}\widehat V_{B}[n])}{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}}\right)\\
-				%&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\frac{\psi}{\left(\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}\right)^{2}}
 				&= \frac{\alpha_{B}\beta_{B}}{\alpha_{A}\beta_{A}}\cdot\frac{\psi}{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}\widehat V_{B}[n])\right)^{2}}
 			\end{split}
 		\end{equation}

@@ -12,7 +12,6 @@
 		Quando il segnale di rumore ha un ampiezza tale da garantire la convergenza del metodo, come nel nostro caso in cui $A = 2,5V$, le iterazioni medie richieste per calcolare il risultato su un singolo campione diminuiscono con l'aumentare del valore del parametro $L$. Nel seguente grafico si può vedere come varia il numero medio di iterazioni per campione in base al valore assunto dal parametro $L$.
 	
 		\grafico{conclusioni/noise/2,5V}{Grafico delle iterazioni per il rumore bianco con $A = 2,5V$}
-		\graficospace
 		\pagebreak
 	
 		Nel caso in cui invece il rumore abbia un'ampiezza per cui l'algoritmo non converge per alcuni valori di $L$, come per esempio $A = 4,5V$, allora il numero medio di iterazioni si riduce drasticamente, poiché da un determinato istante di tempo, ovvero quando l'algoritmo inizia a divergere, il numero di iterazioni richieste per calcolare il risultato sui vari campioni sarà pari a zero. Nel seguente grafico sono stati rimossi i valori di $L$ per cui l'algoritmo non converge.
@@ -31,25 +30,26 @@
 		Possiamo vedere che il segnale di uscita del circuito analogico corrisponde a quanto calcolato dal codice Matlab.
 	
 		\grafico{conclusioni/analog/1,3V}{Grafico del segnale sinusoidale analogico con $A = 1,3V$}
-	
-		Notiamo anche che, anche nel caso di segnali sinusoidali, se l'input ha un ampiezza che garantisce la convergenza, il numero di iterazioni richieste diminuisce con l'aumentare del valore del parametro $L$, esattamente come per il caso del rumore bianco.
+			
+		Notiamo inoltre che, anche nel caso di segnali sinusoidali, se l'input ha un ampiezza che garantisce la convergenza, il numero di iterazioni richieste diminuisce con l'aumentare del valore del parametro $L$, esattamente come per il caso del rumore bianco.
 	
 		\grafico{conclusioni/sine/1,3V}{Grafico delle iterazioni per il segnale sinusoidale con $A = 1,3V$}
 		\pagebreak
 	
-		Un ulteriore confronto è stato effettuato su un'onda sinusoidale per il quale l'algoritmo da un certo punto in poi non converge per alcuni valori di $L$: in questo caso quindi $A = 1,6V$.
+		Un ulteriore confronto è stato effettuato su un'onda sinusoidale per la quale l'algoritmo non converge per alcuni valori di $L$ da un certo istante di tempo: in questo caso quindi $A = 1,6V$.
 	
 		\grafico{conclusioni/sine/1,6V_iterations}{Grafico delle iterazioni per ogni campione del segnale sinusoidale con $A = 1,6V$}
-	
+			
 		Possiamo vedere che in questo caso l'output calcolato dal codice Matlab presenta alcune differenze rispetto al segnale prodotto dal circuito.
 	
 		\grafico{conclusioni/analog/1,6V}{Grafico del segnale sinusoidale analogico con $A = 1,6V$}
 		\pagebreak
 		
-		In particolare vicino ai picchi l'output calcolato dalla simulazione presenta delle imprecisioni, dovute alla limitazione delle iterazioni dell'algoritmo. Queste limitazioni come già detto impediscono che il metodo entri in loop infinito. %Probabilmente rimuovendo questo limite si riesce ad arrivare ad un risultato migliore, a rischio di un numero eccessivamente alto di iterazioni e quindi di un tempo di calcolo molto elevato. In tale situazione ci sarebbe ovviamente anche il pericolo della non terminazione dell'algoritmo.
+		In particolare vicino ai picchi l'output calcolato dalla simulazione presenta delle imprecisioni, dovute alla limitazione delle iterazioni dell'algoritmo. Queste limitazioni come già detto impediscono che il metodo entri in loop infinito.
 	
 		Anche nel caso del segnale sinusoidale per cui l'algoritmo non converge per alcuni valori di $L$ il numero medio di iterazioni si riduce drasticamente, esattamente come per il caso del segnale costituito da un rumore. Anche in questo grafico sono stati rimossi i valori di $L$ per cui l'algoritmo non converge.
 	
 		\grafico{conclusioni/sine/1,6V}{Grafico delle iterazioni per ogni campione del segnale sinusoidale con $A = 1,6V$}
+		\graficospace
 	
 		Possiamo affermare quindi che quando il segnale in ingresso ha un'ampiezza che supera una certa soglia, determinata anche in base alla tipologia dell'onda che rappresenta il segnale, l'algoritmo non converge più per alcuni o tutti i valori di $L$, a partire da un determinato campione, solitamente vicino ad un picco dell'onda.

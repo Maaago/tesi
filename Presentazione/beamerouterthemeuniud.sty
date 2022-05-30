@@ -1,0 +1,18 @@
+\mode<presentation>
+
+% Frame title
+
+\defbeamertemplate*{frametitle}{uniud}[1][]
+{
+	\begin{beamercolorbox}[wd=\paperwidth,ht=1.6cm,leftskip=1cm]{frametitle} 
+		 \usebeamerfont{frametitle}\insertframetitle
+	\end{beamercolorbox}
+	
+	\ifx\insertframesubtitle\@empty\else
+		\begin{beamercolorbox}[wd=\paperwidth,ht=0.75cm,leftskip=1cm]{framesubtitle} 
+			\usebeamerfont{framesubtitle}\insertframesubtitle
+		\end{beamercolorbox}
+	\fi
+}
+
+\mode<all>

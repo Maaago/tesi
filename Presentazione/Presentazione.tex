@@ -1,0 +1,302 @@
+\documentclass[11pt, t, aspectratio=169]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\graphicspath{{../Tesi/imgs}}
+
+\usepackage{booktabs}
+
+\usetheme{uniud}
+\usecolortheme{uniud}
+
+\usefonttheme{structurebold}
+
+\usepackage{mathptmx}
+\usepackage[default]{lato}
+
+\usepackage{circuitikz}
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{comment}
+
+\DeclareMathOperator{\arcsinh}{arcsinh}
+
+\newcommand{\screenshot}[3][]
+{
+	\begin{figure}[H]
+		\centering
+		\includegraphics[#1]{#2}
+		\vspace*{-25px}
+		\caption{#3}
+		\label{fig:#2}
+	\end{figure}
+}
+
+\newcommand{\screenshotvst}[3][]
+{
+	\begin{figure}[H]
+		\centering
+		\includegraphics[#1]{#2}
+		\vspace*{-8px}
+		\caption{#3}
+		\label{fig:#2}
+	\end{figure}
+}
+
+\newcommand{\subscreenshot}[3][]
+{
+	\begin{subfigure}{0.4\paperwidth}
+		\centering
+		\includegraphics[width=0.4\paperwidth,#1]{#2}
+		\caption{#3}
+		\label{fig:#2}
+	\end{subfigure}
+}
+
+\newcommand{\grafico}[2]
+{
+	\screenshot[width=\textwidth]{plots/#1}{#2}
+}
+
+\newcommand{\subgrafico}[2]
+{
+	\subscreenshot[]{plots/#1}{#2}
+}
+
+\title{Realizzazione a tempo reale di un clipper per il suono\\attraverso schemi numerici innovativi}
+\author{Laureando: Francesco Magoga \qquad\qquad Relatore: prof. Federico Fontana}
+\institute{Dipartimento di Scienze Matematiche, Informatiche e Fisiche\\
+		Corso di laurea in informatica magistrale}
+\date{2020-2021}
+
+\begin{document}
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Introduzione}
+		
+		{\small
+		\begin{itemize}
+			\item Spesso nella creazione di effetti audio digitali si parte da un modello analogico che viene opportunamente modificato per poter sottostare ai limiti imposti dalle caratteristiche hardware del computer.
+			\item Problema: modellare \textit{delay-free loop}, circuiti che presentano un ciclo che collega l'uscita con l'entrata e non vi sono componenti che creano dei ritardi in tale ciclo. L'unico modo per calcolare il risultato è utilizzare dei metodi numerici.
+			\item Complicazione: componenti non lineari che spesso caratterizzano le delay-free loop. Nel percorso del feedback sono presenti dei componenti elettronici che presentano caratteristiche non lineari.
+			\item Per analizzare il metodo numerico proposto si è deciso di digitalizzare un circuito clipper analogico formato da 4 diodi, poiché tale circuito presenta entrambe le caratteristiche di non linearità e di assenza di ritardo nel feedback.
+			\item Base di partenza: il lavoro di C. Christoffersen.
+		\end{itemize}
+		}
+		
+		%TODO aggiungere una slide introduttiva in cui si accenna alla difficoltà di realizzare effetti audio digitali a tempo reale in cui sono presenti nonlinearità onerose da calcolare numericamente. Si dovrebbe far cenno almeno a un paio di anteriorità esistenti in letteratura
+	\end{frame}
+
+	% Metodo numerico
+	\begin{frame}
+		\frametitle{Metodo numerico}
+		
+		Al variare del parametro $L$ il metodo numerico si comporta come un risolutore di punto fisso standard o come un risolutore Newton-Raphson.
+		
+		\begin{equation}
+			\mathbf{x}^{(\lambda+1)} = \mathbf{x}^{(\lambda)}-\mathbf{K}(\mathbf{x}^{(\lambda)})(\mathbf{x}^{(\lambda)}-\mathbf{f}(\mathbf{x}^{(\lambda)}))
+		\end{equation}
+		
+		\begin{equation}
+			\mathbf{K}^{(L)}(\mathbf{x}) = \sum_{l=0}^{L} \left(\mathbf{J_{f}(x)}\right)^{l}
+		\end{equation}
+		
+		Dato $\lVert\mathbf{J_{f}(x)}\rVert < 1$:
+		\begin{itemize}
+			\item se $L = 0$ allora $\mathbf{K}^{(0)}(\mathbf{x}) = \mathbf{I}$\qquad\qquad\qquad\qquad$\Rightarrow$ risolutore punto fisso standard
+			\item se $L = \infty$ allora $\mathbf{K}^{(\infty)}(\mathbf{x}) = (\mathbf{I}-\mathbf{J_{f}(x)})^{-1}$\qquad\quad\hspace{-2px}$\Rightarrow$ risolutore Newton-Raphson
+		\end{itemize}
+	\end{frame}
+
+	% Clipper audio
+	\begin{frame}
+		\frametitle{Clipper audio}
+		
+		\begin{figure}
+				\begin{subfigure}{0.4\paperwidth}
+					\centering
+					\begin{circuitikz}[american voltages, scale=0.55, transform shape]
+						\draw
+						% Maglia esterna
+						(-1,7) to[sinusoidal voltage source,l_=$V_{in}$] (-1,0)		% segnale d'ingresso
+						(-1,7) to[resistor=$R_{in}$] (3,7)							% resistenza
+						to[short, i^=$i_{in}$] (4,7)									% iin
+						to[short, i^=$i_{out}$] (5,7)								% iout
+						-- (8,7)														% filo in alto
+						to[C, l_=$C$] (8,0)											% condensatore
+						-- (-1,0)													% filo in basso
+						(4,0) node[ground]{}											% messa a terra
+						
+						% Diodi
+						(4,7) to[short, *-*] (4,6)			% connessione tra la maglia esterna e i diodi A
+						(4,7) to[short, i^=$i_{D}$] (4,6)	% iD
+						(5,6) -- (3,6)						% connessione in alto tra i diodi A
+						to[empty diode, l=$D_{A}$] (3,4)		% diodo A di sinistra
+						-- (5,4)								% connessione in basso tra i diodi A
+						to[empty diode, l_=$D_{A}$] (5,6)	% diodo A di destra
+						(4,4) to[short, *-*] (4,3)			% connessione i diodi A e i diodi B
+						(5,3) -- (3,3)						% connessione in alto tra i diodi B
+						to[full diode, l=$D_{B}$] (3,1)		% diodo B di sinistra
+						-- (5,1)								% connessione in basso tra i diodi B
+						to[full diode, l_=$D_{B}$] (5,3)		% diodo B di destra
+						(4,1) to[short, *-*] (4,0)			% connessione i diodi B e la maglia esterna
+						
+						% Etichette
+						(-1.25,2.5) to[open, v_<=$$] (-1.25,4.5)		% segno di Vin
+						(2.3,6) to[open, v_=$V_{A}$] (2.3,4)			% tensione dei diodi A
+						(2.3,3) to[open, v_=$V_{B}$] (2.3,1)			% tensione dei diodi B
+						(9,7) to[open, v^=$V_{out}$] (9,0)			% tensione Vout
+						;
+					\end{circuitikz}
+					\caption{Circuito elettronico del clipper audio utilizzato}
+					\label{fig:clipper}
+				\end{subfigure}
+				\hfill
+				\subscreenshot[width=0.4\paperwidth]{analog/example}{Esempio di input e output del clipper}
+		\end{figure}
+	\end{frame}
+	
+	% Soluzione analitica
+	\begin{frame}
+		\frametitle{Soluzione analitica}
+		
+		Passi svolti per ottenere la soluzione al problema:
+		\begin{enumerate}
+			\item dalle leggi di Kirchhoff e dalle leggi delle correnti sui vari componenti si è ottenuta un'equazione differenziale
+			\item tutte le variabili presenti nell'equazione differenziale sono state espresse in funzione della tensione sulla coppia di diodi B
+			\item è stata calcolata la derivata della tensione sulla coppia di diodi A
+			\item alla differenziale è stato applicato il metodo di Eulero implicito, dal quale si è ottenuta la funzione discretizzata mostrata di seguito
+			\item è stato applicato il metodo numerico
+			\item è stata calcolata la derivata della funzione discretizzata
+			\item tramite le leggi di Kirchhoff si è trovato il valore della tensione di output
+		\end{enumerate}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Soluzione analitica}
+		
+		Equazione differenziale dopo l'applicazione del metodo di Eulero all'indietro (passo 4 della slide precedente)
+		\begin{equation}
+			\begin{split}
+				&\widehat V_{B}[n] = \frac{T}{C}\cdot\frac{\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}[n])\right)^{2}}}{\alpha_{B}\beta_{B}\cosh(\alpha_{B}V_{B}[n])+\alpha_{A}\beta_{A}\sqrt{1+\left(\frac{\beta_{B}}{\beta_{A}}\sinh(\alpha_{B}V_{B}[n])\right)^{2}}}\cdot\\&\cdot\left(\frac{1}{R_{in}}\left(V_{in}(n)-\frac{1}{\alpha_{A}} \arcsinh \left(\frac{\beta_{B}}{\beta_{A}} \sinh(\alpha_{B}\widehat V_{B}[n])\right)-\widehat V_{B}[n]\right)-2\beta_{B}\sinh(\alpha_{B}\widehat V_{B}[n])\right)+\\&+\widehat V_{B}[n-1]\\
+			\end{split}
+		\end{equation}
+	\end{frame}
+	
+	% Simulazione
+	\begin{frame}
+		\frametitle{Simulazione Matlab}
+		
+		L'input utilizzato è un'onda sinusoidale definita dalla classica formula $y(t) = A\,\sin (2\pi\,f\,t+\phi)$ dove:
+		\begin{itemize}
+			\item $A$ è l'ampiezza
+			\item $f$ è la frequenza
+			\item $t$ è il tempo
+			\item $\phi$ è la fase, sempre uguale a zero
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Simulazione Matlab}
+		\framesubtitle{Grafici input-output per $L = \infty$}
+		
+		\begin{figure}
+			\subgrafico{in-out/ampiezze/1000Hz/1,5V}{Grafico input-output con $f = 1000Hz$ e $A = 1,5V$}
+			\subgrafico{in-out/ampiezze/1000Hz/2V}{Grafico input-output con $f = 1000Hz$ e $A = 2V$}
+		\end{figure}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Simulazione Matlab}
+		\framesubtitle{Grafici input-output per $L = \infty$}
+		
+		\begin{figure}\ContinuedFloat
+			\subgrafico{in-out/ampiezze/1000Hz/3V}{Grafico input-output con $f = 1000Hz$ e $A = 3V$}
+			\subgrafico{in-out/ampiezze/1000Hz/5V}{Grafico input-output con $f = 1000Hz$ e $A = 5V$}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Simulazione Matlab}
+		\framesubtitle{Grafici iterazioni-tempo per $L \in [0;50]$}
+		
+		\begin{figure}
+			\subgrafico{iterations/media/1,0V}{Grafico iterazioni-tempo con $f = 100Hz$ e $A = 1V$}
+			\subgrafico{iterations/media/1,5V}{Grafico iterazioni-tempo con $f = 100Hz$ e $A = 1,5V$}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Simulazione Matlab}
+		\framesubtitle{Grafico iterazioni-valore di L}
+		
+		\begin{figure}
+			\subgrafico{L-iterations/1000Hz/1,0V}{Grafico iterazioni-valore di L di un segnale sinusoidale con $f = 1000Hz$ e $A = 1,0V$}
+			\subgrafico{L-iterations/1000Hz/1,45V}{Grafico iterazioni-valore di L di un segnale sinusoidale con $f = 1000Hz$ e $A = 1,45V$}
+		\end{figure}
+	\end{frame}
+		
+	\begin{frame}
+		\frametitle{Implementazione C++}
+		
+		\begin{columns}[t]
+			\begin{column}{0.45\textwidth}
+				\vspace{-25px}
+				\screenshotvst[width=0.8\textwidth]{vst/gui/L_2_3}{Interfaccia grafica del VST con $L = 32$}
+			\end{column}		
+			\begin{column}{0.5\textwidth}
+				Scritta in C++ utilizzando il framework JUCE, grazie a cui si è potuto creare un VST.
+
+				\quad\\
+				La percentuale di utilizzo si un singolo core della CPU varia tra il $9\%$ e il $16\%$, con una media di utilizzo del $13\%$.
+			\end{column}
+		\end{columns}		
+	\end{frame}
+			
+	\begin{frame}
+		\frametitle{Circuito analogico}
+		
+		\begin{figure}
+			\subscreenshot{analog/circuito}{Circuito analogico del clipper}
+			\subscreenshot{analog/banco}{Banco di lavoro}
+		\end{figure}
+	\end{frame}
+		
+	\begin{frame}
+		\frametitle{Circuito analogico}
+		
+		\begin{figure}
+			\subscreenshot{analog/screens/1,0V}{Input e output del clipper analogico con $A = 1V$}
+			\subscreenshot{analog/screens/1,5V}{Input e output del clipper analogico con $A = 1,5V$}
+		\end{figure}
+	\end{frame}
+		
+	\begin{frame}
+		\frametitle{Conclusioni}
+		
+		\begin{figure}
+			\subgrafico{conclusioni/noise/noise}{Grafico del rumore bianco}
+			\subgrafico{conclusioni/noise/2,5V}{Grafico delle iterazioni per il rumore bianco}
+		\end{figure}
+		
+		%TODO dare un'idea della riduzione di carico dopo avere ottimizzato L
+		%conclusioni e dei possibili sviluppi future.
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Conclusioni}
+		
+		\begin{itemize}
+			\item Il numero medio di iterazioni richieste dal metodo numerico per arrivare ad un risultato diminuisce con l'aumentare del parametro $L$, tendendo al numero medio di iterazioni richieste dal metodo Newton-Raphson.
+			\item Se il segnale in ingresso ha un'ampiezza che supera una certa soglia, determinata anche in base alla tipologia dell'onda che rappresenta il segnale, l'algoritmo non converge più per alcuni o tutti i valori di $L$, a partire da un determinato campione, solitamente vicino ad un picco dell'onda.
+			\item Per valori ottimizzati del parametro $L$ l'utilizzo della CPU, quando viene eseguito il VST, si aggira intorno al $10\%$.
+		\end{itemize}
+		
+		\vspace{10px}
+		\textbf{Sviluppi futuri:} permettere all'algoritmo di trattare segnali multidimensionali, poiché nell'implementazione per processare segnali stereo si usano due clipper mono.
+	\end{frame}
+\end{document}

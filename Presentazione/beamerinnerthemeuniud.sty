@@ -1,0 +1,40 @@
+\mode<presentation>
+
+\setbeamertemplate{background}{
+	\begin{tikzpicture}
+		\useasboundingbox (0,0) rectangle(\the\paperwidth,0.5);
+		\fill[color=uniud_brown] (0,0) rectangle (0.15\paperwidth,1);
+		\fill[color=uniud_orange] (0.15\paperwidth,0) rectangle(0.85\paperwidth,1);
+		\fill[color=uniud_aqua] (0.85\paperwidth,0) rectangle(\the\paperwidth,1);
+	\end{tikzpicture}
+}
+
+% Title page
+\defbeamertemplate*{title page}{uniud}[1][]
+{
+	\begin{minipage}[t][\paperheight][t]{\textwidth}
+		\vskip 0.8cm
+		\centering
+		\begin{figure}
+			\includegraphics[width=0.35\paperwidth]{imgs/uniud_logo}
+		\end{figure}
+		\vspace{-0.2cm}
+		\begin{beamercolorbox}[wd=\paperwidth,leftskip=1cm,rightskip=1cm,center]{dipartimento}
+			\usebeamerfont{institute}\insertinstitute\par
+		\end{beamercolorbox}
+		\vskip 0.5cm
+		\begin{beamercolorbox}[wd=\paperwidth,leftskip=5cm,rightskip=0.2\paperwidth,center]{titolo}
+			\usebeamerfont{title}\inserttitle\par
+		\end{beamercolorbox}
+		\vskip 0.5cm
+		\begin{beamercolorbox}[wd=\paperwidth,leftskip=1cm,rightskip=1cm,center]{autore}
+			\usebeamerfont{author}\insertauthor\par
+		\end{beamercolorbox}
+		\vskip 0.2cm
+		\begin{beamercolorbox}[wd=\paperwidth,leftskip=1cm,rightskip=1cm,center]{data}
+			\usebeamerfont{date}Anno accademico \insertdate\par
+		\end{beamercolorbox}
+	\end{minipage}
+}
+
+\mode<all>
